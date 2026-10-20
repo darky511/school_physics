@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лаборатория статики: Простые механизмы и КПД</title>
+</head>
+<body>
+
+<div class="app-container">
+    <header class="app-header">
+        <div class="topic-badge">📐 Простые механизмы: Рычаг, Блоки, КПД</div>
+        <div class="progress-bar-container">
+            <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
+        </div>
+        <div class="score-badge" id="scoreDisplay">Шаг: 1 / 6</div>
+    </header>
+
+    <!-- СЛАЙД 1: Введение и базовые понятия статики -->
+    <div class="slide active" id="slide1">
+        <div class="slide-inner">
+            <span class="slide-type">Этап 1. Теоретический базис</span>
+            <h2>Рычаг и базовые понятия статики</h2>
+            <p class="text-concentrate" style="margin-bottom: 12px;">
+                Рычаг представляет собой твердое тело, способное вращаться вокруг неподвижной опоры. Главное назначение механизма — получение выигрыша в силе за счет изменения расстояния от точки приложения силы до оси вращения.
+            </p>
+            <div class="methodology-card">
+                <ul style="padding-left: 18px; line-height: 1.5; color: #e2e8f0; font-size: 12.5px;">
+                    <li><strong style="color: #38bdf8;">Плечо силы (d):</strong> Кратчайшее расстояние от оси вращения (точки опоры) до линии действия силы. Геометрически это перпендикуляр, опущенный на линию действия силы.</li>
+                    <li><strong style="color: #fb923c;">Момент силы (M):</strong> Физическая величина, равная произведению модуля силы на ее плечо: M = F · d. Измеряется в Ньютон-метрах [Н·м] и характеризует вращательное действие силы.</li>
+                </ul>
+            </div>
+            <p class="text-concentrate" style="margin-top: 12px; font-size: 12px; color: #94a3b8;">
+                Нажмите кнопку «Вперед», чтобы перейти к интерактивной симуляции правила моментов.
+            </p>
+        </div>
+    </div>
+    <!-- СЛАЙД 2: Правило моментов рычага -->
+    <div class="slide" id="slide2">
+        <div class="slide-grid">
+            <div class="content-side">
+                <span class="slide-type">Этап 2. Равновесие рычага</span>
+                <h2>Условие равновесия рычага</h2>
+                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 8px;">
+                    Рычаг находится в равновесии под действием двух сил, если момент силы, вращающей его по часовой стрелке, равен моменту силы, вращающей его против часовой стрелки: M₁ = M₂ или F₁ · d₁ = F₂ · d₂.
+                </p>
+                <div class="methodology-card" style="padding: 8px; font-size: 12px; line-height: 1.4; margin-bottom: 10px;">
+                    <strong style="color: #38bdf8;">Выигрыш в силе:</strong> Рычаг дает выигрыш в силе во столько раз, во сколько раз плечо приложенной силы больше плеча силы сопротивления: F₁ / F₂ = d₂ / d₁.
+                </div>
+                <div class="control-box-group" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="slider-row">
+                        <label>Плечо левой силы d₁: <span id="val_d1">20</span> см</label>
+                        <input type="range" id="slider_d1" min="10" max="40" value="20" oninput="updateLeverSim()">
+                    </div>
+                    <div class="slider-row">
+                        <label>Плечо правой силы d₂: <span id="val_d2">40</span> см</label>
+                        <input type="range" id="slider_d2" min="10" max="50" value="40" oninput="updateLeverSim()">
+                    </div>
+                </div>
+            </div>
+            <div class="visual-side"><canvas id="canvasLever"></canvas></div>
+        </div>
+    </div>
+    <!-- СЛАЙД 3: Неподвижный блок -->
+    <div class="slide" id="slide3">
+        <div class="slide-grid">
+            <div class="content-side">
+                <span class="slide-type">Этап 3. Сравнительный анализ блоков</span>
+                <h2>Неподвижный блок</h2>
+                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 10px;">
+                    Ось вращения неподвижного блока закреплена и не перемещается при подъеме груза. Механизм работает как обычный равноплечий рычаг, где плечи сил равны радиусу колеса: d₁ = d₂ = R.
+                </p>
+                <div class="methodology-card" style="padding: 10px; font-size: 12.5px; border-color: #ef4444; margin-bottom: 10px;">
+                    <strong style="color: #ef4444;">Физический итог:</strong> Такой блок <span style="color: #ef4444; font-weight: bold;">не дает выигрыша в силе</span> (F = P), но позволяет изменять направление действия силы, что делает подъем грузов гораздо более удобным.
+                </div>
+                <div class="sim-controls">
+                    <button class="btn btn-accent" style="width: 100%;" onclick="toggleBlockSim('fixed')">Тянуть веревку (Анимация)</button>
+                </div>
+            </div>
+            <div class="visual-side"><canvas id="canvasFixedBlock"></canvas></div>
+        </div>
+    </div>
+    <!-- СЛАЙД 4: Подвижный блок -->
+    <div class="slide" id="slide4">
+        <div class="slide-grid">
+            <div class="content-side">
+                <span class="slide-type">Этап 4. Сравнительный анализ блоков</span>
+                <h2>Подвижный блок</h2>
+                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 10px;">
+                    Ось вращения подвижного блока перемещается вместе с грузом. Свободный конец веревки, закрепленный на потолке, берет на себя ровно половину веса. Механизм работает как рычаг с разными плечами: d₁ = R, d₂ = 2R.
+                </p>
+                <div class="methodology-card" style="padding: 10px; font-size: 12.5px; border-color: #22c55e; margin-bottom: 10px;">
+                    <strong style="color: #22c55e;">Физический итог:</strong> Подвижный блок <span style="color: #22c55e; font-weight: bold;">дает выигрыш в силе в 2 раза</span> (F = P / 2).
+                </div>
+                <div class="sim-controls">
+                    <button class="btn btn-accent" style="width: 100%;" onclick="toggleBlockSim('movable')">Поднять блок (Анимация)</button>
+                </div>
+            </div>
+            <div class="visual-side"><canvas id="canvasMovableBlock"></canvas></div>
+        </div>
+    </div>
+    <!-- СЛАЙД 5: Золотое правило механики и КПД -->
+    <div class="slide" id="slide5">
+        <div class="slide-grid">
+            <div class="content-side">
+                <span class="slide-type">Этап 5. Энергетический баланс</span>
+                <h2>Золотое правило механики и КПД</h2>
+                <p class="text-concentrate" style="font-size: 12px; line-height: 1.4; margin-bottom: 8px;">
+                    Ни один простой механизм не позволяет выиграть в энергии или работе. Во сколько раз мы выигрываем в силе, во столько же раз неизбежно проигрываем в расстоянии: F₁ · s₁ = F₂ · s₂ или A₁ = A₂.
+                </p>
+                <div class="methodology-card" style="padding: 8px; font-size: 11.5px; line-height: 1.4; font-family: monospace; margin-bottom: 8px; border-color: #fb923c;">
+                    Коэффициент полезного действия (КПД):<br>
+                    η = (Aполезная / Aполная) · 100%<br><br>
+                    • Aполезная = P · h — работа по подъему груза весом P на высоту h.<br>
+                    • Aполная = F · s — работа силы F, переместившей край троса на расстояние s.
+                </div>
+                <p class="text-concentrate" style="font-size: 11px; color: #94a3b8;">
+                    В реальных условиях часть работы тратится на преодоление сил трения в обойме и подъем паразитных масс (самого блока или рычага), поэтому КПД всегда строго меньше 100%.
+                </p>
+            </div>
+            <div class="visual-side"><canvas id="canvasEfficiency"></canvas></div>
+        </div>
+    </div>
+    <!-- СЛАЙД 6: Блиц-квиз по ловушкам ФИПИ -->
+    <div class="slide" id="slide6">
+        <div class="slide-inner">
+            <span class="slide-type">Этап 6. Закрепление и ловушки КИМ</span>
+            <h2>Расчетный блиц-тест на понимание КПД подвижного блока</h2>
+            <p class="text-concentrate" style="margin-bottom: 15px; font-size: 13.5px;">
+                <strong>Ловушка ФИПИ:</strong> Если груз с помощью подвижного блока поднимается на высоту h = 1 метр, свободный конец веревки, за который тянет рабочий, смещается на расстояние s = 2 метра.<br><br>
+                Рабочий поднимает ящик массой 40 кг с помощью подвижного блока массой 4 кг равномерно вверх. Какая сила F потребуется для подъема в идеальном случае (без учета трения), если вес блока суммируется с весом груза? Примите g = 10 м/с².
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn btn-card" onclick="checkQuizMechanics(this, false)">1) F = 200 Н (считаем только ящик без учета массы блока)</button>
+                <button class="btn btn-card" onclick="checkQuizMechanics(this, true)">2) F = 220 Н (массы ящика и подвижного блока складываются, а сила делится на 2)</button>
+                <button class="btn btn-card" onclick="checkQuizMechanics(this, false)">3) F = 440 Н (блок не дает выигрыша в силе)</button>
+            </div>
+            <div id="quizFeedback" class="text-concentrate" style="margin-top: 15px; font-weight: 600; min-height: 20px;"></div>
+        </div>
+    </div>
+
+    <footer class="controls-footer">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Назад</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Вперед →</button>
+    </footer>
+</div>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+body {
+    background-color: #04060a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif;
+    height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;
+}
+.app-container {
+    width: 95vw; max-width: 960px; height: 85vh; max-height: 520px;
+    background-color: #090d16; border: 1px solid #1e293b; border-radius: 16px;
+    display: flex; flex-direction: column; justify-content: space-between; position: relative;
+}
+.app-header {
+    padding: 12px 20px; background-color: #0f172a; border-bottom: 1px solid #1e293b;
+    border-top-left-radius: 15px; border-top-right-radius: 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px;
+}
+.topic-badge { font-size: 11px; text-transform: uppercase; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 6px; }
+.progress-bar-container { flex-grow: 1; height: 6px; background-color: #1e293b; border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #22c55e); transition: width 0.3s ease; }
+.score-badge { font-size: 12px; font-weight: 600; color: #4ade80; background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 6px; }
+.controls-footer { padding: 12px 20px; background-color: #0f172a; border-top: 1px solid #1e293b; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; justify-content: space-between; }
+.nav-btn { background-color: #1e293b; color: #f8fafc; border: none; padding: 8px 18px; font-size: 13px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+</style>
+<style>
+.slide { display: none; flex-grow: 1; padding: 24px; overflow: hidden; }
+.slide.active { display: flex; flex-direction: column; }
+.slide-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; height: 100%; }
+.slide-inner { display: flex; flex-direction: column; height: 100%; }
+.content-side { display: flex; flex-direction: column; height: 100%; }
+.visual-side { background-color: #05070f; border: 1px solid #1e293b; border-radius: 12px; position: relative; overflow: hidden; height: 100%; }
+.visual-side canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.slide-type { font-size: 10px; text-transform: uppercase; color: #fb923c; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
+h2 { font-size: 15px; font-weight: 600; color: #f8fafc; margin-bottom: 10px; line-height: 1.4; }
+.text-concentrate { font-size: 13px; line-height: 1.45; color: #94a3b8; }
+.methodology-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 8px; padding: 12px; }
+.sim-controls { display: flex; gap: 6px; margin-top: 6px; }
+.btn { background-color: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 6px 12px; font-size: 11.5px; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; width: 100%; }
+.btn-accent { border-color: #38bdf8; color: #38bdf8; }
+.btn-accent:hover { background: rgba(56, 189, 248, 0.08); }
+.btn-card { background: #05070f; border: 1px solid #1e293b; border-radius: 8px; color: #cbd5e1; text-align: left; padding: 10px; font-size: 12px; width: 100%; }
+.btn-card:hover { border-color: #334155; background: #090d16; }
+.correct-highlight { background-color: rgba(34, 197, 94, 0.1) !important; border-color: #22c55e !important; color: #4ade80 !important; }
+.wrong-highlight { background-color: rgba(239, 68, 68, 0.1) !important; border-color: #ef4444 !important; color: #f43f5e !important; }
+.slider-row { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #cbd5e1; margin-bottom: 4px; }
+.slider-row input[type="range"] { -apple-appearance: none; appearance: none; width: 100%; background: #1e293b; height: 5px; border-radius: 3px; outline: none; cursor: pointer; }
+.slider-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #38bdf8; }
+</style>
+<script>
+// Глобальный конфигуратор презентации механики
+let currentSlide = 1;
+const totalSlides = 6;
+
+// Локальный стейт анимаций для каждого холста
+let simStates = {
+    fixed: { active: false, ropeOffset: 0, direction: 1 },
+    movable: { active: false, blockY: 0, direction: -1 }
+};
+let activeAnimations = { fixed: null, movable: null };
+
+window.onload = function() {
+    updateSliderUI();
+    setTimeout(renderActiveCanvas, 100);
+    window.addEventListener('resize', renderActiveCanvas);
+};
+
+function changeSlide(direction) {
+    stopAllSimulations();
+    document.getElementById(`slide${currentSlide}`).classList.remove('active');
+    currentSlide += direction;
+    document.getElementById(`slide${currentSlide}`).classList.add('active');
+    updateSliderUI();
+    setTimeout(renderActiveCanvas, 50);
+}
+
+function updateSliderUI() {
+    document.getElementById('prevBtn').disabled = (currentSlide === 1);
+    document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+    document.getElementById('progressBar').style.width = `${((currentSlide - 1) / (totalSlides - 1)) * 100}%`;
+    document.getElementById('scoreDisplay').innerText = `Шаг: ${currentSlide} / ${totalSlides}`;
+}
+
+function stopAllSimulations() {
+    for (let k in activeAnimations) { 
+        if (activeAnimations[k]) { cancelAnimationFrame(activeAnimations[k]); activeAnimations[k] = null; } 
+    }
+    simStates.fixed.active = false;
+    simStates.movable.active = false;
+}
+
+function forceSetupCanvas(canvas) {
+    if (!canvas) return false;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return false;
+    canvas.width = rect.width; canvas.height = rect.height;
+    return true;
+}
+</script>
+<script>
+// Главный диспетчер отрисовки графики по слайдам
+function renderActiveCanvas() {
+    if (currentSlide === 2) updateLeverSim();
+    if (currentSlide === 3) initFixedBlock();
+    if (currentSlide === 4) initMovableBlock();
+    if (currentSlide === 5) drawEfficiency();
+}
+
+// Профессиональный отрисовщик векторов сил с наконечником и подписью величины
+function drawArrow(ctx, fromX, fromY, toX, toY, color, txt = "") {
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(fromX, fromY); ctx.lineTo(toX, toY); ctx.stroke();
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+    ctx.beginPath(); ctx.moveTo(toX, toY);
+    ctx.lineTo(toX - 10 * Math.cos(angle - Math.PI / 6), toY - 10 * Math.sin(angle - Math.PI / 6));
+    ctx.lineTo(toX - 10 * Math.cos(angle + Math.PI / 6), toY - 10 * Math.sin(angle + Math.PI / 6));
+    ctx.closePath(); ctx.fill();
+    if (txt) {
+        ctx.fillStyle = "#f8fafc"; ctx.font = "bold 12px sans-serif";
+        ctx.textAlign = "center"; ctx.textBaseline = "top";
+        ctx.fillText(txt, toX, toY + 8);
+    }
+}
+
+// Отрисовка заштрихованной горизонтальной опоры (потолок/земля)
+ctx = null; // Буфер
+function drawHatchedCeiling(ctx, x1, x2, y) {
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+    ctx.lineWidth = 1; ctx.strokeStyle = '#1e293b';
+    for (let x = x1 + 4; x <= x2; x += 8) {
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 4, y - 6); ctx.stroke();
+    }
+}
+</script>
+<script>
+function updateLeverSim() {
+    const canvas = document.getElementById('canvasLever'); if (!forceSetupCanvas(canvas)) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Получение плеч сил из ползунков
+    const d1 = parseInt(document.getElementById('slider_d1').value);
+    const d2 = parseInt(document.getElementById('slider_d2').value);
+    document.getElementById('val_d1').innerText = d1;
+    document.getElementById('val_d2').innerText = d2;
+    
+    const cx = canvas.width / 2, cy = canvas.height / 2 + 10;
+    const scale = (canvas.width * 0.4) / 50; // Масштабирование пикселей
+    
+    // Опора рычага (треугольник)
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#334155'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - 15, cy + 25); ctx.lineTo(cx + 15, cy + 25); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fill();
+    
+    // Твердое тело рычага (балка)
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(cx - 52 * scale, cy); ctx.lineTo(cx + 52 * scale, cy); ctx.stroke();
+    
+    // Расчет сил для идеального равновесия: примем правое усилие F2 = 30 Н
+    const F2 = 30;
+    const F1 = (F2 * d2) / d1; // Правило моментов в действии
+    
+    // Точки приложения сил к балочной системе
+    const x1 = cx - d1 * scale;
+    const x2 = cx + d2 * scale;
+    
+    // Отрисовка векторов сил строго вниз
+    drawArrow(ctx, x1, cy, x1, cy + F1 * 1.2, '#ef4444', `F₁ = ${F1.toFixed(0)} Н`);
+    drawArrow(ctx, x2, cy, x2, cy + F2 * 1.2, '#38bdf8', `F₂ = ${F2.toFixed(0)} Н`);
+    
+    // Отрисовка размерных линий плеч d1 и d2
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x1, cy - 15); ctx.lineTo(x1, cy - 35); ctx.moveTo(cx, cy - 15); ctx.lineTo(cx, cy - 35); ctx.moveTo(x2, cy - 15); ctx.lineTo(x2, cy - 35); ctx.stroke();
+    
+    drawArrow(ctx, cx, cy - 25, x1, cy - 25, '#475569'); drawArrow(ctx, x1, cy - 25, cx, cy - 25, '#475569');
+    drawArrow(ctx, cx, cy - 25, x2, cy - 25, '#475569'); drawArrow(ctx, x2, cy - 25, cx, cy - 25, '#475569');
+    
+    ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(`d₁ = ${d1} см`, (cx + x1) / 2, cy - 30); ctx.fillText(`d₂ = ${d2} см`, (cx + x2) / 2, cy - 30);
+}
+</script>
+<script>
+function initFixedBlock() {
+    const canvas = document.getElementById('canvasFixedBlock'); if (!forceSetupCanvas(canvas)) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = canvas.width / 2, cy = 60, r = 35;
+    
+    drawHatchedCeiling(ctx, cx - 60, cx + 60, 20);
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, 20); ctx.lineTo(cx, cy); ctx.stroke(); // Подвес
+    
+    // Диск блока
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#334155'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fill(); // Ось
+    
+    let offset = simStates.fixed.ropeOffset;
+    
+    // Левая ветвь троса и подвешенный полезный груз P
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx - r, cy + 100 + offset); ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+    ctx.fillRect(cx - r - 15, cy + 100 + offset, 30, 30); ctx.strokeRect(cx - r - 15, cy + 100 + offset, 30, 30);
+    ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("P", cx - r, cy + 118 + offset);
+    
+    // Правая ветвь троса (за которую тянет внешняя сила)
+    ctx.strokeStyle = '#cbd5e1'; ctx.beginPath(); ctx.moveTo(cx + r, cy); ctx.lineTo(cx + r, cy + 100 - offset); ctx.stroke();
+    
+    // Векторы сил: в неподвижном блоке плечи равны, значит сила F в точности равна весу груза P
+    drawArrow(ctx, cx - r, cy + 115 + offset, cx - r, cy + 160 + offset, '#fb923c', 'P');
+    drawArrow(ctx, cx + r, cy + 100 - offset, cx + r, cy + 150 - offset, '#22c55e', 'F = P');
+}
+
+function toggleBlockSim(type) {
+    simStates[type].active = !simStates[type].active;
+    if (simStates[type].active) {
+        if (type === 'fixed') loopFixedBlock();
+        if (type === 'movable') loopMovableBlock();
+    }
+}
+
+function loopFixedBlock() {
+    if (!simStates.fixed.active) return;
+    simStates.fixed.ropeOffset += simStates.fixed.direction * 0.5;
+    if (Math.abs(simStates.fixed.ropeOffset) > 25) simStates.fixed.direction *= -1; // Качание вверх-вниз
+    initFixedBlock();
+    activeAnimations.fixed = requestAnimationFrame(loopFixedBlock);
+}
+</script>
+<script>
+function initMovableBlock() {
+    const canvas = document.getElementById('canvasMovableBlock'); if (!forceSetupCanvas(canvas)) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = canvas.width / 2, r = 35;
+    
+    drawHatchedCeiling(ctx, cx - 60, cx + 60, 20);
+    
+    let bY = canvas.height / 2 + 10 + simStates.movable.blockY; // Вертикальное смещение подвижной оси
+    
+    // Левый конец веревки жестко заанкерен на потолке
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx - r, 20); ctx.lineTo(cx - r, bY); ctx.stroke();
+    
+    // Правый движущийся конец веревки уходит наверх к руке рабочего
+    ctx.beginPath(); ctx.moveTo(cx + r, bY); ctx.lineTo(cx + r, bY - 60); ctx.stroke();
+    
+    // Диск подвижного блока
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#334155'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, bY, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(cx, bY, 3, 0, Math.PI * 2); ctx.fill();
+    
+    // Подвес ящика P к подвижной центральной оси
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, bY); ctx.lineTo(cx, bY + 35); ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.fillRect(cx - 15, bY + 35, 30, 30); ctx.strokeRect(cx - 15, bY + 35, 30, 30);
+    ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("P", cx, bY + 53);
+    
+    // Векторы сил: выигрыш в силе ровно в 2 раза
+    drawArrow(ctx, cx, bY + 50, cx, bY + 100, '#fb923c', 'P'); // Полный вес груза
+    drawArrow(ctx, cx + r, bY - 60, cx + r, bY - 110, '#22c55e', 'F = P/2'); // Половина усилия
+}
+
+function loopMovableBlock() {
+    if (!simStates.movable.active) return;
+    simStates.movable.blockY += simStates.movable.direction * 0.4;
+    if (Math.abs(simStates.movable.blockY) > 25) simStates.movable.direction *= -1;
+    initMovableBlock();
+    activeAnimations.movable = requestAnimationFrame(loopMovableBlock);
+}
+</script>
+<script>
+// Отрисовка гистограммы распределения энергий (Полезная против Потерь)
+function drawEfficiency() {
+    const canvas = document.getElementById('canvasEfficiency'); if (!forceSetupCanvas(canvas)) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = canvas.width / 2, cy = canvas.height / 2 + 10;
+    
+    ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText("Энергетический баланс реальной машины", cx, 30);
+    
+    // Полезная работа (Зеленый столбец - 80%)
+    ctx.fillStyle = 'rgba(34, 197, 94, 0.2)'; ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 2;
+    ctx.fillRect(cx - 65, cy - 60, 45, 100); ctx.strokeRect(cx - 65, cy - 60, 45, 100);
+    ctx.fillStyle = '#4ade80'; ctx.fillText("Полезная", cx - 42, cy + 55); ctx.fillText("80%", cx - 42, cy - 70);
+    
+    // Работа потерь (Красный столбец - трение и паразитные массы - 20%)
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.2)'; ctx.strokeStyle = '#ef4444';
+    ctx.fillRect(cx + 20, cy + 20, 45, 20); ctx.strokeRect(cx + 20, cy + 20, 45, 20);
+    ctx.fillStyle = '#f43f5e'; ctx.fillText("Потери", cx + 42, cy + 55); ctx.fillText("20%", cx + 42, cy + 12);
+    
+    // Базовая разделительная линия
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - 90, cy + 40); ctx.lineTo(cx + 90, cy + 40); ctx.stroke();
+}
+
+function checkQuizMechanics(btn, isCorrect) {
+    const cards = document.getElementById('slide6').querySelectorAll('.btn-card');
+    cards.forEach(c => c.disabled = true);
+    const feedback = document.getElementById('quizFeedback');
+    
+    if (isCorrect) {
+        btn.classList.add('correct-highlight');
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Отлично! Системная ловушка раскрыта.</span> Общая масса поднимаемой системы равна m = 40 + 4 = 44 кг. Общий вес системы Pобщ = m · g = 440 Н. Так как подвижный блок делит силу пополам, идеальное усилие равно F = 440 / 2 = 220 Н.';
+    } else {
+        btn.classList.add('wrong-highlight');
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка.</span> Вы забыли учесть массу самого подвижного блока, который поднимается в пространстве вместе с грузом. Верный ответ №2: F = (40 кг + 4 кг) · 10 / 2 = 220 Н.';
+        cards.forEach(c => { if (c.innerText.includes("2)")) c.classList.add('correct-highlight'); });
+    }
+}
+</script>
+</body>
+</html>
