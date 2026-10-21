@@ -5,253 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Виртуальная физ-лаборатория ОГЭ: Простые механизмы</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            user-select: none;
-        }
-
-        body {
-            background-color: #04060a;
-            color: #f8fafc;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .app-container {
-            width: 95vw;
-            max-width: 1200px;
-            height: 85vh;
-            max-height: 520px;
-            background: #090d16;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .app-header, .app-footer {
-            height: 50px;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #1e293b;
-            background: #05070f;
-        }
-
-        .app-footer {
-            border-bottom: none;
-            border-top: 1px solid #1e293b;
-        }
-
-        .logo {
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #38bdf8;
-        }
-
-        .progress-bar-container {
-            flex-grow: 1;
-            max-width: 400px;
-            height: 6px;
-            background: #1e293b;
-            border-radius: 3px;
-            margin: 0 20px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #38bdf8, #22c55e);
-            transition: width 0.3s ease;
-        }
-
-        .slide-counter {
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-
-        .workspace {
-            flex-grow: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            display: none;
-            padding: 20px;
-        }
-
-        .slide.active {
-            display: block;
-        }
-
-        .slide-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 20px;
-            height: 100%;
-        }
-
-        .info-panel {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #1e293b;
-        }
-
-        .simulation-panel {
-            background: #05070f;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        canvas {
-            width: 100%;
-            height: 100%;
-            background: #04060a;
-        }
-
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #f8fafc;
-            margin-bottom: 8px;
-        }
-
-        .instruction {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            line-height: 1.4;
-        }
-
-        .badge {
-            align-self: flex-start;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; user-select: none; }
+        body { background-color: #04060a; color: #f8fafc; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .app-container { width: 95vw; max-width: 1200px; height: 85vh; max-height: 520px; background: #090d16; border: 1px solid #1e293b; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .app-header, .app-footer { height: 50px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1e293b; background: #05070f; }
+        .app-footer { border-bottom: none; border-top: 1px solid #1e293b; }
+        .logo { font-weight: 800; letter-spacing: 1px; color: #38bdf8; }
+        .progress-bar-container { flex-grow: 1; max-width: 400px; height: 6px; background: #1e293b; border-radius: 3px; margin: 0 20px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #22c55e); transition: width 0.3s ease; }
+        .slide-counter { font-size: 0.85rem; color: #94a3b8; }
+        .workspace { flex-grow: 1; position: relative; overflow: hidden; }
+        .slide { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: none; padding: 20px; }
+        .slide.active { display: block; }
+        .slide-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; height: 100%; }
+        .info-panel { background: #0f172a; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #1e293b; }
+        .simulation-panel { background: #05070f; border-radius: 12px; border: 1px solid #1e293b; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+        canvas { width: 100%; height: 100%; background: #04060a; }
+        h2 { font-size: 1.3rem; font-weight: 700; color: #f8fafc; margin-bottom: 8px; }
+        .instruction { font-size: 0.85rem; color: #94a3b8; line-height: 1.4; }
+        .badge { align-self: flex-start; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .badge-lab { background: #38bdf822; color: #38bdf8; border: 1px solid #38bdf844; }
         .badge-adv { background: #a855f722; color: #a855f7; border: 1px solid #a855f744; }
-
-        .metrics {
-            margin: 8px 0;
-        }
-
-        .metric-item {
-            font-size: 0.85rem;
-            color: #cbd5e1;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .dot.red { background: #ef4444; }
-        .dot.blue { background: #38bdf8; }
-
-        .validation-zone {
-            background: #05070f;
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid #1e293b;
-        }
-
-        .status-msg {
-            font-size: 0.85rem;
-            color: #fb923c;
-            font-weight: 500;
-        }
-
-        .flex-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        input, button {
-            background: #0f172a;
-            border: 1px solid #3e527a;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            outline: none;
-        }
-
+        .metric-item { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 4px; display: flex; align-items: center; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+        .dot.red { background: #ef4444; } .dot.blue { background: #38bdf8; } .dot.orange { background: #fb923c; }
+        .depot { display: flex; gap: 10px; margin: 10px 0; background: #05070f; padding: 10px; border-radius: 8px; border: 1px solid #1e293b; }
+        .depot-weight { padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: grab; text-align: center; }
+        .validation-zone { background: #05070f; border-radius: 8px; padding: 12px; border: 1px solid #1e293b; }
+        .status-msg { font-size: 0.85rem; color: #fb923c; font-weight: 500; }
+        .flex-row { display: flex; gap: 10px; margin-top: 8px; }
+        input, button { background: #0f172a; border: 1px solid #3e527a; color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; outline: none; }
         input:focus { border-color: #38bdf8; }
-
-        button {
-            background: #38bdf8;
-            color: #04060a;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
+        button { background: #38bdf8; color: #04060a; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
         button:hover { background: #0ea5e9; }
         button:disabled { background: #1e293b; color: #64748b; cursor: not-allowed; }
-
         .nav-btn { background: #1e293b; color: white; }
         .nav-btn:hover:not(:disabled) { background: #334155; }
-
-        .final-container {
-            max-width: 600px;
-            margin: 20px auto;
-            text-align: center;
-            background: #0f172a;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
-        }
+        .final-container { max-width: 600px; margin: 20px auto; text-align: center; background: #0f172a; padding: 24px; border-radius: 12px; border: 1px solid #1e293b; }
         .hidden { display: none !important; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .quiz-card { background: #05070f; border: 1px solid #1e293b; padding: 16px; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s; }
+        .quiz-card:hover { border-color: #38bdf8; background: #0e1726; }
+        .quiz-card.correct { background: #14532d !important; border-color: #22c55e !important; color: #4ade80; }
+        .quiz-card.wrong { background: #7f1d1d !important; border-color: #ef4444 !important; color: #f87171; }
     </style>
 </head>
 <body>
-
 <div class="app-container">
     <header class="app-header">
         <div class="logo">🚀 ФИЗ-ЛАБ // ОГЭ</div>
-        <div class="progress-bar-container">
-            <div class="progress-fill" id="progressFill" style="width: 20%;"></div>
-        </div>
+        <div class="progress-bar-container"><div class="progress-fill" id="progressFill" style="width: 20%;"></div></div>
         <div class="slide-counter" id="slideCounter">Слайд 1 из 5</div>
     </header>
 
     <main class="workspace">
-        
-        <!-- СЛАЙД 1 -->
+        <!-- СЛАЙД 1: Равновесие рычага -->
         <section class="slide active" id="slide1">
             <div class="slide-grid">
                 <div class="info-panel">
@@ -260,81 +68,112 @@
                         <h2>Условие равновесия рычага</h2>
                         <p class="instruction">Перетаскивайте мышкой ОБА груза по верхней грани балки. Найдите положение баланса, при котором моменты сил слева и справа станут равны.</p>
                         <div class="metrics">
-                            <div class="metric-item"><span class="dot red"></span> Красный груз: F₁ = 60 Н</div>
-                            <div class="metric-item"><span class="dot blue"></span> Синий груз: F₂ = 30 Н</div>
-                            <div class="metric-item">📏 Цена деления = 10 см</div>
+                            <div class="metric-item"><span class="dot red"></span> Красный левый груз: F₁ = 60 Н</div>
+                            <div class="metric-item"><span class="dot blue"></span> Синий правый груз: F₂ = 30 Н</div>
                         </div>
                     </div>
-                    <div class="validation-zone" id="zone1">
-                        <div class="status-msg" id="status1">⚠️ Баланс не найден. Двигайте грузы.</div>
+                    <div class="validation-zone">
+                        <div class="status-msg" id="status1">⚠️ Двигайте грузы для баланса.</div>
                         <div class="input-group hidden" id="inputGroup1">
                             <div class="flex-row">
-                                <input type="text" id="code1" placeholder="Введите отношение d₁:d₂ (например, 1:2)">
+                                <input type="text" id="code1" placeholder="Введи код (d₁:d₂), напр. 2:4">
                                 <button onclick="checkSlide1()">Проверить</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel">
-                    <canvas id="leverCanvas" width="600" height="400"></canvas>
-                </div>
+                <div class="simulation-panel"><canvas id="leverCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
 
-        <!-- СЛАЙД 2 -->
+        <!-- СЛАЙД 2: Свободный конструктор -->
         <section class="slide" id="slide2">
             <div class="slide-grid">
                 <div class="info-panel">
                     <div>
                         <span class="badge badge-adv">Продвинутый уровень</span>
                         <h2>Конструктор моментов сил</h2>
-                        <p class="instruction">Лабораторный модуль находится в проектировании.</p>
+                        <p class="instruction">Двигайте грузы по балке влево и вправо от оси вращения, чтобы выровнять моменты сил и остановить вращение.</p>
+                        <div class="depot">
+                            <div class="depot-weight" style="background:#22c55e;">Зеленый: 10 Н</div>
+                            <div class="depot-weight" style="background:#a855f7;">Фиолетовый: 40 Н</div>
+                        </div>
+                    </div>
+                    <div class="validation-zone">
+                        <div class="status-msg" id="status2">Разбалансировано. Измените плечи сил.</div>
+                        <div class="input-group hidden" id="inputGroup2">
+                            <div class="flex-row">
+                                <input type="text" id="code2" placeholder="Введи равенство, напр. 40=40">
+                                <button onclick="checkSlide2()">Проверить</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="simulation-panel"><canvas id="sandboxCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
 
-        <!-- СЛАЙД 3 -->
+        <!-- СЛАЙД 3: Неподвижный блок -->
         <section class="slide" id="slide3">
             <div class="slide-grid">
                 <div class="info-panel">
                     <div>
                         <span class="badge badge-lab">Лабораторная работа</span>
                         <h2>Неподвижный блок</h2>
-                        <p class="instruction">Лабораторный модуль находится в проектировании.</p>
+                        <p class="instruction">Потяните кольцо троса строго вниз. Поднимите ящик весом P = 120 Н на высоту ровно 30 см. Сравните показания измерительных шкал.</p>
+                    </div>
+                    <div class="validation-zone">
+                        <div class="status-msg" id="status3">Тяните кольцо вниз.</div>
+                        <div class="input-group hidden" id="inputGroup3">
+                            <div class="flex-row">
+                                <input type="text" id="code3" placeholder="Перемещение руки s (в см)">
+                                <button onclick="checkSlide3()">Проверить</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="simulation-panel"><canvas id="fixedBlockCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
 
-        <!-- СЛАЙД 4 -->
+        <!-- СЛАЙД 4: Подвижный блок -->
         <section class="slide" id="slide4">
             <div class="slide-grid">
                 <div class="info-panel">
                     <div>
                         <span class="badge badge-lab">Лабораторная работа</span>
                         <h2>Подвижный блок</h2>
-                        <p class="instruction">Лабораторный модуль находится в проектировании.</p>
+                        <p class="instruction">Потяните наконечник троса строго вверх. Поднимите ящик весом P = 200 Н на высоту h = 20 см. Заметьте разницу в перемещениях.</p>
+                    </div>
+                    <div class="validation-zone">
+                        <div class="status-msg" id="status4">Тяните наконечник вверх.</div>
+                        <div class="input-group hidden" id="inputGroup4">
+                            <div class="flex-row">
+                                <input type="text" id="code4" placeholder="Вытяжка троса s (в см)">
+                                <button onclick="checkSlide4()">Проверить</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="simulation-panel"><canvas id="movableBlockCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
 
-        <!-- СЛАЙД 5 -->
+        <!-- СЛАЙД 5: КПД Тест -->
         <section class="slide" id="slide5">
             <div class="final-container">
-                <h2>📊 Итоговый контроль & КПД</h2>
-                <p style="margin: 15px 0; color: #94a3b8; font-size: 0.95rem;">С помощью подъемной установки груз весом P = 360 Н подняли на высоту h = 5 м. Полная совершенная работа составила Aполная = 2000 Дж. Чему равен КПД?</p>
-                <div class="flex-row" style="justify-content: center;">
-                    <input type="number" id="kpdInput" placeholder="Введите КПД в %" style="text-align: center;">
-                    <button onclick="checkQuiz()">Ответить</button>
+                <span class="badge badge-lab" style="margin: 0 auto 10px auto;">Итоговый контроль</span>
+                <h2>Расчет КПД подъемника</h2>
+                <p style="margin: 12px 0; color: #94a3b8; font-size: 0.9rem; line-height: 1.4;">С помощью подъемной установки груз весом <b>P = 360 Н</b> подняли на высоту <b>h = 5 метров</b>. Полная совершенная работа силами трения составила <b>Aполная = 2000 Дж</b>. Чему равен КПД?</p>
+                <div class="quiz-options">
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '50')">50 %</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '75')">75 %</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '90')">90 %</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '100')">100 %</div>
                 </div>
+                <div id="finalVerdict" style="margin-top: 20px; font-weight: 700; min-height: 24px;"></div>
             </div>
         </section>
-
     </main>
 
     <footer class="app-footer">
@@ -343,171 +182,183 @@
     </footer>
 </div>
 <script>
-    let currentSlide = 1;
-    const totalSlides = 5;
-    let animationFrameId = null;
-
+    let currentSlide = 1; const totalSlides = 5; let animationFrameId = null;
     function changeSlide(direction) {
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        
         document.getElementById(`slide${currentSlide}`).classList.remove('active');
         currentSlide += direction;
         document.getElementById(`slide${currentSlide}`).classList.add('active');
-
         document.getElementById('prevBtn').disabled = (currentSlide === 1);
         document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
         document.getElementById('slideCounter').innerText = `Слайд ${currentSlide} из ${totalSlides}`;
         document.getElementById('progressFill').style.width = `${(currentSlide / totalSlides) * 100}%`;
-
-        if (currentSlide === 1) initSlide1Sim();
+        initSlideSimulation();
     }
+    function initSlideSimulation() {
+        if (currentSlide === 1) initSlide1(); if (currentSlide === 2) initSlide2();
+        if (currentSlide === 3) initSlide3(); if (currentSlide === 4) initSlide4();
+    }
+    function drawVector(ctx, fx, fy, tx, ty, color) {
+        ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(tx, ty); ctx.stroke();
+        let a = Math.atan2(ty - fy, tx - fx); ctx.beginPath();
+        ctx.moveTo(tx - 8 * Math.cos(a - Math.PI/6), ty - 8 * Math.sin(a - Math.PI/6)); ctx.lineTo(tx, ty);
+        ctx.lineTo(tx - 8 * Math.cos(a + Math.PI/6), ty - 8 * Math.sin(a + Math.PI/6)); ctx.stroke();
+    }
+    function getMousePos(canvas, evt) { let r = canvas.getBoundingClientRect(); return { x: evt.clientX - r.left, y: evt.clientY - r.top }; }
 
-    // ЛОГИКА СЛАЙДА 1: Исправленный рендеринг рычага
-    const canvas1 = document.getElementById('leverCanvas');
-    const ctx1 = canvas1.getContext('2d');
-
-    let leverState = {
-        pivotX: 300,
-        pivotY: 220,
-        beamLength: 480,
-        w1: { x: -120, f: 60, color: '#ef4444', isDragging: false }, 
-        w2: { x: 160, f: 30, color: '#38bdf8', isDragging: false }  
-    };
-
-    function initSlide1Sim() {
+    // СЛАЙД 1: Физика и рендеринг рычага ОГЭ
+    const canvas1 = document.getElementById('leverCanvas'); const ctx1 = canvas1.getContext('2d');
+    let s1 = { pX: 300, pY: 220, len: 460, angle: 0, tAngle: 0, w1: { x: -80, f: 60, color: '#ef4444', isDragging: false }, w2: { x: 120, f: 30, color: '#38bdf8', isDragging: false } };
+    function initSlide1() {
         function draw() {
-            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-
-            // Опора (Ось)
-            ctx1.fillStyle = '#475569';
-            ctx1.beginPath();
-            ctx1.moveTo(leverState.pivotX, leverState.pivotY);
-            ctx1.lineTo(leverState.pivotX - 15, leverState.pivotY + 30);
-            ctx1.lineTo(leverState.pivotX + 15, leverState.pivotY + 30);
-            ctx1.fill();
-
-            // Балка рычага
-            ctx1.strokeStyle = '#94a3b8';
-            ctx1.lineWidth = 8;
-            ctx1.beginPath();
-            ctx1.moveTo(leverState.pivotX - leverState.beamLength/2, leverState.pivotY);
-            ctx1.lineTo(leverState.pivotX + leverState.beamLength/2, leverState.pivotY);
-            ctx1.stroke();
-
-            // Разметка балки (1 деление = 40px)
-            ctx1.fillStyle = '#334155';
-            ctx1.font = '10px monospace';
-            for(let i = -5; i <= 5; i++) {
-                let tickX = leverState.pivotX + i * 40;
-                ctx1.fillRect(tickX - 1, leverState.pivotY - 4, 2, 8);
-                if(i !== 0) ctx1.fillText(`${Math.abs(i)}д`, tickX - 6, leverState.pivotY + 18);
-            }
-
-            // Рендеринг грузов и стрелок
-            [leverState.w1, leverState.w2].forEach(w => {
-                let absX = leverState.pivotX + w.x;
-                let absY = leverState.pivotY - 16;
-
-                ctx1.fillStyle = w.color;
-                ctx1.fillRect(absX - 15, absY, 30, 16);
-
-                let vStart = absY + 8;
-                let vEnd = vStart + (w.f === 60 ? 60 : 35);
-                
-                ctx1.strokeStyle = w.color;
-                ctx1.lineWidth = 3;
-                ctx1.beginPath();
-                ctx1.moveTo(absX, vStart);
-                ctx1.lineTo(absX, vEnd);
-                ctx1.stroke();
-
-                ctx1.beginPath();
-                ctx1.moveTo(absX - 5, vEnd - 5);
-                ctx1.lineTo(absX, vEnd);
-                ctx1.lineTo(absX + 5, vEnd - 5);
-                ctx1.stroke();
-
-                ctx1.fillStyle = '#ffffff';
-                ctx1.font = 'bold 11px sans-serif';
-                ctx1.fillText(`F = ${w.f} Н`, absX - 22, vEnd + 14);
+            ctx1.clearRect(0, 0, 600, 400);
+            let d1 = Math.abs(s1.w1.x)/40, d2 = Math.abs(s1.w2.x)/40, m1 = s1.w1.f*d1, m2 = s1.w2.f*d2, diff = m2 - m1;
+            s1.tAngle = Math.abs(diff) < 0.5 ? 0 : Math.max(-0.25, Math.min(0.25, diff * 0.015));
+            s1.angle += (s1.tAngle - s1.angle) * 0.1;
+            ctx1.fillStyle = '#475569'; ctx1.beginPath(); ctx1.moveTo(s1.pX, s1.pY); ctx1.lineTo(s1.pX-15, s1.pY+30); ctx1.lineTo(s1.pX+15, s1.pY+30); ctx1.fill();
+            ctx1.save(); ctx1.translate(s1.pX, s1.pY); ctx1.rotate(s1.angle);
+            ctx1.strokeStyle = '#94a3b8'; ctx1.lineWidth = 8; ctx1.beginPath(); ctx1.moveTo(-s1.len/2, 0); ctx1.lineTo(s1.len/2, 0); ctx1.stroke();
+            ctx1.fillStyle = '#334155'; ctx1.font = '10px monospace';
+            for(let i=-5; i<=5; i++) { ctx1.fillRect(i*40-1, -4, 2, 8); if(i!==0) ctx1.fillText(`${Math.abs(i)}`, i*40-3, 16); }
+            [s1.w1, s1.w2].forEach(w => {
+                ctx1.fillStyle = w.color; ctx1.fillRect(w.x-15, -16, 30, 16);
+                drawVector(ctx1, w.x, -8, w.x, -8+(w.f/60)*50, w.color);
+                ctx1.fillStyle = '#fff'; ctx1.font = 'bold 11px sans-serif'; ctx1.fillText(`F = ${w.f} Н`, w.x-20, (w.f/60)*50+12);
             });
-
-            // Расчет физики баланса
-            let d1 = Math.abs(leverState.w1.x) / 40;
-            let d2 = Math.abs(leverState.w2.x) / 40;
-            let m1 = leverState.w1.f * d1;
-            let m2 = leverState.w2.f * d2;
-
-            const status = document.getElementById('status1');
-            const inputs = document.getElementById('inputGroup1');
-
-            if (Math.abs(m1 - m2) < 1) {
-                status.innerHTML = "✅ Равновесие найдено! Введите расчетный код:";
-                status.style.color = "#22c55e";
-                inputs.classList.remove('hidden');
-            } else {
-                status.innerHTML = `⚠️ Дисбаланс моментов! Слева: ${m1.toFixed(0)} Н·д | Справа: ${m2.toFixed(0)} Н·д`;
-                status.style.color = "#fb923c";
-                inputs.classList.add('hidden');
-            }
-
+            ctx1.restore();
+            let st = document.getElementById('status1'), inp = document.getElementById('inputGroup1');
+            if (Math.abs(s1.angle) < 0.005) { st.innerHTML = "✅ Равновесие найдено! Введите расчетный код:"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else { st.innerHTML = `⚠️ Дисбаланс моментов! Слева: ${m1.toFixed(0)} | Справа: ${m2.toFixed(0)}`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
             animationFrameId = requestAnimationFrame(draw);
         }
         draw();
     }
-
-    function getMousePos(canvas, evt) {
-        let rect = canvas.getBoundingClientRect();
-        return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
-    }
-
     canvas1.addEventListener('mousedown', (e) => {
-        let pos = getMousePos(canvas1, e);
-        [leverState.w1, leverState.w2].forEach(w => {
-            let absX = leverState.pivotX + w.x;
-            if (Math.abs(pos.x - absX) < 25 && Math.abs(pos.y - leverState.pivotY) < 25) {
-                w.isDragging = true;
-            }
-        });
+        let p = getMousePos(canvas1, e), dx = p.x-s1.pX, dy = p.y-s1.pY, rx = dx*Math.cos(-s1.angle) - dy*Math.sin(-s1.angle);
+        [s1.w1, s1.w2].forEach(w => { if (Math.abs(rx-w.x) < 25) w.isDragging = true; });
     });
-
     canvas1.addEventListener('mousemove', (e) => {
-        let pos = getMousePos(canvas1, e);
-        [leverState.w1, leverState.w2].forEach(w => {
-            if (w.isDragging) {
-                let relX = pos.x - leverState.pivotX;
-                // Запрет пересечения центра и выхода за края балки
-                if (w === leverState.w1) w.x = Math.max(-220, Math.min(-10, relX));
-                if (w === leverState.w2) w.x = Math.max(10, Math.min(220, relX));
-            }
-        });
+        let p = getMousePos(canvas1, e), dx = p.x-s1.pX, dy = p.y-s1.pY, rx = dx*Math.cos(-s1.angle) - dy*Math.sin(-s1.angle);
+        [s1.w1, s1.w2].forEach(w => { if(w.isDragging){ if(w===s1.w1) w.x=Math.max(-220, Math.min(-15, rx)); if(w===s1.w2) w.x=Math.max(15, Math.min(220, rx)); } });
     });
+    window.addEventListener('mouseup', () => { s1.w1.isDragging = s1.w2.isDragging = false; });
+    function checkSlide1() { let v = document.getElementById('code1').value.trim(); if (v === "1:2" || v === "2:4") changeSlide(1); else alert("Ошибка!"); }
 
-    window.addEventListener('mouseup', () => {
-        leverState.w1.isDragging = false;
-        leverState.w2.isDragging = false;
+    // СЛАЙД 2: Свободный конструктор
+    const canvas2 = document.getElementById('sandboxCanvas'); const ctx2 = canvas2.getContext('2d');
+    let s2 = { pX: 300, pY: 220, angle: 0, tAngle: 0, w1: { x: -160, f: 10, color: '#22c55e', isDragging: false }, w2: { x: 40, f: 40, color: '#a855f7', isDragging: false } };
+    function initSlide2() {
+        function draw() {
+            ctx2.clearRect(0, 0, 600, 400);
+            let m1 = Math.abs(s2.w1.x/40)*s2.w1.f, m2 = Math.abs(s2.w2.x/40)*s2.w2.f, diff = m2 - m1;
+            s2.tAngle = Math.abs(diff) < 0.5 ? 0 : Math.max(-0.25, Math.min(0.25, diff * 0.01));
+            s2.angle += (s2.tAngle - s2.angle) * 0.1;
+            ctx2.fillStyle = '#475569'; ctx2.beginPath(); ctx2.moveTo(s2.pX, s2.pY); ctx2.lineTo(s2.pX-15, s2.pY+30); ctx2.lineTo(s2.pX+15, s2.pY+30); ctx2.fill();
+            ctx2.save(); ctx2.translate(s2.pX, s2.pY); ctx2.rotate(s2.angle);
+            ctx2.strokeStyle = '#94a3b8'; ctx2.lineWidth = 8; ctx2.beginPath(); ctx2.moveTo(-230, 0); ctx2.lineTo(230, 0); ctx2.stroke();
+            ctx2.fillStyle = '#334155'; for(let i=-5; i<=5; i++) { ctx2.fillRect(i*40-1, -4, 2, 8); }
+            [s2.w1, s2.w2].forEach(w => {
+                ctx2.fillStyle = w.color; ctx2.fillRect(w.x-15, -16, 30, 16);
+                drawVector(ctx2, w.x, -8, w.x, -8+35, w.color);
+                ctx2.fillStyle = '#fff'; ctx2.font = '10px monospace'; ctx2.fillText(`${w.f}Н`, w.x-10, 40);
+            });
+            ctx2.restore();
+            let st = document.getElementById('status2'), inp = document.getElementById('inputGroup2');
+            if (Math.abs(s2.angle) < 0.005) { st.innerHTML = "✅ Система стабильна! Подтвердите расчетом:"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else { st.innerHTML = `⚠️ Дисбаланс! Слева: ${m1.toFixed(0)} | Справа: ${m2.toFixed(0)}`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            animationFrameId = requestAnimationFrame(draw);
+        }
+        draw();
+    }
+    canvas2.addEventListener('mousedown', (e) => {
+        let p = getMousePos(canvas2, e), rx = (p.x-s2.pX)*Math.cos(-s2.angle) - (p.y-s2.pY)*Math.sin(-s2.angle);
+        [s2.w1, s2.w2].forEach(w => { if (Math.abs(rx-w.x) < 25) w.isDragging = true; });
     });
+    canvas2.addEventListener('mousemove', (e) => {
+        let p = getMousePos(canvas2, e), rx = (p.x-s2.pX)*Math.cos(-s2.angle) - (p.y-s2.pY)*Math.sin(-s2.angle);
+        [s2.w1, s2.w2].forEach(w => { if(w.isDragging){ if(w===s2.w1) w.x=Math.max(-220, Math.min(-15, rx)); if(w===s2.w2) w.x=Math.max(15, Math.min(220, rx)); } });
+    });
+    window.addEventListener('mouseup', () => { s2.w1.isDragging = s2.w2.isDragging = false; });
+    function checkSlide2() { let v = document.getElementById('code2').value.trim(); if (v === "40=40") changeSlide(1); else alert("Ошибка!"); }
+    // СЛАЙД 3: Неподвижный блок
+    const canvas3 = document.getElementById('fixedBlockCanvas'); const ctx3 = canvas3.getContext('2d');
+    let s3 = { hY: 150, isDragging: false, bY: 250 };
+    function initSlide3() {
+        function draw() {
+            ctx3.clearRect(0, 0, 600, 400);
+            let s_cm = Math.round((s3.hY - 150) * 0.3), h_cm = Math.round((250 - (250 - (s3.hY - 150))) * 0.3);
+            s3.bY = 250 - (s3.hY - 150);
+            ctx3.strokeStyle = '#475569'; ctx3.lineWidth = 6; ctx3.beginPath(); ctx3.arc(300, 100, 30, 0, Math.PI*2); ctx3.stroke();
+            ctx3.fillStyle = '#1e293b'; ctx3.fill();
+            ctx3.fillStyle = '#1e293b'; ctx3.fillRect(450, 100, 20, 200);
+            ctx3.fillStyle = '#94a3b8'; ctx3.font = '10px monospace';
+            for(let i=0; i<=40; i+=10) { ctx3.fillText(`${i}см`, 475, 250 - i/0.3); }
+            ctx3.strokeStyle = '#64748b'; ctx3.lineWidth = 2;
+            ctx3.beginPath(); ctx3.moveTo(270, 100); ctx3.lineTo(270, s3.bY); ctx3.stroke();
+            ctx3.beginPath(); ctx3.moveTo(330, 100); ctx3.lineTo(330, s3.hY); ctx3.stroke();
+            ctx3.fillStyle = '#fb923c'; ctx3.fillRect(250, s3.bY, 40, 30);
+            ctx3.fillStyle = '#000'; ctx3.font = '10px sans-serif'; ctx3.fillText("120Н", 258, s3.bY+18);
+            ctx3.fillStyle = '#22c55e'; ctx3.beginPath(); ctx3.arc(330, s3.hY, 10, 0, Math.PI*2); ctx3.fill();
+            drawVector(ctx3, 270, s3.bY, 270, s3.bY+50, '#fb923c');
+            drawVector(ctx3, 330, s3.hY, 330, s3.hY+50, '#ef4444');
+            let st = document.getElementById('status3'), inp = document.getElementById('inputGroup3');
+            if (h_cm >= 30) { st.innerHTML = `✅ Фиксация h = 30 см! Введите перемещение троса руки s (см):`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else { st.innerHTML = `Высота груза h: ${h_cm} см | Ход руки s: ${s_cm} см`; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
+            animationFrameId = requestAnimationFrame(draw);
+        }
+        draw();
+    }
+    canvas3.addEventListener('mousedown', (e) => { let p = getMousePos(canvas3, e); if (Math.abs(p.x-330)<20 && Math.abs(p.y-s3.hY)<20) s3.isDragging = true; });
+    canvas3.addEventListener('mousemove', (e) => { let p = getMousePos(canvas3, e); if (s3.isDragging) s3.hY = Math.max(150, Math.min(250, p.y)); });
+    window.addEventListener('mouseup', () => { s3.isDragging = false; });
+    function checkSlide3() { if(document.getElementById('code3').value.trim() === "30") changeSlide(1); else alert("Ошибка!"); }
 
-    function checkSlide1() {
-        let code = document.getElementById('code1').value.trim();
-        if (code === "1:2" || code === "2:4") {
-            alert("Правильно! Условие баланса выполнено.");
-            changeSlide(1);
+    // СЛАЙД 4: Подвижный блок
+    const canvas4 = document.getElementById('movableBlockCanvas'); const ctx4 = canvas4.getContext('2d');
+    let s4 = { hY: 250, isDragging: false, blY: 250 };
+    function initSlide4() {
+        function draw() {
+            ctx4.clearRect(0, 0, 600, 400);
+            s4.blY = 250 - (250 - s4.hY)/2;
+            let h_cm = Math.round((250 - s4.blY)*0.4), s_cm = Math.round((250 - s4.hY)*0.4);
+            ctx4.fillStyle = '#64748b'; ctx4.fillRect(250, 80, 40, 6);
+            ctx4.strokeStyle = '#64748b'; ctx4.lineWidth = 2;
+            ctx4.beginPath(); ctx4.moveTo(270, 86); ctx4.lineTo(270, s4.blY); ctx4.stroke();
+            ctx4.beginPath(); ctx4.moveTo(330, s4.hY); ctx4.lineTo(330, s4.blY); ctx4.stroke();
+            ctx4.strokeStyle = '#475569'; ctx4.lineWidth = 6; ctx4.beginPath(); ctx4.arc(300, s4.blY, 30, 0, Math.PI*2); ctx4.stroke();
+            ctx4.fillStyle = '#1e293b'; ctx4.fill();
+            ctx4.fillStyle = '#fb923c'; ctx4.fillRect(280, s4.blY+30, 40, 30);
+            ctx4.fillStyle = '#000'; ctx4.font = '10px sans-serif'; ctx4.fillText("200Н", 288, s4.blY+48);
+            ctx4.fillStyle = '#22c55e'; ctx4.beginPath(); ctx4.arc(330, s4.hY, 10, 0, Math.PI*2); ctx4.fill();
+            drawVector(ctx4, 300, s4.blY+45, 300, s4.blY+95, '#fb923c');
+            drawVector(ctx4, 330, s4.hY, 330, s4.hY-50, '#ef4444');
+            let st = document.getElementById('status4'), inp = document.getElementById('inputGroup4');
+            if (h_cm >= 20) { st.innerHTML = `✅ Груз на h = 20 см! Сколько см троса вытянула рука?`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else { st.innerHTML = `Высота ящика h: ${h_cm} см | Ход руки s: ${s_cm} см`; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
+            animationFrameId = requestAnimationFrame(draw);
+        }
+        draw();
+    }
+    canvas4.addEventListener('mousedown', (e) => { let p = getMousePos(canvas4, e); if (Math.abs(p.x-330)<20 && Math.abs(p.y-s4.hY)<20) s4.isDragging = true; });
+    canvas4.addEventListener('mousemove', (e) => { let p = getMousePos(canvas4, e); if (s4.isDragging) s4.hY = Math.max(150, Math.min(250, p.y)); });
+    window.addEventListener('mouseup', () => { s4.isDragging = false; });
+    function checkSlide4() { if(document.getElementById('code4').value.trim() === "40") changeSlide(1); else alert("Ошибка!"); }
+    // СЛАЙД 5: Геймифицированный финальный тест
+    function checkFinalQuiz(card, val) {
+        let cards = document.querySelectorAll('.quiz-card');
+        cards.forEach(c => c.classList.remove('correct', 'wrong'));
+        let verdict = document.getElementById('finalVerdict');
+        if (val === '90') {
+            card.classList.add('correct');
+            verdict.innerHTML = "🚀 Превосходно! КПД = (360·5)/2000 · 100% = 90%. Практикум успешно пройден!";
+            verdict.style.color = "#22c55e";
         } else {
-            alert("Ошибка. Попробуйте еще раз.");
+            card.classList.add('wrong');
+            verdict.innerHTML = "❌ Ошибка. Подсказка: Вычислите полезную работу Aполезная = P·h = 1800 Дж.";
+            verdict.style.color = "#ef4444";
         }
     }
-
-    function checkQuiz() {
-        let ans = document.getElementById('kpdInput').value.trim();
-        if (ans === "90") {
-            alert("Отлично! КПД = (360 * 5) / 2000 * 100% = 90%. Практикум пройден!");
-        } else {
-            alert("Неверно. Посчитайте полезную работу по формуле P * h.");
-        }
-    }
-
-    window.onload = () => { initSlide1Sim(); };
+    window.onload = () => { initSlide1(); };
 </script>
 </body>
 </html>
