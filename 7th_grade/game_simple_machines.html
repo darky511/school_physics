@@ -251,9 +251,29 @@
         let p = getMousePos(canvas1, e), dx = p.x-s1.pX, dy = p.y-s1.pY, rx = dx*Math.cos(-s1.angle) - dy*Math.sin(-s1.angle);
         [s1.w1, s1.w2].forEach(w => { if (Math.abs(rx-w.x) < 25 && Math.abs(dy)<40) w.isDragging = true; });
     });
-    canvas1.addEventListener('mousemove', (e) => {
-        let p = getMousePos(canvas1, e), dx = p.x-s1.pX, dy = p.y-s1.pY, rx = dx*Math.cos(-s1.angle) - dy*Math.sin(-s1.angle);
-        [s1.w1, s1.w2].forEach(w => { if(w.isDragging){ if(w===s1.w1) w.x=Math.max(-220, Math.min(-15, rx)); if(w===s1.w2) w.x=Math.max(15, Math.min(220, rx)); } });
+    canvas2.addEventListener('mousemove', (e) => {
+        let p = getMousePos(canvas2, e);
+        if (s2.dragged) {
+            let w = s2.dragged;
+            w.x = p.x;
+            w.y = p.y;
+    
+            let dx = w.x - s2.pX;
+            let dy = w.y - s2.pY;
+            let rx = dx * Math.cos(-s2.angle) - dy * Math.sin(-s2.angle);
+            let ry = dx * Math.sin(-s2.angle) + dy * Math.cos(-s2.angle);
+    
+            if (Math.abs(ry) < 45 && Math.abs(rx) < 220) {
+                // === ИЗМЕНЕНИЕ: Фиксация на каждом целом сантиметре (1 см = 4 пикселя) ===
+                w.relX = Math.round(rx / 4) * 4; 
+                
+                w.onBeam = true;
+                w.x = s2.pX + w.relX * Math.cos(s2.angle) - (-8) * Math.sin(s2.angle);
+                w.y = s2.pY + w.relX * Math.sin(s2.angle) + (-8) * Math.cos(s2.angle);
+            } else {
+                w.onBeam = false;
+            }
+        }
     });
     window.addEventListener('mouseup', () => { s1.w1.isDragging = s1.w2.isDragging = false; });
     function checkSlide1() { let v = document.getElementById('code1').value.trim(); if (v === "1/2" || v === "0.5") changeSlide(1); else alert("Неверно. d₁=20см, d₂=40см. Отношение 20/40 = 1/2."); }
@@ -371,42 +391,41 @@
     window.addEventListener('mouseup', () => { if(s2.dragged) { if(!s2.dragged.onBeam) { s2.dragged.x = s2.dragged.ox; s2.dragged.y = s2.dragged.oy; } s2.dragged = null; } });
 
     function checkSlide2() {
-    // 1. Инициализируем сумму моментов для одной из сторон
-    let correctMoment = 0;
-
-    // 2. Рассчитываем сумму моментов сил только с ЛЕВОЙ стороны рычага (w.relX < 0)
-    s2.weights.forEach(w => {
-        if (w.onBeam && w.relX < 0) {
-            let d = Math.abs(w.relX) / 40; // Переводим пиксели в деления
-            correctMoment += w.f * (d * 0.1); // Сила * плечо в метрах (0.1 м)
-        }
-    });
-
-    // 3. Если ученик сбалансировал рычаг зеркально (все грузы ушли на ПРАВУЮ сторону),
-    // то считаем сумму моментов сил для правой стороны (w.relX > 0)
-    if (correctMoment === 0) {
+        let mLeft = 0;
+        let mRight = 0;
+    
+        // Считаем моменты для обеих сторон, исходя из шага в 1 см (4 пикселя)
         s2.weights.forEach(w => {
-            if (w.onBeam && w.relX > 0) {
-                let d = Math.abs(w.relX) / 40;
-                correctMoment += w.f * (d * 0.1);
+            if (w.onBeam) {
+                // Находим точное целое число сантиметров
+                let cm = Math.round(Math.abs(w.relX) / 4); 
+                // Переводим сантиметры в метры (1 см = 0.01 м)
+                let d = cm * 0.01; 
+                
+                if (w.relX < 0) {
+                    mLeft += w.f * d;
+                } else {
+                    mRight += w.f * d;
+                }
             }
         });
+    
+        // Округляем до 2 знаков после запятой (например, 7.6 или 1.32)
+        mLeft = Math.round(mLeft * 100) / 100;
+        mRight = Math.round(mRight * 100) / 100;
+    
+        let rawInput = document.getElementById('code2').value.trim();
+        let studentAnswer = parseFloat(rawInput.replace(',', '.'));
+    
+        // Проверяем, совпал ли ответ ученика с левым или правым рассчитанным моментом
+        if (!isNaN(studentAnswer) && (studentAnswer === mLeft || studentAnswer === mRight) && studentAnswer > 0) {
+            changeSlide(1);
+        } else {
+            // Выбираем для подсказки то значение, которое не равно нулю
+            let correctMoment = mLeft > 0 ? mLeft : mRight;
+            alert(`Неверно. При данном расположении грузов сумма моментов сил с одной стороны составляет ${correctMoment} Н·м.`);
+        }
     }
-
-    // 4. Округляем эталонное значение до 1 знака после запятой (избавляемся от погрешностей JS)
-    correctMoment = Math.round(correctMoment * 10) / 10;
-
-    // 5. Получаем и форматируем ответ ученика
-    let rawInput = document.getElementById('code2').value.trim();
-    let studentAnswer = parseFloat(rawInput.replace(',', '.')); // Меняем запятую на точку
-
-    // 6. Проверяем ответ на соответствие динамически рассчитанному моменту
-    if (!isNaN(studentAnswer) && studentAnswer === correctMoment && correctMoment > 0) {
-        changeSlide(1);
-    } else {
-        alert(`Неверно. При данном расположении грузов сумма моментов сил с одной стороны составляет ${correctMoment} Н·м.`);
-    }
-}
     
     // СЛАЙД 3: Неподвижный блок
     const canvas3 = document.getElementById('fixedBlockCanvas'); const ctx3 = canvas3.getContext('2d');
