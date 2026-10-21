@@ -320,17 +320,52 @@
     }
     canvas2.addEventListener('mousedown', (e) => {
         let p = getMousePos(canvas2, e);
-        s2.weights.forEach(w => { if (Math.abs(p.x - w.x) < 25 && Math.abs(p.y - w.y) < 20) { s2.dragged = w; w.onBeam = false; } });
+        
+        // Переводим координаты клика мыши в повернутую систему координат рычага
+        let dx = p.x - s2.pX;
+        let dy = p.y - s2.pY;
+        let rx = dx * Math.cos(-s2.angle) - dy * Math.sin(-s2.angle);
+        let ry = dx * Math.sin(-s2.angle) + dy * Math.cos(-s2.angle);
+
+        s2.weights.forEach(w => {
+            if (w.onBeam) {
+                // Если груз на балке, проверяем клик в локальных координатах балки
+                if (Math.abs(rx - w.relX) < 25 && ry < 5 && ry > -25) {
+                    s2.dragged = w;
+                    w.onBeam = false;
+                }
+            } else {
+                // Если груз внизу в депо, проверяем обычные координаты
+                if (Math.abs(p.x - w.x) < 25 && Math.abs(p.y - w.y) < 20) {
+                    s2.dragged = w;
+                }
+            }
+        });
     });
+
     canvas2.addEventListener('mousemove', (e) => {
         let p = getMousePos(canvas2, e);
-        if(s2.dragged) {
-            let w = s2.dragged; w.x = p.x; w.y = p.y;
-            if(Math.abs(w.y - s2.pY) < 40 && Math.abs(w.x - s2.pX) < 220) {
-                w.relX = (w.x - s2.pX) * Math.cos(-s2.angle) - (w.y - s2.pY) * Math.sin(-s2.angle);
+        if (s2.dragged) {
+            let w = s2.dragged;
+            w.x = p.x;
+            w.y = p.y;
+
+            // Проверяем проекцию на балку с учетом ее текущего наклона
+            let dx = w.x - s2.pX;
+            let dy = w.y - s2.pY;
+            let rx = dx * Math.cos(-s2.angle) - dy * Math.sin(-s2.angle);
+            let ry = dx * Math.sin(-s2.angle) + dy * Math.cos(-s2.angle);
+
+            // Если во время переноса мышь находится в радиусе 45px от повернутой балки
+            if (Math.abs(ry) < 45 && Math.abs(rx) < 220) {
+                w.relX = rx;
                 w.onBeam = true;
-                w.x = s2.pX + w.relX * Math.cos(s2.angle); w.y = s2.pY + w.relX * Math.sin(s2.angle);
-            } else { w.onBeam = false; }
+                // Рассчитываем правильные экранные координаты повернутого груза на лету
+                w.x = s2.pX + w.relX * Math.cos(s2.angle) - (-8) * Math.sin(s2.angle);
+                w.y = s2.pY + w.relX * Math.sin(s2.angle) + (-8) * Math.cos(s2.angle);
+            } else {
+                w.onBeam = false;
+            }
         }
     });
     window.addEventListener('mouseup', () => { if(s2.dragged) { if(!s2.dragged.onBeam) { s2.dragged.x = s2.dragged.ox; s2.dragged.y = s2.dragged.oy; } s2.dragged = null; } });
