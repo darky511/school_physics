@@ -278,8 +278,10 @@ function updateSliderUI() {
 
 function initMouseListeners() {
     const attach = (id, down, move, up) => {
-        const el = document.getElementById(id); if (!el) return;
-        el.addEventListener('mousedown', down); el.addEventListener('mousemove', move);
+        const el = document.getElementById(id); 
+        if (!el) return;
+        el.addEventListener('mousedown', down); 
+        el.addEventListener('mousemove', move);
         window.addEventListener('mouseup', up);
     };
     attach('canvasLever', onLeverDown, onLeverMove, onLeverUp);
@@ -287,6 +289,7 @@ function initMouseListeners() {
     attach('canvasFixedBlock', onFixedDown, onFixedMove, onFixedUp);
     attach('canvasMovableBlock', onMovableDown, onMovableMove, onMovableUp);
 }
+
 </script>
 <script>
 function renderActiveCanvas() {
@@ -341,24 +344,34 @@ function onLeverDown(e) {
 }
 
 function onLeverMove(e) {
-    if (!isDragging || currentSlide !== 1) return;
-    const canvas = e.target; const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left; const cx = canvas.width / 2;
+    if (!isDragging || dragTarget === null || currentSlide !== 1) return;
+    const canvas = e.target; 
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left; 
+    const cx = canvas.width / 2;
     
     let gridUnits = (mx - cx) / leverState.stepPx;
     
     if (dragTarget === 'left') {
-        let d1 = -gridUnits; if (d1 < 1) d1 = 1; if (d1 > 8) d1 = 8;
-        leverState.d1 = Math.round(d1 * 2) / 2; // Шаг 0.5 деления
+        let d1 = -gridUnits; 
+        if (d1 < 1) d1 = 1; 
+        if (d1 > 8) d1 = 8;
+        leverState.d1 = Math.round(d1 * 2) / 2; // Шаг по половинке деления (5 см)
     } else if (dragTarget === 'right') {
-        let d2 = gridUnits; if (d2 < 1) d2 = 1; if (d2 > 8) d2 = 8;
+        let d2 = gridUnits; 
+        if (d2 < 1) d2 = 1; 
+        if (d2 > 8) d2 = 8;
         leverState.d2 = Math.round(d2 * 2) / 2;
     }
     
-    // Проверка жесткого физического баланса: M1 = M2 (60 * d1 = 30 * d2)
+    // Проверка физического условия равновесия: M1 = M2 (60 * d1 = 30 * d2)
     if (leverState.f1 * leverState.d1 === leverState.f2 * leverState.d2) {
-        leverState.balanced = true; isDragging = false; dragTarget = null;
+        leverState.balanced = true;
         document.getElementById('math_zone_lever').style.display = 'block';
+    } else {
+        // Если ученик увёл груз из точки баланса — скрываем зону ответа
+        leverState.balanced = false;
+        document.getElementById('math_zone_lever').style.display = 'none';
     }
     drawLever();
 }
@@ -445,13 +458,24 @@ function onConstrMove(e) {
 }
 
 function onConstrUp() {
-    if (!isDragging || currentSlide !== 2) return;
-    // Если груз брошен вне балки, он мгновенно возвращается на базу в депо
-    if (dragTarget.y > canvasConstructor.height / 2) {
-        dragTarget.x = dragTarget.homeX; dragTarget.y = dragTarget.homeY;
+    if (!isDragging || currentSlide !== 2 || !dragTarget) return;
+    
+    const canvas = document.getElementById('canvasConstructor');
+    if (canvas && dragTarget.y > canvas.height / 2) {
+        // Если груз брошен в депо — возвращаем на домашнюю позицию
+        dragTarget.x = dragTarget.homeX; 
+        dragTarget.y = dragTarget.homeY;
     }
-    isDragging = false; dragTarget = null; checkConstructorBalance(canvasConstructor); drawConstructor();
+    
+    isDragging = false; 
+    dragTarget = null; 
+    
+    if (canvas) {
+        checkConstructorBalance(canvas); 
+        drawConstructor();
+    }
 }
+
 
 function checkConstructorBalance(canvas) {
     const cx = canvas.width / 2; const cy = canvas.height / 2 - 25;
