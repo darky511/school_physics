@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лаборатория статики: Простые механизмы и КПД</title>
+    <title>Простые механизмы и КПД</title>
 </head>
 <body>
 
@@ -92,8 +92,11 @@
                 <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 10px;">
                     Ось вращения подвижного блока перемещается вместе с грузом. Свободный конец веревки, закрепленный на потолке, берет на себя ровно половину веса. Механизм работает как рычаг с разными плечами: d₁ = R, d₂ = 2R.
                 </p>
-                <div class="methodology-card" style="padding: 10px; font-size: 12.5px; border-color: #22c55e; margin-bottom: 10px;">
+                <!-- <div class="methodology-card" style="padding: 10px; font-size: 12.5px; border-color: #22c55e; margin-bottom: 10px;">
                     <strong style="color: #22c55e;">Физический итог:</strong> Подвижный блок <span style="color: #22c55e; font-weight: bold;">дает выигрыш в силе в 2 раза</span> (F = P / 2).
+                </div> -->
+                <div class="methodology-card" style="padding: 10px; font-size: 12.5px; border-color: #22c55e; margin-bottom: 10px;">
+                    <strong style="color: #22c55e;">Физический итог:</strong> Подвижный блок <strong>дает выигрыш в силе в 2 раза</strong> (F = P / 2), но согласно Золотому правилу механики мы ровно <strong>в 2 раза проигрываем в расстоянии</strong> (при подъеме груза на высоту h придется вытянуть трос длиной s = 2h).
                 </div>
                 <div class="sim-controls" style="margin-top: auto;">
                     <button class="btn btn-accent" style="width: 100%;" onclick="toggleBlockSim('movable')">Поднять блок (Анимация)</button>
@@ -107,7 +110,7 @@
         <div class="slide-grid">
             <div class="content-side">
                 <span class="slide-type">Этап 5. Энергетический баланс</span>
-                <h2>Суть КПД на пальцах</h2>
+                <h2>Суть КПД</h2>
                 <p class="text-concentrate" style="font-size: 13px; line-height: 1.45; margin-bottom: 10px;">
                     Выигрывая в силе с помощью любого механизма, мы всегда ровно во столько же раз <strong style="color: #fb923c;">проигрываем в расстоянии</strong>. Ни один прибор в мире не умеет экономить работу или энергию!
                 </p>
@@ -126,10 +129,10 @@
     <!-- СЛАЙД 6: Блиц-квиз по ловушкам ФИПИ -->
     <div class="slide" id="slide6">
         <div class="slide-inner">
-            <span class="slide-type">Этап 6. Закрепление и ловушки КИМ</span>
-            <h2>Расчетный блиц-тест на понимание КПД подвижного блока</h2>
+            <span class="slide-type">Этап 6. Закрепление</span>
+            <h2>КПД подвижного блока</h2>
             <p class="text-concentrate" style="margin-bottom: 15px; font-size: 13.5px;">
-                <strong>Ловушка ФИПИ:</strong> Если груз с помощью подвижного блока поднимается на высоту h = 1 метр, свободный конец веревки, за который тянет рабочий, смещается на расстояние s = 2 метра.<br><br>
+                <strong>Важно помнить:</strong> Если груз с помощью подвижного блока поднимается на высоту h = 1 метр, свободный конец веревки, за который тянет рабочий, смещается на расстояние s = 2 метра.<br><br>
                 Рабочий поднимает ящик массой 40 кг с помощью подвижного блока массой 4 кг равномерно вверх. Какая сила F потребуется для подъема в идеальном случае (без учета трения), если вес блока суммируется с весом груза? Примите g = 10 м/с².
             </p>
             <div style="display: flex; flex-direction: column; gap: 8px;">
