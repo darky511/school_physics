@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Виртуальная физ-лаборатория ОГЭ: Простые механизмы</title>
+    <title>Простые механизмы</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; user-select: none; }
         body { background-color: #04060a; color: #f8fafc; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
@@ -53,7 +53,7 @@
 <body>
 <div class="app-container">
     <header class="app-header">
-        <div class="logo">🚀 ФИЗ-ЛАБ // ОГЭ</div>
+        <div class="logo">🚀 ФИЗ-ЛАБ</div>
         <div class="progress-bar-container"><div class="progress-fill" id="progressFill" style="width: 20%;"></div></div>
         <div class="slide-counter" id="slideCounter">Слайд 1 из 5</div>
     </header>
@@ -75,7 +75,7 @@
                     <div class="validation-zone">
                         <div class="status-msg" id="status1">⚠️ Двигайте грузы для достижения баланса.</div>
                         <div class="input-group hidden" id="inputGroup1">
-                            <div class="question-text">Вопрос: Чему равно отношение плеч d₁/d₂ в состоянии равновесия? Запишите ответ в виде дроби (например, 1/2).</div>
+                            <div class="question-text">Вопрос: Чему равно отношение плеч d₁/d₂ в состоянии равновесия? Запишите ответ в виде дроби (например, 1/6).</div>
                             <div class="flex-row">
                                 <input type="text" id="code1" placeholder="Введите отношение d₁/d₂">
                                 <button onclick="checkSlide1()">Проверить</button>
@@ -95,7 +95,14 @@
                         <span class="badge badge-adv">Продвинутый уровень</span>
                         <h2>Конструктор моментов сил</h2>
                         <p class="instruction">Изначально рычаг пуст. Перенесите из нижнего хранилища на балку все три груза. Сбалансируйте моменты сил слева и справа. Текущие плечи сил видны над каждым установленным грузом.</p>
-                        <div class="depot-title">Грузы в депо (внизу холста) 👇</div>
+                        
+                        <!-- Значения сил по цветам грузов -->
+                        <div class="metrics" style="margin: 10px 0;">
+                            <div class="metric-item"><span class="dot purple"></span> Фиолетовый груз: F = 40 Н</div>
+                            <div class="metric-item"><span class="dot orange"></span> Желтый груз: F = 20 Н</div>
+                            <div class="metric-item"><span class="dot green"></span> Зеленый груз: F = 10 Н</div>
+                        </div>
+                        <div class="depot-title">Грузы в депо (внизу холста)</div>
                     </div>
                     <div class="validation-zone">
                         <div class="status-msg" id="status2">Перенесите все 3 груза на балку.</div>
