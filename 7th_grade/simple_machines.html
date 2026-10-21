@@ -501,7 +501,7 @@ function checkQuizMechanics(btn, isCorrect) {
     
     if (isCorrect) {
         btn.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Отлично! Системная ловушка раскрыта.</span> Общая mass поднимаемой системы равна m = 40 + 4 = 44 кг. Общий вес системы Pобщ = m · g = 440 Н. Так как подвижный блок делит силу пополам, идеальное усилие равно F = 440 / 2 = 220 Н.';
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Отлично!</span> Общая масса поднимаемой системы равна m = 40 + 4 = 44 кг. Общий вес системы Pобщ = m · g = 440 Н. Так как подвижный блок делит силу пополам, идеальное усилие равно F = 440 / 2 = 220 Н.';
     } else {
         btn.classList.add('wrong-highlight');
         feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка.</span> Вы забыли учесть массу самого подвижного блока, который поднимается в пространстве вместе с грузом. Верный ответ №2: F = (40 кг + 4 кг) · 10 / 2 = 220 Н.';
