@@ -3,177 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sci-Fi Квест: Инженеры Статики</title>
+    <title>Интерактивный практикум: Простые механизмы</title>
 </head>
 <body>
 
 <div class="app-container">
     <header class="app-header">
-        <div class="topic-badge" id="questTitle">🚀 Квест 1: Калибровка шлюза</div>
+        <div class="topic-badge" id="questTitle">Уровень 1: Равновесие рычага</div>
         <div class="progress-bar-container">
             <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
         </div>
-        <div class="score-badge" id="scoreDisplay">Энергия: 100%</div>
+        <div class="score-badge" id="scoreDisplay">Задание 1 из 3</div>
     </header>
 
-    <!-- ЭТАП 1: РЫЧАГ (ИНТЕРАКТИВНЫЙ БАЛАНС) -->
+    <!-- СЛАЙД 1: РЫЧАГ (ПЕРЕТАСКИВАНИЕ ГРУЗОВ МЫШЬЮ) -->
     <div class="slide active" id="slide1">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Задание 1. Балансировка балки</span>
-                <h2>Ручное управление: Найдите точку равновесия</h2>
-                <p class="text-concentrate" style="font-size: 12px; line-height: 1.4;">
-                    Слева на рычаге закреплен тяжелый блок аккумуляторов весом <span style="color:#ef4444; font-weight:bold;">P₁ = 60 Н</span> на фиксированном плече <span style="color:#ef4444; font-weight:bold;">d₁ = 20 см</span>.<br><br>
-                    <strong style="color:#38bdf8;">Ваша задача:</strong> Двигайте ползунком правый противовес силой <span style="color:#38bdf8; font-weight:bold;">F₂ = 30 Н</span> вдоль балки, пока рычаг не встанет идеально горизонтально!
+                <span class="slide-type">Лабораторная работа</span>
+                <h2>Условие равновесия рычага</h2>
+                <p class="text-concentrate" style="font-size: 13px; margin-bottom: 12px;">
+                    <strong>Инструкция:</strong> Нажимайте левой кнопкой мыши на грузы и перетаскивайте их по балке на целое число делений. Найдите положение, при котором моменты сил слева и справа станут равны, а балка зафиксируется горизонтально.
                 </p>
+                <div class="methodology-card" style="font-size: 12px; margin-bottom: 12px;">
+                    • Вес левого груза: F₁ = 60 Н (не перемещается)<br>
+                    • Вес правого груза: F₂ = 30 Н (перемещайте его)<br>
+                    • Цена одного деления линейки = 10 см
+                </div>
                 
-                <div class="control-box-group" style="margin-top: auto; display:flex; flex-direction:column; gap:8px;">
-                    <div class="slider-row">
-                        <label>Переместить плечо противовеса d₂: <span id="lever_d2_val" style="color:#38bdf8; font-weight:bold;">15</span> см</label>
-                        <input type="range" id="lever_d2_slider" min="15" max="55" value="15" oninput="handleLeverDrag()">
+                <!-- Расчетная зона (скрыта по умолчанию, появляется при балансе) -->
+                <div class="answer-zone" id="math_zone_lever" style="display: none; margin-top: auto;">
+                    <p class="text-concentrate" style="font-size: 12.5px; color: #4ade80; margin-bottom: 8px; font-weight: bold;">
+                        ✓ Равновесие найдено! Введите расчетный код:
+                    </p>
+                    <div class="input-row">
+                        <input type="text" id="input_m1" class="oga-input" placeholder="Чему равен момент сил М₁ и М₂ (в Н·см)?">
+                        <button class="btn btn-accent" style="width:110px;" onclick="validateLeverMath()">Проверить</button>
                     </div>
-                    <button class="btn btn-accent" id="lever_lock_btn" onclick="lockLeverStage()" disabled>Зафиксировать баланс (Рычаг нестабилен)</button>
                 </div>
+                <div id="leverFeedback" class="text-concentrate" style="margin-top: 10px; font-weight: 600; min-height: 20px;"></div>
             </div>
-            <div class="visual-side"><canvas id="canvasQuestLever"></canvas></div>
+            <div class="visual-side" id="holder_lever">
+                <canvas id="canvasLever"></canvas>
+            </div>
         </div>
     </div>
-    <!-- ЭТАП 1: РЫЧАГ (РАСЧЕТНАЯ ЧАСТЬ) -->
+    <!-- СЛАЙД 2: НЕПОДВИЖНЫЙ БЛОК -->
     <div class="slide" id="slide2">
-        <div class="slide-inner">
-            <span class="slide-type">Квест 1. Математический замок</span>
-            <h2>Бортовой компьютер: Подтвердите калибровку расчетом</h2>
-            <p class="text-concentrate" style="margin-bottom: 15px;">
-                Вы успешно нашли баланс рычага на ощупь. Чтобы компьютер шлюза открыл заслонку, подтвердите физическое равенство моментов сил. Рассчитайте вращательный момент сил с каждой стороны (M = F · d) в найденной точке равновесия.
-            </p>
-            <div class="methodology-card" style="margin-bottom: 15px; font-size:12.5px; line-height:1.5;">
-                Вы зафиксировали правое плечо на расстоянии: <span id="final_d2_txt" style="color:#38bdf8; font-weight:bold;">40</span> см.<br>
-                Левые параметры: P₁ = 60 Н, d₁ = 20 см. Правые параметры: F₂ = 30 Н.
-            </div>
-            <div class="answer-zone" style="display:grid; grid-template-columns: 1fr; gap:10px;">
-                <div class="input-row">
-                    <input type="text" id="input_m1" class="oga-input" placeholder="Чему равен момент сил М₁ и М₂ (в Н·см)?">
-                    <button class="btn btn-accent" style="width:120px;" onclick="validateLeverMath()">Ввод кода</button>
+        <div class="slide-grid">
+            <div class="content-side">
+                <span class="slide-type">Лабораторная работа</span>
+                <h2>Работа неподвижного блока</h2>
+                <p class="text-concentrate" style="font-size: 13px; margin-bottom: 12px;">
+                    <strong>Инструкция:</strong> Зажмите мышкой зеленый наконечник правого троса и тяните его строго вниз. Поднимите левый груз весом P = 120 Н на высоту ровно 30 см (ориентируйтесь по измерительной шкале делений).
+                </p>
+                <div class="methodology-card" style="font-size: 12px; margin-bottom: 12px;">
+                    • Вес поднимаемого ящика: P = 120 Н<br>
+                    • Цена одного деления измерительной шкалы = 10 см
                 </div>
+                
+                <!-- Расчетная зона (появляется при достижении 30 см) -->
+                <div class="answer-zone" id="math_zone_fixed" style="display: none; margin-top: auto;">
+                    <p class="text-concentrate" style="font-size: 12.5px; color: #4ade80; margin-bottom: 8px; font-weight: bold;">
+                        ✓ Груз поднят на 30 см! Введите расчетный код:
+                    </p>
+                    <div class="input-row">
+                        <input type="text" id="input_fixed_work" class="oga-input" placeholder="Вычислите полезную работу (в Джоулях)">
+                        <button class="btn btn-accent" style="width:110px;" onclick="validateFixedMath()">Проверить</button>
+                    </div>
+                </div>
+                <div id="fixedFeedback" class="text-concentrate" style="margin-top: 10px; font-weight: 600; min-height: 20px;"></div>
             </div>
-            <div id="leverFeedback" class="text-concentrate" style="margin-top:15px; font-weight:600; min-height:20px;"></div>
+            <div class="visual-side" id="holder_fixed">
+                <canvas id="canvasFixedBlock"></canvas>
+            </div>
         </div>
     </div>
-    <!-- ЭТАП 2: НЕПОДВИЖНЫЙ БЛОК (ИНТЕРАКТИВ) -->
+    <!-- СЛАЙД 3: ПОДВИЖНЫЙ БЛОК -->
     <div class="slide" id="slide3">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Задание 2. Ручной подъем</span>
-                <h2>Ручное управление: Вытяните застрявший кабель</h2>
-                <p class="text-concentrate" style="font-size: 12.5px;">
-                    Для восстановления связи нужно поднять оборванный кабель с весовым датчиком <span style="color:#fb923c; font-weight:bold;">P = 120 Н</span> через неподвижный вертолетный блок.<br><br>
-                    <strong style="color:#22c55e;">Ваша задача:</strong> Тяните ползунок веревки строго вниз, чтобы поднять груз на высоту <span style="color:#22c55e; font-weight:bold;">h = 30 см</span>. Следите за датчиками пути!
+                <span class="slide-type">Лабораторная работа</span>
+                <h2>Золотое правило подвижного блока</h2>
+                <p class="text-concentrate" style="font-size: 13px; margin-bottom: 12px;">
+                    <strong>Инструкция:</strong> Зажмите мыblock зеленый наконечник правого троса и тяните его строго вверх. Поднимите ящик весом P = 200 Н на высоту ровно 20 см (до фиолетовой отметки). Обратите внимание на длину вытянутой веревки.
                 </p>
-                <div class="control-box-group" style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
-                    <div class="slider-row">
-                        <label>Тянуть трос вниз (Вытяжка s): <span id="fixed_s_val" style="color:#22c55e; font-weight:bold;">0</span> см</label>
-                        <input type="range" id="fixed_slider" min="0" max="45" value="0" oninput="handleFixedBlockDrag()">
-                    </div>
-                    <button class="btn btn-accent" id="fixed_lock_btn" onclick="lockFixedStage()" disabled>Груз не на нужной высоте</button>
+                <div class="methodology-card" style="font-size: 12px; margin-bottom: 12px;">
+                    • Вес ящика: P = 200 Н, прикладываемая сила тяги: F = 100 Н<br>
+                    • Цена одного деления измерительной шкалы = 10 см
                 </div>
+                
+                <!-- Расчетная зона (появляется при достижении 20 см) -->
+                <div class="answer-zone" id="math_zone_movable" style="display: none; margin-top: auto;">
+                    <p class="text-concentrate" style="font-size: 12.5px; color: #4ade80; margin-bottom: 8px; font-weight: bold;">
+                        ✓ Груз поднят на 20 см! Введите расчетный код:
+                    </p>
+                    <div class="input-row">
+                        <input type="text" id="input_movable_dist" class="oga-input" placeholder="Сколько см веревки пришлось вытянуть?">
+                        <button class="btn btn-accent" style="width:110px;" onclick="validateMovableMath()">Проверить</button>
+                    </div>
+                </div>
+                <div id="movableFeedback" class="text-concentrate" style="margin-top: 10px; font-weight: 600; min-height: 20px;"></div>
             </div>
-            <div class="visual-side"><canvas id="canvasQuestFixed"></canvas></div>
+            <div class="visual-side" id="holder_movable">
+                <canvas id="canvasMovableBlock"></canvas>
+            </div>
         </div>
     </div>
-    <!-- ЭТАП 2: НЕПОДВИЖНЫЙ БЛОК (РАСЧЕТНАЯ ЧАСТЬ) -->
+    <!-- СЛАЙД 4: ФИНАЛЬНЫЙ ТЕСТ КПД -->
     <div class="slide" id="slide4">
         <div class="slide-inner">
-            <span class="slide-type">Квест 2. Энергетический замок</span>
-            <h2>Бортовой компьютер: Расчет совершенной механической работы</h2>
-            <p class="text-concentrate" style="margin-bottom: 12px;">
-                Кабель успешно извлечен на высоту h = 30 см. Датчик натяжения показал, что вы прикладывали силу F = 120 Н. Введите величину полезной работы (A = F · s), затраченной вашими руками, переведя сантиметры пути в системные метры СИ!
-            </p>
-            <div class="methodology-card" style="margin-bottom:12px; font-size:12.5px; font-family:monospace;">
-                Параметры системы:<br>
-                • Сила натяжения троса: F = 120 Н<br>
-                • Расстояние вытяжки троса s: 30 см (0.3 метра)
-            </div>
-            <div class="answer-zone">
-                <div class="input-row">
-                    <input type="text" id="input_fixed_work" class="oga-input" placeholder="Введите работу в Джоулях [Дж]">
-                    <button class="btn btn-accent" style="width:120px;" onclick="validateFixedMath()">Ввод кода</button>
-                </div>
-            </div>
-            <div id="fixedFeedback" class="text-concentrate" style="margin-top:15px; font-weight:600; min-height:20px;"></div>
-        </div>
-    </div>
-    <!-- ЭТАП 3: ПОДВИЖНЫЙ БЛОК (ИНТЕРАКТИВ) -->
-    <div class="slide" id="slide5">
-        <div class="slide-grid">
-            <div class="content-side">
-                <span class="slide-type">Задание 3. Подвижный подвес</span>
-                <h2>Ручное управление: Эвакуация исследовательского зонда</h2>
-                <p class="text-concentrate" style="font-size: 12.5px;">
-                    Грузовой отсек заклинило. Чтобы поднять зонд весом <span style="color:#fb923c; font-weight:bold;">P = 200 Н</span>, инженеры смонтировали подвижный блок. 
-                    Внимательно следите за тем, как быстро удлиняется верхний свободный трос по сравнению с ходом ящика зонда!<br><br>
-                    <strong style="color:#22c55e;">Ваша задача:</strong> Вытяните трос руками вверх так, чтобы поднять зонд ровно на высоту <span style="color:#fb923c; font-weight:bold;">h = 20 см</span>.
-                </p>
-                <div class="control-box-group" style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
-                    <div class="slider-row">
-                        <label>Вытяжка троса руками вверх (s): <span id="movable_s_val" style="color:#22c55e; font-weight:bold;">0</span> см</label>
-                        <input type="range" id="movable_slider" min="0" max="50" value="0" oninput="handleMovableDrag()">
-                    </div>
-                    <button class="btn btn-accent" id="movable_lock_btn" onclick="lockMovableStage()" disabled>Зонд не на отметке 20 см</button>
-                </div>
-            </div>
-            <div class="visual-side"><canvas id="canvasQuestMovable"></canvas></div>
-        </div>
-    </div>
-    <!-- ЭТАП 3: ПОДВИЖНЫЙ БЛОК (РАСЧЕТНАЯ ЧАСТЬ) -->
-    <div class="slide" id="slide6">
-        <div class="slide-inner">
-            <span class="slide-type">Квест 3. Проверка золотого правила</span>
-            <h2>Бортовой компьютер: Подтвердите проигрыш в расстоянии</h2>
-            <p class="text-concentrate" style="margin-bottom: 15px;">
-                Зонд спасен. Подвижный блок дал вам двукратный выигрыш в силе (вы прикладывали всего F = 100 Н вместо веса зонда 200 Н). Введите точное число сантиметров веревки, которое вам пришлось вытянуть руками, чтобы поднять зонд на высоту h = 20 см!
-            </p>
-            <div class="answer-zone">
-                <div class="input-row">
-                    <input type="text" id="input_movable_dist" class="oga-input" placeholder="Сколько см троса вы вытянули?">
-                    <button class="btn btn-accent" style="width:120px;" onclick="validateMovableMath()">Ввод кода</button>
-                </div>
-            </div>
-            <div id="movableFeedback" class="text-concentrate" style="margin-top:15px; font-weight:600; min-height:20px;"></div>
-        </div>
-    </div>
-    <!-- ЭТАП 4: ФИНАЛЬНЫЙ ТЕСТ КПД (ИНЖЕНЕРНЫЙ ЭКЗАМЕН) -->
-    <div class="slide" id="slide7">
-        <div class="slide-inner">
-            <span class="slide-type">Квест 4. Запуск реактора стации</span>
-            <h2>Финальный инженерный замок: Расчет реального КПД</h2>
-            <p class="text-concentrate" style="margin-bottom: 12px; font-size:13.5px;">
-                Для запуска главного генератора станции рассчитайте КПД подъемной установки по реальным параметрам телеметрии. <br><br>
-                Рабочий поднимает бак с топливом весом <strong>P = 360 Н</strong> на высоту <strong>h = 5 метров</strong>. При этом полная работа силы натяжения троса, выполненная руками рабочего, составила <strong>A полная = 2000 Дж</strong> بسبب трения в осях. Чему равен КПД подъемника?
+            <span class="slide-type">Итоговый контроль</span>
+            <h2>Расчет коэффициента полезного действия (КПД)</h2>
+            <p class="text-concentrate" style="margin-bottom: 15px; font-size:13.5px;">
+                Для успешного завершения практикума решите итоговую задачу на КПД машин:<br><br>
+                С помощью подъемной установки груз весом <strong>P = 360 Н</strong> подняли на высоту <strong>h = 5 метров</strong>. При этом реально совершенная полная работа силами трения в механизме составила <strong>A полная = 2000 Дж</strong>. Чему равен КПД подъемника?
             </p>
             <div class="methodology-card" style="margin-bottom:15px; font-size:12px; font-family:monospace;">
-                Подсказка алгоритма инженера:<br>
-                1. Сначала найдите полезную работу подъема: A полезная = P · h (в Джоулях).<br>
-                2. Разделите полезную работу на известную полную (2000 Дж) и умножьте на 100%.
+                Формула подсказки:<br>
+                1. Вычислите полезную работу: A полезная = P · h (в Джоулях).<br>
+                2. Разделите полученное значение на А полную и переведите в проценты.
             </div>
             <div class="answer-zone">
                 <div class="input-row">
-                    <input type="text" id="input_final_eta" class="oga-input" placeholder="Введите КПД (только число процентов)">
-                    <button class="btn btn-accent" style="width:120px;" onclick="validateFinalEta()">Ввод кода</button>
+                    <input type="text" id="input_final_eta" class="oga-input" placeholder="Введите полученный КПД (только число процентов)">
+                    <button class="btn btn-accent" style="width:110px;" onclick="validateFinalEta()">Проверить</button>
                 </div>
             </div>
             <div id="finalFeedback" class="text-concentrate" style="margin-top:15px; font-weight:600; min-height:20px;"></div>
         </div>
     </div>
 
-    <!-- ЭКРАН ПОБЕДЫ -->
-    <div class="slide" id="slide8">
+    <!-- ЭКРАН ОКОНЧАНИЯ ПРАКТИКУМА -->
+    <div class="slide" id="slide5">
         <div class="slide-inner" style="text-align:center; justify-content:center; align-items:center; gap:20px;">
-            <div style="font-size:50px;">🏆</div>
-            <h2 style="font-size:22px; color:#4ade80;">Миссия выполнена! Станция спасена!</h2>
-            <p class="text-concentrate" style="max-width:500px; font-size:14px; line-height:1.5;">
-                Вы успешно освоили методологию простых механизмов на практике. Статический баланс моментов сил восстановлен, а законы сохранения энергии подтверждены бортовыми расчетами!
+            <div style="font-size:50px;">🎯</div>
+            <h2 style="font-size:20px; color:#4ade80;">Практикум успешно завершен!</h2>
+            <p class="text-concentrate" style="max-width:500px; font-size:13.5px; line-height:1.5;">
+                Вы экспериментально изучили работу простых механизмов, проверили на практике правило моментов сил и Золотое правило механики, а также закрепили навыки вычисления КПД.
             </p>
-            <button class="btn btn-accent" style="max-width:200px; padding:10px;" onclick="resetWholeQuest()">Пройти квест снова</button>
+            <button class="btn btn-accent" style="max-width:200px; padding:10px;" onclick="resetWholeQuest()">Пройти практикум заново</button>
         </div>
     </div>
 
@@ -192,15 +161,14 @@ body {
     width: 95vw; max-width: 960px; height: 85vh; max-height: 520px;
     background-color: #090d16; border: 1px solid #1e293b; border-radius: 16px;
     display: flex; flex-direction: column; justify-content: space-between; position: relative;
-    box-shadow: 0 0 30px rgba(56, 189, 248, 0.05);
 }
 .app-header {
     padding: 12px 20px; background-color: #0f172a; border-bottom: 1px solid #1e293b;
     border-top-left-radius: 15px; border-top-right-radius: 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px;
 }
-.topic-badge { font-size: 11px; text-transform: uppercase; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.2); }
+.topic-badge { font-size: 11px; text-transform: uppercase; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 6px; }
 .progress-bar-container { flex-grow: 1; height: 6px; background-color: #1e293b; border-radius: 3px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #a855f7); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #22c55e); transition: width 0.3s ease; }
 .score-badge { font-size: 12px; font-weight: 600; color: #4ade80; background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 6px; }
 .controls-footer { padding: 12px 20px; background-color: #0f172a; border-top: 1px solid #1e293b; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; justify-content: space-between; }
 .nav-btn { background-color: #1e293b; color: #f8fafc; border: none; padding: 8px 18px; font-size: 13px; border-radius: 8px; cursor: pointer; font-weight: 600; }
@@ -212,43 +180,40 @@ body {
 .slide-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; height: 100%; }
 .slide-inner { display: flex; flex-direction: column; height: 100%; }
 .content-side { display: flex; flex-direction: column; height: 100%; }
-.visual-side { background-color: #05070f; border: 1px solid #1e293b; border-radius: 12px; position: relative; overflow: hidden; height: 100%; }
+.visual-side { background-color: #05070f; border: 1px solid #1e293b; border-radius: 12px; position: relative; overflow: hidden; height: 100%; cursor: default; }
 .visual-side canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .slide-type { font-size: 10px; text-transform: uppercase; color: #fb923c; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
 h2 { font-size: 15px; font-weight: 600; color: #f8fafc; margin-bottom: 10px; line-height: 1.4; }
 .text-concentrate { font-size: 13px; line-height: 1.45; color: #94a3b8; }
-.methodology-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 8px; padding: 12px; }
-.btn { background-color: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 8px 14px; font-size: 12px; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; width: 100%; }
-.btn-accent { border-color: #38bdf8; color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.05); }
-.btn-accent:hover:not(:disabled) { background: rgba(56, 189, 248, 0.08); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
-.btn-accent:disabled { border-color: #1e293b; color: #475569; cursor: not-allowed; background: #070a12; }
-.btn-card { background: #05070f; border: 1px solid #1e293b; border-radius: 8px; color: #cbd5e1; text-align: left; padding: 12px; font-size: 12.5px; width: 100%; }
-.btn-card:hover:not(:disabled) { border-color: #38bdf8; background: #090d16; }
-.correct-highlight { background-color: rgba(34, 197, 94, 0.1) !important; border-color: #22c55e !important; color: #4ade80 !important; }
-.wrong-highlight { background-color: rgba(239, 68, 68, 0.1) !important; border-color: #ef4444 !important; color: #f43f5e !important; }
-.answer-zone { background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px; border: 1px dashed #334155; }
+.methodology-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 8px; padding: 10px; color: #e2e8f0; line-height: 1.4; }
+.btn { background-color: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 7px 12px; font-size: 11.5px; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; }
+.btn-accent { border-color: #38bdf8; color: #38bdf8; }
+.btn-accent:hover { background: rgba(56, 189, 248, 0.08); }
+.btn-card { background: #05070f; border: 1px solid #1e293b; border-radius: 8px; color: #cbd5e1; text-align: left; padding: 10px; font-size: 12px; width: 100%; }
+.btn-card:hover { border-color: #334155; background: #090d16; }
+.correct-highlight { background-color: rgba(34, 197, 94, 0.15) !important; border-color: #22c55e !important; color: #4ade80 !important; }
+.wrong-highlight { background-color: rgba(239, 68, 68, 0.15) !important; border-color: #ef4444 !important; color: #f43f5e !important; }
+.answer-zone { background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px; border: 1px dashed #334155; margin-top: auto; }
 .input-row { display: flex; gap: 8px; }
-.oga-input { background-color: #05070f !important; border: 1px solid #334155; color: #f8fafc; padding: 8px 14px; font-size: 13px; border-radius: 6px; outline: none; flex-grow: 1; }
+.oga-input { background-color: #05070f !important; border: 1px solid #334155; color: #f8fafc; padding: 7px 14px; font-size: 13px; border-radius: 6px; outline: none; flex-grow: 1; }
 .oga-input:focus, .oga-input:disabled { background-color: #05070f !important; color: #f8fafc !important; }
-.slider-row { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: #cbd5e1; margin-bottom: 8px; }
-.slider-row input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; background: #1e293b; height: 6px; border-radius: 3px; outline: none; cursor: pointer; }
-.slider-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 8px #38bdf8; transition: transform 0.1s; }
-.slider-row input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 </style>
 <script>
-// Глобальный диспетчер игровой сессии
 let currentSlide = 1;
-const totalSlides = 8;
+const totalSlides = 5;
 
-// Текущие динамические параметры, изменяемые руками ученика
-let gameData = {
-    lever_d2: 15,
-    fixed_s: 0,
-    movable_s: 0
-};
+// Глобальные переменные для Drag-and-Drop мыши
+let isDragging = false;
+let activeCanvasId = null;
+
+// Исходные состояния физических моделей (рычаг изначально СИЛЬНО разбалансирован: d2 = 1.5 деления вместо 4)
+let leverState = { d1: 2, d2: 1.5, f1: 60, f2: 30, balanced: false, stepPx: 16 };
+let fixedState = { s: 0, maxS: 30, weightY: 0, success: false };
+let movableState = { s: 0, maxS: 40, success: false };
 
 window.onload = function() {
     updateSliderUI();
+    initMouseListeners();
     setTimeout(renderActiveCanvas, 100);
     window.addEventListener('resize', renderActiveCanvas);
 };
@@ -263,14 +228,14 @@ function changeSlide(direction) {
 
 function updateSliderUI() {
     document.getElementById('progressBar').style.width = `${((currentSlide - 1) / (totalSlides - 1)) * 100}%`;
-    
-    // Динамическое обновление заголовка шлема в зависимости от уровня
     const title = document.getElementById('questTitle');
-    if (currentSlide <= 2) title.innerText = "🚀 Квест 1: Калибровка шлюза";
-    else if (currentSlide <= 4) title.innerText = "⚡ Квест 2: Извлечение кабеля";
-    else if (currentSlide <= 6) title.innerText = "🛰️ Квест 3: Спасение зонда";
-    else if (currentSlide === 7) title.innerText = "☢️ Квест 4: Запуск главного генератора";
-    else title.innerText = "🎉 Станция спасена!";
+    const badge = document.getElementById('scoreDisplay');
+    
+    if (currentSlide === 1) { title.innerText = "Уровень 1: Равновесие рычага"; badge.innerText = "Задание 1 из 3"; }
+    else if (currentSlide === 2) { title.innerText = "Уровень 2: Неподвижный блок"; badge.innerText = "Задание 2 из 3"; }
+    else if (currentSlide === 3) { title.innerText = "Уровень 3: Подвижный блок"; badge.innerText = "Задание 3 из 3"; }
+    else if (currentSlide === 4) { title.innerText = "Итоговый контроль: КПД"; badge.innerText = "Контроль"; }
+    else { title.innerText = "Практикум пройден!"; badge.innerText = "Успех"; }
 }
 
 function forceSetupCanvas(canvas) {
@@ -282,13 +247,35 @@ function forceSetupCanvas(canvas) {
 }
 </script>
 <script>
-// Диспетчер отрисовки игровых холстов
+// Диспетчер холстов для перерисовки
 function renderActiveCanvas() {
-    if (currentSlide === 1) drawQuestLever();
-    if (currentSlide === 3) drawQuestFixed();
-    if (currentSlide === 5) drawQuestMovable();
+    if (currentSlide === 1) drawLever();
+    if (currentSlide === 2) drawFixedBlock();
+    if (currentSlide === 3) drawMovableBlock();
 }
 
+// Привязка слушателей мыши к интерактивным контейнерам Canvas
+function initMouseListeners() {
+    const attach = (id, down, move, up) => {
+        const el = document.getElementById(id); if (!el) return;
+        el.addEventListener('mousedown', down);
+        el.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', up);
+    };
+    attach('canvasLever', onLeverDown, onLeverMove, onLeverUp);
+    attach('canvasFixedBlock', onFixedDown, onFixedMove, onFixedUp);
+    attach('canvasMovableBlock', onMovableDown, onMovableMove, onMovableUp);
+}
+
+function forceSetupCanvas(canvas) {
+    if (!canvas) return false;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return false;
+    canvas.width = rect.width; canvas.height = rect.height;
+    return true;
+}
+
+// Профессиональная функция отрисовки векторов сил
 function drawArrow(ctx, fromX, fromY, toX, toY, color, txt = "") {
     ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.moveTo(fromX, fromY); ctx.lineTo(toX, toY); ctx.stroke();
@@ -298,7 +285,7 @@ function drawArrow(ctx, fromX, fromY, toX, toY, color, txt = "") {
     ctx.lineTo(toX - 10 * Math.cos(angle + Math.PI / 6), toY - 10 * Math.sin(angle + Math.PI / 6));
     ctx.closePath(); ctx.fill();
     if (txt) {
-        ctx.fillStyle = "#f8fafc"; ctx.font = "bold 12px sans-serif";
+        ctx.fillStyle = "#f8fafc"; ctx.font = "bold 11px sans-serif";
         ctx.textAlign = "center"; ctx.textBaseline = "top";
         ctx.fillText(txt, toX, toY + 8);
     }
@@ -314,171 +301,287 @@ function drawHatchedCeiling(ctx, x1, x2, y) {
 }
 </script>
 <script>
-function handleLeverDrag() {
-    gameData.lever_d2 = parseInt(document.getElementById('lever_d2_slider').value);
-    document.getElementById('lever_d2_val').innerText = gameData.lever_d2;
-    drawQuestLever();
+let leverDragStart = null;
+
+function onLeverDown(e) {
+    if (leverState.balanced) return;
+    const canvas = e.target; const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
+    const cx = canvas.width / 2; const cy = canvas.height / 2 + 10;
     
-    // Кнопка блокировки становится доступной только в идеальной физической точке баланса (d2 = 40 см)
-    const btn = document.getElementById('lever_lock_btn');
-    if (gameData.lever_d2 === 40) {
-        btn.disabled = false; btn.innerText = "Зафиксировать баланс (Рычаг стабилен!)";
-    } else {
-        btn.disabled = true; btn.innerText = "Зафиксировать баланс (Рычаг нестабилен)";
+    // Вычисляем текущую координату X правого груза (F2) с учетом шага делений
+    let currentX2 = cx + leverState.d2 * leverState.stepPx;
+    
+    // Проверка попадания клика в область правого груза
+    if (Math.abs(mx - currentX2) < 20 && Math.abs(my - cy) < 30) {
+        isDragging = true;
+        leverDragStart = mx;
     }
 }
 
-function drawQuestLever() {
-    const canvas = document.getElementById('canvasQuestLever'); if (!forceSetupCanvas(canvas)) return;
-    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const cx = canvas.width / 2, cy = canvas.height / 2 + 15, scale = 3.5;
+function onLeverMove(e) {
+    if (!isDragging || currentSlide !== 1) return;
+    const canvas = e.target; const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left; const cx = canvas.width / 2;
     
-    // Опора
-    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#334155'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - 15, cy + 25); ctx.lineTo(cx + 15, cy + 25); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Переводим координату мыши в количество делений балки
+    let targetD2 = (mx - cx) / leverState.stepPx;
     
-    // Балка рычага (Динамический угол наклона в зависимости от степени удаления от баланса)
-    let angle = (40 - gameData.lever_d2) * 0.008;
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
-    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-160, 0); ctx.lineTo(160, 0); ctx.stroke();
+    // Ограничиваем перемещение по длине балки (от 1 до 8 делений)
+    if (targetD2 < 1) targetD2 = 1;
+    if (targetD2 > 8) targetD2 = 8;
     
-    // Отрисовка левого фиксированного аккумулятора P1
-    ctx.fillStyle = '#1e293b'; ctx.fillRect(-20 * scale - 12, 0, 24, 20); ctx.strokeRect(-20 * scale - 12, 0, 24, 20);
-    drawArrow(ctx, -20 * scale, 10, -20 * scale, 55, '#ef4444', '60 Н');
+    // Привязка движения строго к целым числам (или половинкам для интересного поиска)
+    leverState.d2 = Math.round(targetD2 * 2) / 2; 
     
-    // Отрисовка правого перемещаемого противовеса F2
-    let x2 = gameData.lever_d2 * scale;
-    ctx.fillStyle = '#0f172a'; ctx.fillRect(x2 - 10, 0, 20, 16); ctx.strokeRect(x2 - 10, 0, 20, 16);
-    drawArrow(ctx, x2, 8, x2, 45, '#38bdf8', '30 Н');
-    ctx.restore();
-    
-    ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fill();
+    // Проверка физического условия равновесия: M1 = M2 (60 * 2 = 30 * d2 => d2 должно стать равным 4)
+    if (leverState.f1 * leverState.d1 === leverState.f2 * leverState.d2) {
+        leverState.balanced = true;
+        isDragging = false;
+        document.getElementById('math_zone_lever').style.display = 'block';
+    }
+    drawLever();
 }
 
-function lockLeverStage() {
-    document.getElementById('final_d2_txt').innerText = gameData.lever_d2;
-    changeSlide(1);
+function onLeverUp() { isDragging = false; }
+</script>
+<script>
+function drawLever() {
+    const canvas = document.getElementById('canvasLever'); if (!forceSetupCanvas(canvas)) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const cx = canvas.width / 2, cy = canvas.height / 2 + 15;
+    // Адаптивный шаг делений под ширину экрана
+    leverState.stepPx = (canvas.width * 0.45) / 8;
+    const step = leverState.stepPx;
+    
+    // Подсветка балки зеленым цветом при поимке баланса
+    let leverColor = leverState.balanced ? '#22c55e' : '#cbd5e1';
+    
+    // Опора рычага
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = leverState.balanced ? '#22c55e' : '#334155'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - 15, cy + 25); ctx.lineTo(cx + 15, cy + 25); ctx.closePath(); ctx.fill(); ctx.stroke();
+    
+    // Статический угол наклона балки, пока равновесие не найдено
+    let angle = leverState.balanced ? 0 : 0.12;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+    
+    // Балка рычага
+    ctx.strokeStyle = leverColor; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-8.5 * step, 0); ctx.lineTo(8.5 * step, 0); ctx.stroke();
+    
+    // Шкала делений (засечки на линейке)
+    ctx.strokeStyle = leverState.balanced ? 'rgba(34,197,94,0.4)' : '#475569'; ctx.lineWidth = 1.5;
+    for (let i = -8; i <= 8; i++) {
+        if (i === 0) continue;
+        ctx.beginPath(); ctx.moveTo(i * step, -5); ctx.lineTo(i * step, 5); ctx.stroke();
+    }
+    
+    // Левый груз F1 (неподвижный, на 2 делении)
+    let x1 = -leverState.d1 * step;
+    ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2;
+    ctx.fillRect(x1 - 12, 0, 24, 20); ctx.strokeRect(x1 - 12, 0, 24, 20);
+    drawArrow(ctx, x1, 10, x1, 50, '#ef4444', '60 Н');
+    
+    // Правый перемещаемый руками груз F2
+    let x2 = leverState.d2 * step;
+    ctx.fillStyle = isDragging ? '#1e293b' : '#0f172a';
+    ctx.strokeStyle = leverState.balanced ? '#22c55e' : '#38bdf8'; ctx.lineWidth = 2;
+    ctx.fillRect(x2 - 12, 0, 24, 20); ctx.strokeRect(x2 - 12, 0, 24, 20);
+    drawArrow(ctx, x2, 10, x2, 45, '#38bdf8', '30 Н');
+    
+    ctx.restore();
+    ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fill();
 }
 
 function validateLeverMath() {
     const input = document.getElementById('input_m1'); const feedback = document.getElementById('leverFeedback');
     if (input.value.trim() === "1200") {
         input.disabled = true; input.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Код принят! Шлюз разблокирован.</span> Моменты сил сбалансированы: М₁ = 60Н · 20см = 1200 Н·см, М₂ = 30Н · 40см = 1200 Н·см.';
-        setTimeout(() => { changeSlide(1); }, 2500);
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Верно!</span> Моменты сил равны: М₁ = 60Н · 20см = 1200 Н·см, М₂ = 30Н · 40см = 1200 Н·см.';
+        setTimeout(() => { changeSlide(1); }, 2000);
     } else {
         input.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка кода.</span> Момент рассчитывается как произведение Силы на её Плечо: M = F · d. Пересчитайте!';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка.</span> Расстояние плеча d₂ составило 4 деления (40 см). Вычислите момент сил M = F · d.';
     }
 }
 </script>
 <script>
-function handleFixedBlockDrag() {
-    gameData.fixed_s = parseInt(document.getElementById('fixed_slider').value);
-    document.getElementById('fixed_s_val').innerText = gameData.fixed_s;
-    drawQuestFixed();
+function onFixedDown(e) {
+    if (fixedState.success || currentSlide !== 2) return;
+    const canvas = e.target; const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
+    const cx = canvas.width / 2, cy = 60, r = 30;
     
-    const btn = document.getElementById('fixed_lock_btn');
-    if (gameData.fixed_s === 30) {
-        btn.disabled = false; btn.innerText = "Кабель извлечен на отметку 30 см (Зафиксировать)";
-    } else {
-        btn.disabled = true; btn.innerText = "Груз не на нужной высоте";
+    // Хитбокс захвата зеленого наконечника правого троса
+    let handleX = cx + r; let handleY = cy + 90 + fixedState.s;
+    if (Math.abs(mx - handleX) < 20 && Math.abs(my - handleY) < 25) {
+        isDragging = true;
     }
 }
 
-function drawQuestFixed() {
-    const canvas = document.getElementById('canvasQuestFixed'); if (!forceSetupCanvas(canvas)) return;
+function onFixedMove(e) {
+    if (!isDragging || currentSlide !== 2) return;
+    const canvas = e.target; const rect = canvas.getBoundingClientRect();
+    const my = e.clientY - rect.top; const cy = 60;
+    
+    // Вычисляем величину вытяжки из координаты мыши по Y
+    let currentS = my - cy - 90;
+    if (currentS < 0) currentS = 0;
+    if (currentS > 55) currentS = 55;
+    
+    fixedState.s = currentS;
+    
+    // Условие победы на уровне: вытянуть строго на 30 см (допускается погрешность 2 пикселя)
+    if (Math.abs(fixedState.s - 45) <= 2) {
+        fixedState.s = 45; // Масштабированное пиксельное значение для 30 см
+        fixedState.success = true;
+        isDragging = false;
+        document.getElementById('math_zone_fixed').style.display = 'block';
+    }
+    drawFixedBlock();
+}
+
+function onFixedUp() { isDragging = false; }
+</script>
+<script>
+function drawFixedBlock() {
+    const canvas = document.getElementById('canvasFixedBlock'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cx = canvas.width / 2, cy = 60, r = 30;
     
     drawHatchedCeiling(ctx, cx - 50, cx + 50, 20);
     ctx.strokeStyle = '#475569'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(cx, 20); ctx.lineTo(cx, cy); ctx.stroke();
-    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#334155'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
     
-    let s = gameData.fixed_s;
-    // Левый трос с грузом идет вверх на величину s
+    // Блок
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = fixedState.success ? '#22c55e' : '#334155'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    
+    let sPx = fixedState.s; // Пиксельное смещение веревки
+    
+    // Левый трос с грузом (поднимается вверх)
     ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx - r, cy + 90 - s); ctx.stroke();
-    ctx.fillStyle = '#1e293b'; ctx.fillRect(cx - r - 12, cy + 90 - s, 24, 24); ctx.strokeRect(cx - r - 12, cy + 90 - s, 24, 24);
+    ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx - r, cy + 95 - sPx); ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#475569';
+    ctx.fillRect(cx - r - 12, cy + 95 - sPx, 24, 24); ctx.strokeRect(cx - r - 12, cy + 95 - sPx, 24, 24);
     
-    // Правый трос уходит вниз на величину s в руку рабочего
-    ctx.beginPath(); ctx.moveTo(cx + r, cy); ctx.lineTo(cx + r, cy + 90 + s); ctx.stroke();
+    // Правый удерживаемый трос (уходит вниз под мышку)
+    ctx.beginPath(); ctx.moveTo(cx + r, cy); ctx.lineTo(cx + r, cy + 95 + sPx); ctx.stroke();
     
-    drawArrow(ctx, cx - r, cy + 102 - s, cx - r, cy + 140 - s, '#fb923c', '120 Н');
-    drawArrow(ctx, cx + r, cy + 90 + s, cx + r, cy + 130 + s, '#22c55e', 'Тяга F');
+    drawArrow(ctx, cx - r, cy + 107 - sPx, cx - r, cy + 145 - sPx, '#fb923c', '120 Н');
+    drawArrow(ctx, cx + r, cy + 95 + sPx, cx + r, cy + 135 + sPx, '#22c55e', 'Тяга');
     
-    // Высотная линейка телеметрии
-    ctx.strokeStyle = '#334155'; ctx.beginPath(); ctx.moveTo(cx - r - 35, cy + 20); ctx.lineTo(cx - r - 35, cy + 95); ctx.stroke();
-    ctx.fillStyle = '#a855f7'; ctx.font = '10px monospace'; ctx.fillText("30 см --", cx - r - 55, cy + 63);
+    // Оцифрованная вертикальная измерительная шкала (засечки каждые 10 см = 15 пикселей)
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.font = '10px monospace'; ctx.fillStyle = '#94a3b8';
+    ctx.beginPath(); ctx.moveTo(cx - r - 25, cy + 20); ctx.lineTo(cx - r - 25, cy + 110); ctx.stroke();
+    for (let i = 0; i <= 4; i++) {
+        let yMark = cy + 95 - i * 15;
+        ctx.beginPath(); ctx.moveTo(cx - r - 28, yMark); ctx.lineTo(cx - r - 22, yMark); ctx.stroke();
+        ctx.fillText(`${i*10} см`, cx - r - 52, yMark + 3);
+    }
 }
-
-function lockFixedStage() { changeSlide(1); }
 
 function validateFixedMath() {
     const input = document.getElementById('input_fixed_work'); const feedback = document.getElementById('fixedFeedback');
-    if (parseFloat(input.value.trim().replace(',', '.')) === 36) {
+    if (input.value.trim() === "36") {
         input.disabled = true; input.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Работа рассчитана верно! Энергосеть восстановлена.</span> А = F · s = 120 Н · 0.3 м = 36 Дж.';
-        setTimeout(() => { changeSlide(1); }, 2500);
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Правильно!</span> Полезная работа: А = P · h = 120 Н · 0.3 м = 36 Дж.';
+        setTimeout(() => { changeSlide(1); }, 2000);
     } else {
         input.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Системный сбой.</span> Переведите сантиметры пути (30 см) в метры СИ: s = 0.3 м. Формула работы: А = F · s.';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка.</span> Высоту h необходимо перевести в метры (30 см = 0.3 м). Формула работы: А = P · h.';
     }
 }
 </script>
 <script>
-function handleMovableDrag() {
-    gameData.movable_s = parseInt(document.getElementById('movable_slider').value);
-    document.getElementById('movable_s_val').innerText = gameData.movable_s;
-    drawQuestMovable();
+function onMovableDown(e) {
+    if (movableState.success || currentSlide !== 3) return;
+    const canvas = e.target; const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
+    const cx = canvas.width / 2, r = 26;
     
-    const btn = document.getElementById('movable_lock_btn');
-    // Подвижный блок: чтобы поднять груз на h = 20 см, трос s надо вытянуть на 40 см!
-    if (gameData.movable_s === 40) {
-        btn.disabled = false; btn.innerText = "Зонд на отметке h = 20 см (Зафиксировать)";
-    } else {
-        btn.disabled = true; btn.innerText = "Зонд не на отметке 20 см";
+    let bY = canvas.height / 2 + 30 - movableState.s * 0.5;
+    let handleY = bY - 45 - (movableState.s * 0.5);
+    
+    // Захват наконечника правого троса
+    if (Math.abs(mx - (cx + r)) < 20 && Math.abs(my - handleY) < 25) {
+        isDragging = true;
     }
 }
 
-function drawQuestMovable() {
-    const canvas = document.getElementById('canvasQuestMovable'); if (!forceSetupCanvas(canvas)) return;
+function onMovableMove(e) {
+    if (!isDragging || currentSlide !== 3) return;
+    const canvas = e.target; const rect = canvas.getBoundingClientRect();
+    const my = e.clientY - rect.top;
+    
+    // Расчет вытяжки веревки s на основе вертикального перемещения руки
+    let baseZeroY = canvas.height / 2 - 15;
+    let currentS = baseZeroY - my;
+    if (currentS < 0) currentS = 0;
+    if (currentS > 50) currentS = 50;
+    
+    movableState.s = currentS;
+    
+    // Для подъема груза на h = 20 см нужно вытянуть s = 40 пикселей веревки
+    if (Math.abs(movableState.s - 40) <= 1.5) {
+        movableState.s = 40;
+        movableState.success = true;
+        isDragging = false;
+        document.getElementById('math_zone_movable').style.display = 'block';
+    }
+    drawMovableBlock();
+}
+
+function onMovableUp() { isDragging = false; }
+</script>
+<script>
+function drawMovableBlock() {
+    const canvas = document.getElementById('canvasMovableBlock'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cx = canvas.width / 2, r = 26;
     
     drawHatchedCeiling(ctx, cx - 50, cx + 50, 20);
-    // Высота подъема оси блока h равна ровно половине вытяжки троса s
-    let h = gameData.movable_s * 0.5;
-    let bY = canvas.height / 2 + 30 - h;
+    // Высота самого блока h строго равна половине длины вытянутой веревки s
+    let hPx = movableState.s * 0.5;
+    let bY = canvas.height / 2 + 30 - hPx;
     
+    // Левый зафиксированный трос
     ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx - r, 20); ctx.lineTo(cx - r, bY); ctx.stroke(); // Левый заанкеренный трос
+    ctx.beginPath(); ctx.moveTo(cx - r, 20); ctx.lineTo(cx - r, bY); ctx.stroke();
     
-    // Правый вытягиваемый трос идет вверх в два раза быстрее самого диска блока
-    let ropeTopY = bY - 45 - (gameData.movable_s * 0.5);
+    // Правый трос уходит вверх в 2 раза быстрее диска подвижного блока
+    let ropeTopY = bY - 45 - hPx;
     ctx.beginPath(); ctx.moveTo(cx + r, bY); ctx.lineTo(cx + r, ropeTopY); ctx.stroke();
     
-    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#334155'; ctx.beginPath(); ctx.arc(cx, bY, r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    // Подвижный диск
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = movableState.success ? '#22c55e' : '#334155'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, bY, r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
     
-    // Подвес зонда
-    ctx.strokeStyle = '#475569'; ctx.beginPath(); ctx.moveTo(cx, bY); ctx.lineTo(cx, bY + 25); ctx.stroke();
-    ctx.fillStyle = '#1e293b'; ctx.fillRect(cx - 15, bY + 25, 30, 24); ctx.strokeRect(cx - 15, bY + 25, 30, 24);
+    // Подвес ящика
+    ctx.strokeStyle = '#475569'; ctx.beginPath(); ctx.moveTo(cx, bY); ctx.lineTo(cx, bY + 22); ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.fillRect(cx - 15, bY + 22, 30, 24); ctx.strokeRect(cx - 15, bY + 22, 30, 24);
     
-    drawArrow(ctx, cx, bY + 37, cx, bY + 75, '#fb923c', '200 Н');
-    drawArrow(ctx, cx + r, ropeTopY, cx + r, ropeTopY - 35, '#22c55e', 'F');
+    drawArrow(ctx, cx, bY + 34, cx, bY + 70, '#fb923c', '200 Н');
+    drawArrow(ctx, cx + r, ropeTopY, cx + r, ropeTopY - 35, '#22c55e', 'Тяга');
+    
+    // Вертикальная измерительная шкала для отслеживания высоты груза
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.font = '10px monospace'; ctx.fillStyle = '#94a3b8';
+    ctx.beginPath(); ctx.moveTo(cx - r - 25, canvas.height / 2 - 30); ctx.lineTo(cx - r - 25, canvas.height / 2 + 60); ctx.stroke();
+    for (let i = 0; i <= 3; i++) {
+        let yMark = canvas.height / 2 + 42 - i * 20; // 20 пикселей = 10 см подъема груза
+        ctx.beginPath(); ctx.moveTo(cx - r - 28, yMark); ctx.lineTo(cx - r - 22, yMark); ctx.stroke();
+        ctx.fillText(`${i*10} см`, cx - r - 52, yMark + 3);
+    }
 }
-
-function lockMovableStage() { changeSlide(1); }
 
 function validateMovableMath() {
     const input = document.getElementById('input_movable_dist'); const feedback = document.getElementById('movableFeedback');
     if (input.value.trim() === "40") {
         input.disabled = true; input.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Золотое правило механики подтверждено! Код верный.</span> Выиграв в силе в 2 раза, мы в 2 раза проиграли в расстоянии: s = 2 · h = 40 см.';
-        setTimeout(() => { changeSlide(1); }, 2500);
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Верно! Золотое правило подтверждено.</span> Для подъема груза на h = 20 см пришлось вытянуть s = 2 · h = 40 см веревки.';
+        setTimeout(() => { changeSlide(1); }, 2000);
     } else {
         input.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка компьютера.</span> Вспомните Золотое правило: подвижный блок требует вытянуть в 2 раза больше веревки, чем высота подъема груза.';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка.</span> Подвижный блок дает выигрыш в силе в 2 раза, но требует вытянуть ровно в 2 раза больше длины троса.';
     }
 }
 
@@ -486,28 +589,27 @@ function validateFinalEta() {
     const input = document.getElementById('input_final_eta'); const feedback = document.getElementById('finalFeedback');
     if (input.value.trim() === "90") {
         input.disabled = true; input.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Расчет идеален! Главный реактор станции запущен!</span> A полезная = 360 Н · 5 м = 1800 Дж. η = (1800 / 2000) · 100% = 90%.';
-        setTimeout(() => { changeSlide(1); }, 3000);
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Отлично! Итоговый расчет выполнен без ошибок.</span> A полезная = 360 Н · 5 м = 1800 Дж. η = (1800 / 2000) · 100% = 90%.';
+        setTimeout(() => { changeSlide(1); }, 2500);
     } else {
         input.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Доступ к реактору заблокирован.</span> Выполните расчет: А полезная = P · h. Затем разделите ее на А полную (2000 Дж).';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Ошибка.</span> Вычислите полезную работу подъема груза A = P · h и разделите её на известную полную работу (2000 Дж).';
     }
 }
 
 function resetWholeQuest() {
-    stopAllSimulations();
-    gameData.lever_d2 = 15; gameData.fixed_s = 0; gameData.movable_s = 0;
-    document.getElementById('lever_d2_slider').value = 15; document.getElementById('lever_d2_val').innerText = 15;
-    document.getElementById('fixed_slider').value = 0; document.getElementById('fixed_s_val').innerText = 0;
-    document.getElementById('movable_slider').value = 0; document.getElementById('movable_s_val').innerText = 0;
+    isDragging = false;
+    leverState.d2 = 1.5; leverState.balanced = false;
+    fixedState.s = 0; fixedState.success = false;
+    movableState.s = 0; movableState.success = false;
     
-    document.querySelectorAll('input').forEach(i => { i.disabled = false; i.classList.remove('correct-highlight', 'wrong-highlight'); i.value = i.defaultValue || ""; });
+    document.querySelectorAll('input').forEach(i => { i.disabled = false; i.classList.remove('correct-highlight', 'wrong-highlight'); i.value = ""; });
     document.querySelectorAll('.text-concentrate[id*="Feedback"]').forEach(f => f.innerHTML = "");
+    document.querySelectorAll('.answer-zone').forEach(z => z.style.display = 'none');
     
     currentSlide = 1; document.querySelector('.slide.active').classList.remove('active'); document.getElementById('slide1').classList.add('active');
     updateSliderUI(); setTimeout(renderActiveCanvas, 100);
 }
 </script>
-
 </body>
 </html>
