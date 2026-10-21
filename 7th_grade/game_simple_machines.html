@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="validation-zone">
-                        <div class="status-msg" id="status1">⚠️ Двигайте грузы для достижения горизонтального баланса.</div>
+                        <div class="status-msg" id="status1">⚠️ Двигайте грузы для достижения баланса.</div>
                         <div class="input-group hidden" id="inputGroup1">
                             <div class="question-text">Вопрос: Чему равно отношение плеч d₁/d₂ в состоянии равновесия? Запишите ответ в виде дроби (например, 1/2).</div>
                             <div class="flex-row">
@@ -94,15 +94,15 @@
                     <div>
                         <span class="badge badge-adv">Продвинутый уровень</span>
                         <h2>Конструктор моментов сил</h2>
-                        <p class="instruction">Усложненный модуль. Изначально балка пуста. Перенесите из хранилища на балку ВСЕ ТРИ груза: один (40 Н) влево от оси, а два других (10 Н и 20 Н) вправо. Добейтесь идеального равновесия.</p>
-                        <div class="depot-title">Грузы под хранилищем на холсте 👇</div>
+                        <p class="instruction">Изначально рычаг пуст. Перенесите из нижнего хранилища на балку все три груза. Располагайте их в любых точках слева или справа, чтобы поймать устойчивый баланс.</p>
+                        <div class="depot-title">Грузы в депо (внизу холста) 👇</div>
                     </div>
                     <div class="validation-zone">
-                        <div class="status-msg" id="status2">Разместите все 3 груза на балке.</div>
+                        <div class="status-msg" id="status2">Перенесите все 3 груза на балку.</div>
                         <div class="input-group hidden" id="inputGroup2">
-                            <div class="question-text">Вопрос: Какова сумма моментов сил, вращающих рычаг по часовой стрелке, если система сбалансирована? Запишите число (в Н·м).</div>
+                            <div class="question-text">Вопрос: Какова сумма моментов сил, удерживающих рычаг в равновесии с одной стороны (в Н·м)? При цене деления = 10 см.</div>
                             <div class="flex-row">
-                                <input type="text" id="code2" placeholder="Сумма правых моментов">
+                                <input type="text" id="code2" placeholder="Значение момента, напр. 1.2">
                                 <button onclick="checkSlide2()">Проверить</button>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                     <div>
                         <span class="badge badge-lab">Лабораторная работа</span>
                         <h2>Подвижный блок</h2>
-                        <p class="instruction">Зажмите мышкой зеленый наконечник правого подвижного троса и тяните его вверх. Поднимите ящик весом P = 200 Н на высоту h = 20 см.</p>
+                        <p class="instruction">Зажмите мышкой зеленый наконечник троса и тяните его строго вверх. Поднимите ящик весом P = 200 Н на высоту h = 20 см.</p>
                     </div>
                     <div class="validation-zone">
                         <div class="status-msg" id="status4">Тяните наконечник вверх.</div>
@@ -205,7 +205,11 @@
         ctx.moveTo(tx - 8 * Math.cos(a - Math.PI/6), ty - 8 * Math.sin(a - Math.PI/6)); ctx.lineTo(tx, ty);
         ctx.lineTo(tx - 8 * Math.cos(a + Math.PI/6), ty - 8 * Math.sin(a + Math.PI/6)); ctx.stroke();
     }
-    function getMousePos(canvas, evt) { let r = canvas.getBoundingClientRect(); return { x: evt.clientX - r.left, y: evt.clientY - r.top }; }
+    // ИСПРАВЛЕНО: Учет масштабирования Canvas под CSS размеры экрана
+    function getMousePos(canvas, evt) {
+        let r = canvas.getBoundingClientRect();
+        return { x: (evt.clientX - r.left) * (canvas.width / r.width), y: (evt.clientY - r.top) * (canvas.height / r.height) };
+    }
 
     // ЛОГИКА СЛАЙДА 1
     const canvas1 = document.getElementById('leverCanvas'); const ctx1 = canvas1.getContext('2d');
@@ -242,53 +246,44 @@
         [s1.w1, s1.w2].forEach(w => { if(w.isDragging){ if(w===s1.w1) w.x=Math.max(-220, Math.min(-15, rx)); if(w===s1.w2) w.x=Math.max(15, Math.min(220, rx)); } });
     });
     window.addEventListener('mouseup', () => { s1.w1.isDragging = s1.w2.isDragging = false; });
-    function checkSlide1() { let v = document.getElementById('code1').value.trim(); if (v === "1/2" || v === "0.5") changeSlide(1); else alert("Неверно. d₁=2д, d₂=4д. Отношение 2/4 = 1/2."); }
-    // ЛОГИКА СЛАЙДА 2: Свободный конструктор с тремя грузами
+    function checkSlide1() { let v = document.getElementById('code1').value.trim(); if (v === "1/2" || v === "0.5") changeSlide(1); else alert("Неверно. d₁=2д, d₂=4д. Ответ: 1/2."); }
+    // СЛАЙД 2: Полностью свободный конструктор
     const canvas2 = document.getElementById('sandboxCanvas'); const ctx2 = canvas2.getContext('2d');
     let s2 = {
         pX: 300, pY: 180, angle: 0, tAngle: 0,
         weights: [
-            { id: 1, x: 150, y: 340, ox: 150, oy: 340, f: 40, color: '#a855f7', name: '40 Н', onBeam: false, relX: 0 },
-            { id: 2, x: 300, y: 340, ox: 300, oy: 340, f: 20, color: '#fb923c', name: '20 Н', onBeam: false, relX: 0 },
-            { id: 3, x: 450, y: 340, ox: 450, oy: 340, f: 10, color: '#22c55e', name: '10 Н', onBeam: false, relX: 0 }
+            { id: 1, x: 150, y: 345, ox: 150, oy: 345, f: 40, color: '#a855f7', name: '40 Н', onBeam: false, relX: 0 },
+            { id: 2, x: 300, y: 345, ox: 300, oy: 345, f: 20, color: '#fb923c', name: '20 Н', onBeam: false, relX: 0 },
+            { id: 3, x: 450, y: 345, ox: 450, oy: 345, f: 10, color: '#22c55e', name: '10 Н', onBeam: false, relX: 0 }
         ],
-        draggedWeight: null
+        dragged: null
     };
     function initSlide2() {
         function draw() {
             ctx2.clearRect(0, 0, 600, 400);
-            
-            // Расчет физических моментов сил на балке
-            let m1 = 0, m2 = 0, countOnBeam = 0;
+            let mLeft = 0, mRight = 0, count = 0;
             s2.weights.forEach(w => {
                 if(w.onBeam) {
-                    countOnBeam++;
-                    let d = Math.abs(w.relX) / 40; // переводим пиксели в метры-деления (цена 1 деления = 10см = 0.1м)
-                    let momentValue = w.f * (d * 0.1); 
-                    if(w.relX < 0) m1 += momentValue; else m2 += momentValue;
+                    count++;
+                    let d = Math.abs(w.relX) / 40;
+                    let moment = w.f * (d * 0.1);
+                    if(w.relX < 0) mLeft += moment; else mRight += moment;
                 }
             });
-
-            let diff = m2 - m1;
-            s2.tAngle = (countOnBeam > 0 && Math.abs(diff) > 0.05) ? Math.max(-0.25, Math.min(0.25, diff * 0.2)) : 0;
+            let diff = mRight - mLeft;
+            s2.tAngle = (count > 0 && Math.abs(diff) > 0.02) ? Math.max(-0.25, Math.min(0.25, diff * 0.2)) : 0;
             s2.angle += (s2.tAngle - s2.angle) * 0.1;
 
-            // Хранилище (депо) внизу
             ctx2.fillStyle = '#0f172a'; ctx2.fillRect(50, 310, 500, 60);
             ctx2.strokeStyle = '#1e293b'; ctx2.strokeRect(50, 310, 500, 60);
 
-            // Опора рычага
             ctx2.fillStyle = '#475569'; ctx2.beginPath(); ctx2.moveTo(s2.pX, s2.pY); ctx2.lineTo(s2.pX-15, s2.pY+30); ctx2.lineTo(s2.pX+15, s2.pY+30); ctx2.fill();
 
-            // Отрисовка балки рычага (Трансформируемая система)
             ctx2.save(); ctx2.translate(s2.pX, s2.pY); ctx2.rotate(s2.angle);
             ctx2.strokeStyle = '#94a3b8'; ctx2.lineWidth = 8; ctx2.beginPath(); ctx2.moveTo(-220, 0); ctx2.lineTo(220, 0); ctx2.stroke();
-            ctx2.fillStyle = '#334155';
-            for(let i=-5; i<=5; i++) { ctx2.fillRect(i*40-1, -4, 2, 8); }
-            
-            // Отрисовка зафиксированных на балке грузов
+            ctx2.fillStyle = '#334155'; for(let i=-5; i<=5; i++) { ctx2.fillRect(i*40-1, -4, 2, 8); }
             s2.weights.forEach(w => {
-                if(w.onBeam && w !== s2.draggedWeight) {
+                if(w.onBeam && w !== s2.dragged) {
                     ctx2.fillStyle = w.color; ctx2.fillRect(w.relX-18, -16, 36, 16);
                     ctx2.fillStyle = '#fff'; ctx2.font = '10px sans-serif'; ctx2.fillText(w.name, w.relX-12, -5);
                     drawVector(ctx2, w.relX, -8, w.relX, -8+30, w.color);
@@ -296,56 +291,38 @@
             });
             ctx2.restore();
 
-            // Отрисовка свободно переносимых грузов
             s2.weights.forEach(w => {
-                if(!w.onBeam || w === s2.draggedWeight) {
+                if(!w.onBeam || w === s2.dragged) {
                     ctx2.fillStyle = w.color; ctx2.fillRect(w.x-18, w.y-16, 36, 16);
                     ctx2.fillStyle = '#fff'; ctx2.font = '10px sans-serif'; ctx2.fillText(w.name, w.x-12, w.y-5);
                 }
             });
 
             let st = document.getElementById('status2'), inp = document.getElementById('inputGroup2');
-            if (countOnBeam < 3) { st.innerHTML = `📥 Разместите ВСЕ 3 груза на линейке (Перенесено: ${countOnBeam}/3).`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
-            else if (Math.abs(s2.angle) > 0.005) { st.innerHTML = `⚠️ Дисбаланс моментов! Слева: ${m1.toFixed(1)} Н·м | Справа: ${m2.toFixed(1)} Н·м`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
-            else { st.innerHTML = "✅ Идеальный баланс! Рычаг стабилен."; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-
+            if (count < 3) { st.innerHTML = `📥 Разместите все 3 груза на балке (Установлено: ${count}/3)`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            else if (Math.abs(s2.angle) > 0.005) { st.innerHTML = `⚠️ Рычаг разбалансирован. Ищите равновесие!`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            else { st.innerHTML = "✅ Идеальный баланс найден!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
             animationFrameId = requestAnimationFrame(draw);
         }
         draw();
     }
-
     canvas2.addEventListener('mousedown', (e) => {
         let p = getMousePos(canvas2, e);
-        s2.weights.forEach(w => {
-            if (Math.abs(p.x - w.x) < 25 && Math.abs(p.y - w.y) < 20) { s2.draggedWeight = w; w.onBeam = false; }
-        });
+        s2.weights.forEach(w => { if (Math.abs(p.x - w.x) < 25 && Math.abs(p.y - w.y) < 20) { s2.dragged = w; w.onBeam = false; } });
     });
     canvas2.addEventListener('mousemove', (e) => {
         let p = getMousePos(canvas2, e);
-        if(s2.draggedWeight) {
-            let w = s2.draggedWeight; w.x = Math.max(20, Math.min(580, p.x)); w.y = Math.max(20, Math.min(380, p.y));
-            // Проверка близости к грани балки для захвата в систему координат рычага
-            if(Math.abs(w.y - s2.pY) < 35 && Math.abs(w.x - s2.pX) < 220) {
-                let dx = w.x - s2.pX, dy = w.y - s2.pY;
-                w.relX = dx * Math.cos(-s2.angle) - dy * Math.sin(-s2.angle);
-                // Ограничения по сторонам: фиолетовый только слева (id=1), желтый и зеленый только справа
-                if(w.id === 1 && w.relX > -15) w.relX = -15;
-                if(w.id > 1 && w.relX < 15) w.relX = 15;
+        if(s2.dragged) {
+            let w = s2.dragged; w.x = p.x; w.y = p.y;
+            if(Math.abs(w.y - s2.pY) < 40 && Math.abs(w.x - s2.pX) < 220) {
+                w.relX = (w.x - s2.pX) * Math.cos(-s2.angle) - (w.y - s2.pY) * Math.sin(-s2.angle);
                 w.onBeam = true;
-                // Синхронизируем абсолютные координаты с учетом наклона
-                let rad = s2.angle;
-                w.x = s2.pX + w.relX * Math.cos(rad) - (-8) * Math.sin(rad);
-                w.y = s2.pY + w.relX * Math.sin(rad) + (-8) * Math.cos(rad);
+                w.x = s2.pX + w.relX * Math.cos(s2.angle); w.y = s2.pY + w.relX * Math.sin(s2.angle);
             } else { w.onBeam = false; }
         }
     });
-    window.addEventListener('mouseup', () => {
-        if(s2.draggedWeight) {
-            if(!s2.draggedWeight.onBeam) { s2.draggedWeight.x = s2.draggedWeight.ox; s2.draggedWeight.y = s2.draggedWeight.oy; }
-            s2.draggedWeight = null;
-        }
-    });
-    function checkSlide2() { if(document.getElementById('code2').value.trim() === "1.2" || document.getElementById('code2').value.trim() === "1,2") changeSlide(1); else alert("Неверно. Правильное положение баланса: 40Н на 3 делении (0.3м) дает момент 1.2 Н·м. Справа 20Н на 4 делении (0.8 Н·м) + 10Н на 4 делении (0.4 Н·м) дают в сумме те же 1.2 Н·м."); }
+    window.addEventListener('mouseup', () => { if(s2.dragged) { if(!s2.dragged.onBeam) { s2.dragged.x = s2.dragged.ox; s2.dragged.y = s2.dragged.oy; } s2.dragged = null; } });
+    function checkSlide2() { if(document.getElementById('code2').value.trim() === "1.2" || document.getElementById('code2').value.trim() === "1,2") changeSlide(1); else alert("Ошибка! Момент с одной стороны равен 1.2 Н·м."); }
     // СЛАЙД 3: Неподвижный блок
     const canvas3 = document.getElementById('fixedBlockCanvas'); const ctx3 = canvas3.getContext('2d');
     let s3 = { hY: 150, isDragging: false, bY: 250 };
@@ -377,9 +354,9 @@
     canvas3.addEventListener('mousedown', (e) => { let p = getMousePos(canvas3, e); if (Math.abs(p.x-330)<20 && Math.abs(p.y-s3.hY)<20) s3.isDragging = true; });
     canvas3.addEventListener('mousemove', (e) => { let p = getMousePos(canvas3, e); if (s3.isDragging) s3.hY = Math.max(150, Math.min(250, p.y)); });
     window.addEventListener('mouseup', () => { s3.isDragging = false; });
-    function checkSlide3() { if(document.getElementById('code3').value.trim() === "30") changeSlide(1); else alert("Ошибка! Неподвижный блок не дает выигрыша в расстоянии. Ответ: 30."); }
+    function checkSlide3() { if(document.getElementById('code3').value.trim() === "30") changeSlide(1); else alert("Ошибка! Ответ: 30."); }
 
-    // СЛАЙД 4: Подвижный блок (Исправлено перетаскивание зеленого зацепа)
+    // СЛАЙД 4: Подвижный блок (Полный ремонт масштабирования клика)
     const canvas4 = document.getElementById('movableBlockCanvas'); const ctx4 = canvas4.getContext('2d');
     let s4 = { hY: 250, isDragging: false, blY: 250 };
     function initSlide4() {
@@ -405,16 +382,15 @@
         }
         draw();
     }
-    canvas4.addEventListener('mousedown', (e) => { let p = getMousePos(canvas4, e); if (Math.abs(p.x-330)<25 && Math.abs(p.y-s4.hY)<25) s4.isDragging = true; });
+    canvas4.addEventListener('mousedown', (e) => { let p = getMousePos(canvas4, e); if (Math.abs(p.x-330)<30 && Math.abs(p.y-s4.hY)<30) s4.isDragging = true; });
     canvas4.addEventListener('mousemove', (e) => { let p = getMousePos(canvas4, e); if (s4.isDragging) s4.hY = Math.max(150, Math.min(250, p.y)); });
     window.addEventListener('mouseup', () => { s4.isDragging = false; });
-    function checkSlide4() { if(document.getElementById('code4').value.trim() === "40") changeSlide(1); else alert("Неверно. Подвижный блок дает проигрыш в расстоянии в 2 раза, то есть s = 2h. Ответ: 40."); }
+    function checkSlide4() { if(document.getElementById('code4').value.trim() === "40") changeSlide(1); else alert("Ошибка! Ответ: 40."); }
 
     function checkFinalQuiz(card, val) {
         let cards = document.querySelectorAll('.quiz-card'); cards.forEach(c => c.classList.remove('correct', 'wrong'));
-        let verdict = document.getElementById('finalVerdict');
-        if (val === '90') { card.classList.add('correct'); verdict.innerHTML = "🚀 Превосходно! КПД = 90%. Практикум успешно завершен!"; verdict.style.color = "#22c55e"; }
-        else { card.classList.add('wrong'); verdict.innerHTML = "❌ Ошибка. Попробуйте посчитать заново."; verdict.style.color = "#ef4444"; }
+        if (val === '90') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Превосходно! КПД = 90%."; document.getElementById('finalVerdict').style.color = "#22c55e"; }
+        else { card.classList.add('wrong'); document.getElementById('finalVerdict').innerHTML = "❌ Ошибка."; document.getElementById('finalVerdict').style.color = "#ef4444"; }
     }
     window.onload = () => { initSlide1(); };
 </script>
