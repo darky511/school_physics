@@ -369,7 +369,45 @@
         }
     });
     window.addEventListener('mouseup', () => { if(s2.dragged) { if(!s2.dragged.onBeam) { s2.dragged.x = s2.dragged.ox; s2.dragged.y = s2.dragged.oy; } s2.dragged = null; } });
-    function checkSlide2() { if(document.getElementById('code2').value.trim() === "1.2" || document.getElementById('code2').value.trim() === "1,2") changeSlide(1); else alert("Ошибка! Момент сил равен 1.2 Н·м."); }
+
+    function checkSlide2() {
+    // 1. Инициализируем сумму моментов для одной из сторон
+    let correctMoment = 0;
+
+    // 2. Рассчитываем сумму моментов сил только с ЛЕВОЙ стороны рычага (w.relX < 0)
+    s2.weights.forEach(w => {
+        if (w.onBeam && w.relX < 0) {
+            let d = Math.abs(w.relX) / 40; // Переводим пиксели в деления
+            correctMoment += w.f * (d * 0.1); // Сила * плечо в метрах (0.1 м)
+        }
+    });
+
+    // 3. Если ученик сбалансировал рычаг зеркально (все грузы ушли на ПРАВУЮ сторону),
+    // то считаем сумму моментов сил для правой стороны (w.relX > 0)
+    if (correctMoment === 0) {
+        s2.weights.forEach(w => {
+            if (w.onBeam && w.relX > 0) {
+                let d = Math.abs(w.relX) / 40;
+                correctMoment += w.f * (d * 0.1);
+            }
+        });
+    }
+
+    // 4. Округляем эталонное значение до 1 знака после запятой (избавляемся от погрешностей JS)
+    correctMoment = Math.round(correctMoment * 10) / 10;
+
+    // 5. Получаем и форматируем ответ ученика
+    let rawInput = document.getElementById('code2').value.trim();
+    let studentAnswer = parseFloat(rawInput.replace(',', '.')); // Меняем запятую на точку
+
+    // 6. Проверяем ответ на соответствие динамически рассчитанному моменту
+    if (!isNaN(studentAnswer) && studentAnswer === correctMoment && correctMoment > 0) {
+        changeSlide(1);
+    } else {
+        alert(`Неверно. При данном расположении грузов сумма моментов сил с одной стороны составляет ${correctMoment} Н·м.`);
+    }
+}
+    
     // СЛАЙД 3: Неподвижный блок
     const canvas3 = document.getElementById('fixedBlockCanvas'); const ctx3 = canvas3.getContext('2d');
     let s3 = { hY: 150, isDragging: false, bY: 250 };
