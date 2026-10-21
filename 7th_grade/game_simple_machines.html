@@ -66,7 +66,7 @@
                     <div>
                         <span class="badge badge-lab">Лабораторная работа</span>
                         <h2>Условие равновесия рычага</h2>
-                        <p class="instruction">Перетаскивайте оба груза по балочной линейке. Найдите точную точку баланса, при которой рычаг примет строго горизонтальное положение.</p>
+                        <p class="instruction">Перетаскивайте оба груза по балочной линейке. Найдите точную точку баланса, при которой рычаг примет строго горизонтальное положение. Плечи сил отображаются динамически.</p>
                         <div class="metrics">
                             <div class="metric-item"><span class="dot red"></span> Красный левый груз: F₁ = 60 Н</div>
                             <div class="metric-item"><span class="dot blue"></span> Синий правый груз: F₂ = 30 Н</div>
@@ -94,13 +94,13 @@
                     <div>
                         <span class="badge badge-adv">Продвинутый уровень</span>
                         <h2>Конструктор моментов сил</h2>
-                        <p class="instruction">Изначально рычаг пуст. Перенесите из нижнего хранилища на балку все три груза. Располагайте их в любых точках слева или справа, чтобы поймать устойчивый баланс.</p>
+                        <p class="instruction">Изначально рычаг пуст. Перенесите из нижнего хранилища на балку все три груза. Сбалансируйте моменты сил слева и справа. Текущие плечи сил видны над каждым установленным грузом.</p>
                         <div class="depot-title">Грузы в депо (внизу холста) 👇</div>
                     </div>
                     <div class="validation-zone">
                         <div class="status-msg" id="status2">Перенесите все 3 груза на балку.</div>
                         <div class="input-group hidden" id="inputGroup2">
-                            <div class="question-text">Вопрос: Какова сумма моментов сил, удерживающих рычаг в равновесии с одной стороны (в Н·м)? При цене деления = 10 см.</div>
+                            <div class="question-text">Вопрос: Какова сумма моментов сил, удерживающих рычаг в равновесии с одной стороны (в Н·м)? При цене деления = 10 см (0.1 м).</div>
                             <div class="flex-row">
                                 <input type="text" id="code2" placeholder="Значение момента, напр. 1.2">
                                 <button onclick="checkSlide2()">Проверить</button>
@@ -143,7 +143,7 @@
                     <div>
                         <span class="badge badge-lab">Лабораторная работа</span>
                         <h2>Подвижный блок</h2>
-                        <p class="instruction">Зажмите мышкой зеленый наконечник троса и тяните его строго вверх. Поднимите ящик весом P = 200 Н на высоту h = 20 см.</p>
+                        <p class="instruction">Зажмите мышкой зеленый наконечник троса и тяните его строго вверх. Следите за измерительными шкалами груза и вытяжки руки.</p>
                     </div>
                     <div class="validation-zone">
                         <div class="status-msg" id="status4">Тяните наконечник вверх.</div>
@@ -205,7 +205,6 @@
         ctx.moveTo(tx - 8 * Math.cos(a - Math.PI/6), ty - 8 * Math.sin(a - Math.PI/6)); ctx.lineTo(tx, ty);
         ctx.lineTo(tx - 8 * Math.cos(a + Math.PI/6), ty - 8 * Math.sin(a + Math.PI/6)); ctx.stroke();
     }
-    // ИСПРАВЛЕНО: Учет масштабирования Canvas под CSS размеры экрана
     function getMousePos(canvas, evt) {
         let r = canvas.getBoundingClientRect();
         return { x: (evt.clientX - r.left) * (canvas.width / r.width), y: (evt.clientY - r.top) * (canvas.height / r.height) };
@@ -228,11 +227,15 @@
             [s1.w1, s1.w2].forEach(w => {
                 ctx1.fillStyle = w.color; ctx1.fillRect(w.x-15, -16, 30, 16);
                 drawVector(ctx1, w.x, -8, w.x, -8+40, w.color);
+                // Динамический вывод плеча сил в сантиметрах
+                ctx1.fillStyle = '#fff'; ctx1.font = 'bold 11px sans-serif';
+                let cm = Math.round(Math.abs(w.x)/40 * 10);
+                ctx1.fillText(`d = ${cm} см`, w.x-22, -22);
             });
             ctx1.restore();
             let st = document.getElementById('status1'), inp = document.getElementById('inputGroup1');
             if (Math.abs(s1.angle) < 0.005) { st.innerHTML = "✅ Равновесие найдено!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-            else { st.innerHTML = `⚠️ Рычаг наклонен! Слева: ${m1.toFixed(0)} Н·д | Справа: ${m2.toFixed(0)} Н·д`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            else { st.innerHTML = `⚠️ Рычаг наклонен! Момент слева: ${(m1*0.1).toFixed(1)} Н·м | Справа: ${(m2*0.1).toFixed(1)} Н·м`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
             animationFrameId = requestAnimationFrame(draw);
         }
         draw();
@@ -246,8 +249,8 @@
         [s1.w1, s1.w2].forEach(w => { if(w.isDragging){ if(w===s1.w1) w.x=Math.max(-220, Math.min(-15, rx)); if(w===s1.w2) w.x=Math.max(15, Math.min(220, rx)); } });
     });
     window.addEventListener('mouseup', () => { s1.w1.isDragging = s1.w2.isDragging = false; });
-    function checkSlide1() { let v = document.getElementById('code1').value.trim(); if (v === "1/2" || v === "0.5") changeSlide(1); else alert("Неверно. d₁=2д, d₂=4д. Ответ: 1/2."); }
-    // СЛАЙД 2: Полностью свободный конструктор
+    function checkSlide1() { let v = document.getElementById('code1').value.trim(); if (v === "1/2" || v === "0.5") changeSlide(1); else alert("Неверно. d₁=20см, d₂=40см. Отношение 20/40 = 1/2."); }
+    // СЛАЙД 2: Конструктор
     const canvas2 = document.getElementById('sandboxCanvas'); const ctx2 = canvas2.getContext('2d');
     let s2 = {
         pX: 300, pY: 180, angle: 0, tAngle: 0,
@@ -285,7 +288,9 @@
             s2.weights.forEach(w => {
                 if(w.onBeam && w !== s2.dragged) {
                     ctx2.fillStyle = w.color; ctx2.fillRect(w.relX-18, -16, 36, 16);
-                    ctx2.fillStyle = '#fff'; ctx2.font = '10px sans-serif'; ctx2.fillText(w.name, w.relX-12, -5);
+                    ctx2.fillStyle = '#fff'; ctx2.font = 'bold 11px sans-serif';
+                    let cm = Math.round(Math.abs(w.relX)/40 * 10);
+                    ctx2.fillText(`${cm} см`, w.relX-15, -22);
                     drawVector(ctx2, w.relX, -8, w.relX, -8+30, w.color);
                 }
             });
@@ -300,8 +305,8 @@
 
             let st = document.getElementById('status2'), inp = document.getElementById('inputGroup2');
             if (count < 3) { st.innerHTML = `📥 Разместите все 3 груза на балке (Установлено: ${count}/3)`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
-            else if (Math.abs(s2.angle) > 0.005) { st.innerHTML = `⚠️ Рычаг разбалансирован. Ищите равновесие!`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
-            else { st.innerHTML = "✅ Идеальный баланс найден!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else if (Math.abs(s2.angle) > 0.005) { st.innerHTML = `⚠️ Моменты разбалансированы. Ищите точку покоя рычага!`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            else { st.innerHTML = "✅ Баланс достигнут! Введите значение моментов сил:"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
             animationFrameId = requestAnimationFrame(draw);
         }
         draw();
@@ -322,7 +327,7 @@
         }
     });
     window.addEventListener('mouseup', () => { if(s2.dragged) { if(!s2.dragged.onBeam) { s2.dragged.x = s2.dragged.ox; s2.dragged.y = s2.dragged.oy; } s2.dragged = null; } });
-    function checkSlide2() { if(document.getElementById('code2').value.trim() === "1.2" || document.getElementById('code2').value.trim() === "1,2") changeSlide(1); else alert("Ошибка! Момент с одной стороны равен 1.2 Н·м."); }
+    function checkSlide2() { if(document.getElementById('code2').value.trim() === "1.2" || document.getElementById('code2').value.trim() === "1,2") changeSlide(1); else alert("Ошибка! Момент сил равен 1.2 Н·м."); }
     // СЛАЙД 3: Неподвижный блок
     const canvas3 = document.getElementById('fixedBlockCanvas'); const ctx3 = canvas3.getContext('2d');
     let s3 = { hY: 150, isDragging: false, bY: 250 };
@@ -356,7 +361,7 @@
     window.addEventListener('mouseup', () => { s3.isDragging = false; });
     function checkSlide3() { if(document.getElementById('code3').value.trim() === "30") changeSlide(1); else alert("Ошибка! Ответ: 30."); }
 
-    // СЛАЙД 4: Подвижный блок (Полный ремонт масштабирования клика)
+    // СЛАЙД 4: Подвижный блок со шкалами перемещений груза и вытяжки троса
     const canvas4 = document.getElementById('movableBlockCanvas'); const ctx4 = canvas4.getContext('2d');
     let s4 = { hY: 250, isDragging: false, blY: 250 };
     function initSlide4() {
@@ -364,6 +369,17 @@
             ctx4.clearRect(0, 0, 600, 400);
             s4.blY = 250 - (250 - s4.hY)/2;
             let h_cm = Math.round((250 - s4.blY)*0.4), s_cm = Math.round((250 - s4.hY)*0.4);
+            
+            // ВЕРТИКАЛЬНАЯ ЛИНЕЙКА ГРУЗА (Слева)
+            ctx4.fillStyle = '#111827'; ctx4.fillRect(180, 100, 20, 180);
+            ctx4.fillStyle = '#64748b'; ctx4.font = '10px monospace';
+            for(let i=0; i<=30; i+=10) { ctx4.fillText(`${i}см`, 145, 250 - i/0.4); ctx4.fillRect(180, 250 - i/0.4, 6, 1); }
+
+            // ВЕРТИКАЛЬНАЯ ЛИНЕЙКА РУКИ (Справа)
+            ctx4.fillStyle = '#111827'; ctx4.fillRect(420, 100, 20, 180);
+            ctx4.fillStyle = '#22c55e'; ctx4.font = '10px monospace';
+            for(let i=0; i<=50; i+=10) { ctx4.fillText(`${i}см`, 445, 250 - i/0.4); ctx4.fillRect(434, 250 - i/0.4, 6, 1); }
+
             ctx4.fillStyle = '#64748b'; ctx4.fillRect(250, 80, 40, 6);
             ctx4.strokeStyle = '#64748b'; ctx4.lineWidth = 2;
             ctx4.beginPath(); ctx4.moveTo(270, 86); ctx4.lineTo(270, s4.blY); ctx4.stroke();
@@ -377,7 +393,7 @@
             drawVector(ctx4, 330, s4.hY, 330, s4.hY-50, '#ef4444');
             let st = document.getElementById('status4'), inp = document.getElementById('inputGroup4');
             if (h_cm >= 20) { st.innerHTML = `✅ Груз поднят на h = 20 см!`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-            else { st.innerHTML = `Высота ящика h: ${h_cm} см | Ход руки s: ${s_cm} см`; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
+            else { st.innerHTML = `Высота ящика h: ${h_cm} см | Вытяжка троса s: ${s_cm} см`; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
             animationFrameId = requestAnimationFrame(draw);
         }
         draw();
@@ -389,7 +405,7 @@
 
     function checkFinalQuiz(card, val) {
         let cards = document.querySelectorAll('.quiz-card'); cards.forEach(c => c.classList.remove('correct', 'wrong'));
-        if (val === '90') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Превосходно! КПД = 90%."; document.getElementById('finalVerdict').style.color = "#22c55e"; }
+        if (val === '90') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Превосходно! КПД = 90%. Практикум успешно завершен!"; document.getElementById('finalVerdict').style.color = "#22c55e"; }
         else { card.classList.add('wrong'); document.getElementById('finalVerdict').innerHTML = "❌ Ошибка."; document.getElementById('finalVerdict').style.color = "#ef4444"; }
     }
     window.onload = () => { initSlide1(); };
