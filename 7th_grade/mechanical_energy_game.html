@@ -1,6 +1,3 @@
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 1: HTML-ДОКУМЕНТ, ТЕГИ HEAD И ОБЩИЕ СТИЛИ СТРАНИЦЫ (PREMIUM DARK)   -->
-<!-- ========================================================================= -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -18,23 +15,17 @@
         .progress-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #22c55e); transition: width 0.3s ease; }
         .slide-counter { font-size: 0.85rem; color: #94a3b8; }
         .workspace { flex-grow: 1; position: relative; overflow: hidden; }
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 2: ПРОДОЛЖЕНИЕ СТИЛЕЙ CSS ДЛЯ СЕТКИ, СЛАЙДОВ, КНОПОК И КВИЗОВ        -->
-<!-- ========================================================================= -->
         .slide { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: none; padding: 20px; }
         .slide.active { display: block; }
         .slide-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; height: 100%; }
         .info-panel { background: #0f172a; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #1e293b; }
-        .simulation-panel { background: #05070f; border-radius: 12px; border: 1px solid #1e293b; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
-        canvas { width: 100%; height: 100%; background: #04060a; }
+        .simulation-panel { background: #05070f; border-radius: 12px; border: 1px solid #1e293b; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; height: 100%; }
+        canvas { width: 100%; height: 100%; background: #04060a; display: block; }
         h2 { font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 6px; }
         .instruction { font-size: 0.85rem; color: #94a3b8; line-height: 1.4; margin-bottom: 8px; }
         .badge { align-self: flex-start; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .badge-lab { background: #22c55e22; color: #4ade80; border: 1px solid #22c55e44; }
         .badge-adv { background: #fb923c22; color: #fb923c; border: 1px solid #fb923c44; }
-        .metric-item { font-size: 0.8rem; color: #cbd5e1; margin-bottom: 2px; display: flex; align-items: center; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
-        .dot.red { background: #ef4444; } .dot.blue { background: #38bdf8; } .dot.green { background: #22c55e; } .dot.orange { background: #fb923c; }
         .validation-zone { background: #05070f; border-radius: 8px; padding: 10px; border: 1px solid #1e293b; margin-top: 5px; }
         .status-msg { font-size: 0.85rem; color: #fb923c; font-weight: 500; }
         .question-text { font-size: 0.85rem; color: #f8fafc; font-weight: 600; margin-top: 6px; background: #1e293b44; padding: 6px; border-radius: 4px; border-left: 3px solid #38bdf8; }
@@ -59,9 +50,6 @@
 </head>
 <body>
 <div class="app-container">
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 3: ШАПКА И СЛАЙД 1 ЛАБОРАТОРНОЙ (КИНЕТИЧЕСКАЯ ЭНЕРГИЯ, ПРОБИВАНИЕ СТЕНЫ)-->
-<!-- ========================================================================= -->
     <header class="app-header">
         <div class="logo">⚡ ЭНЕРГО-ЛАБ</div>
         <div class="progress-bar-container"><div class="progress-fill" id="progressFill" style="width: 20%;"></div></div>
@@ -97,9 +85,6 @@
                 <div class="simulation-panel"><canvas id="kineticCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 4: СЛАЙД 2 (ПОТЕНЦИАЛЬНАЯ ЭНЕРГИЯ MGH И ЗАБИВАНИЕ СВАИ КРАНОМ)        -->
-<!-- ========================================================================= -->
         <!-- СЛАЙД 2: Потенциальная энергия mgh -->
         <section class="slide" id="slide2">
             <div class="slide-grid">
@@ -123,9 +108,6 @@
                 <div class="simulation-panel"><canvas id="potentialCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 5: СЛАЙД 3 (ПОТЕНЦИАЛЬНАЯ ЭНЕРГИЯ ПРУЖИНЫ KX²/2 И МИШЕНЬ)            -->
-<!-- ========================================================================= -->
         <!-- СЛАЙД 3: Потенциальная энергия пружины -->
         <section class="slide" id="slide3">
             <div class="slide-grid">
@@ -149,9 +131,6 @@
                 <div class="simulation-panel"><canvas id="springCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 6: СЛАЙД 4 (ЗСЭ, МАЯТНИК С СИНХРОННЫМИ СУДУДАМИ) И СЛАЙД 5 (ФИНАЛ-КВИЗ)-->
-<!-- ========================================================================= -->
         <!-- СЛАЙД 4: Закон сохранения энергии -->
         <section class="slide" id="slide4">
             <div class="slide-grid">
@@ -159,7 +138,7 @@
                     <div>
                         <span class="badge badge-adv">Эксперимент 4</span>
                         <h2>Баланс ЗСЭ: Живой перелив</h2>
-                        <p class="instruction">Запустите маятник кнопкой. Энергия переливается как вода: когда Еп падает на нуле, скорость и Ек взлетают до пика. <b>Поймайте маятник кликом мыши</b> в тот момент, когда потенциальная энергия Еп составляет ровно <b>50%</b> (половина высоты).</p>
+                        <p class="instruction">Запустите маятник кнопкой. Энергия переливается как вода: когда Еп падает на нуль, скорость и Ек взлетают до пика. <b>Поймайте маятник кликом мыши</b> в тот момент, когда потенциальная энергия Еп составляет ровно <b>50%</b> (половина высоты).</p>
                         <button style="margin-top: 8px; width: 100%;" id="pendulumBtn" onclick="togglePendulum()">▶ Запустить маятник</button>
                     </div>
                     <div class="validation-zone">
@@ -199,13 +178,12 @@
         <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Вперед →</button>
     </footer>
 </div>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 7: JAVASCRIPT: ДВИЖОК ПЕРЕКЛЮЧЕНИЯ СЛАЙДОВ И НАСТРОЙКА ЭКСПЕРИМЕНТА 1-->
-<!-- ========================================================================= -->
 <script>
     let currentSlide = 1; const totalSlides = 5; let animationFrameId = null;
+    
+    // Правка: Безопасный менеджер чистки анимационных потоков при переходах слайдов
     function changeSlide(direction) {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
         document.getElementById(`slide${currentSlide}`).classList.remove('active');
         currentSlide += direction;
         document.getElementById(`slide${currentSlide}`).classList.add('active');
@@ -215,10 +193,14 @@
         document.getElementById('progressFill').style.width = `${(currentSlide / totalSlides) * 100}%`;
         initSlideSimulation();
     }
+    
     function initSlideSimulation() {
-        if (currentSlide === 1) initSlide1(); if (currentSlide === 2) initSlide2();
-        if (currentSlide === 3) initSlide3(); if (currentSlide === 4) initSlide4();
+        if (currentSlide === 1) initSlide1(); 
+        if (currentSlide === 2) initSlide2();
+        if (currentSlide === 3) initSlide3(); 
+        if (currentSlide === 4) initSlide4();
     }
+    
     function getMousePos(canvas, evt) {
         let r = canvas.getBoundingClientRect();
         return { x: (evt.clientX - r.left) * (canvas.width / r.width), y: (evt.clientY - r.top) * (canvas.height / r.height) };
@@ -227,22 +209,23 @@
     // ЛОГИКА СЛАЙДА 1 (Кинетическая энергия)
     const canvas1 = document.getElementById('kineticCanvas'); const ctx1 = canvas1.getContext('2d');
     let s1 = { bX: 60, bY: 250, v: 0, currentX: 60, isRunning: false, wallBroken: false };
+    
     function updateSlide1Slider() {
         s1.v = parseFloat(document.getElementById('slider_v1').value);
         document.getElementById('val_v1').innerText = s1.v;
     }
     function launchBall1() { if(!s1.isRunning) { s1.isRunning = true; s1.currentX = s1.bX; s1.wallBroken = false; } }
+    
     function initSlide1() {
-        function draw() {
+        const draw1 = () => {
+            if (currentSlide !== 1) return;
             ctx1.clearRect(0, 0, 600, 400);
             let Ek = 0.5 * 2 * s1.v * s1.v;
             
-            // Стена
             if(!s1.wallBroken) {
                 ctx1.fillStyle = '#ef4444'; ctx1.fillRect(450, 150, 25, 150);
                 ctx1.fillStyle = '#fff'; ctx1.font = '11px sans-serif'; ctx1.fillText("СТЕНА 100 Дж", 425, 135);
             }
-            // Пол
             ctx1.strokeStyle = '#1e293b'; ctx1.lineWidth = 4; ctx1.beginPath(); ctx1.moveTo(30, 265); ctx1.lineTo(570, 265); ctx1.stroke();
 
             if (s1.isRunning) {
@@ -254,12 +237,10 @@
                 if(s1.currentX > 550) { s1.isRunning = false; }
             }
 
-            // Шар
             ctx1.fillStyle = '#0f172a'; ctx1.strokeStyle = '#38bdf8'; ctx1.lineWidth = 3;
             ctx1.beginPath(); ctx1.arc(s1.currentX, s1.bY, 15, 0, Math.PI*2); ctx1.fill(); ctx1.stroke();
 
-            // Живая формула над шаром
-            ctx1.fillStyle = '#cbd5e1'; ctx1.font = 'bold 15px monospace';
+            ctx1.fillStyle = '#cbd5e1'; ctx1.font = 'bold 15px monospace'; ctx1.textAlign = 'left';
             ctx1.fillText(`Ек = (m·v²)/2 = ${Ek.toFixed(0)} Дж`, 200, 70);
 
             let st = document.getElementById('status1'), inp = document.getElementById('inputGroup1');
@@ -267,38 +248,32 @@
             else if (s1.currentX === 435) { st.innerHTML = "❌ Слабо! Скорости не хватило, шар отскочил."; st.style.color = "#ef4444"; inp.classList.add('hidden'); }
             else { st.innerHTML = `Энергия разгона: ${Ek.toFixed(0)} Дж`; st.style.color = "#38bdf8"; }
 
-            animationFrameId = requestAnimationFrame(draw);
-        }
-        draw();
+            animationFrameId = requestAnimationFrame(draw1);
+        };
+        draw1();
     }
     function checkSlide1() { if(document.getElementById('code1').value.trim() === "100") changeSlide(1); else alert("Неверно. (2 кг * 10²) / 2 = 100 Дж."); }
 </script>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 8: JAVASCRIPT: ДВИЖОК ЭКСПЕРИМЕНТА 2 (ПОТЕНЦИАЛЬНАЯ ЭНЕРГИЯ MGH)    -->
-<!-- ========================================================================= -->
 <script>
     // ЛОГИКА СЛАЙДА 2 (Потенциальная энергия mgh)
     const canvas2 = document.getElementById('potentialCanvas'); const ctx2 = canvas2.getContext('2d');
     let s2 = { bX: 300, bY: 280, startY: 280, isDragging: false, pileDepth: 0, targetDepth: 40, success: false };
+    
     function initSlide2() {
-        function draw() {
+        const draw2 = () => {
+            if (currentSlide !== 2) return;
             ctx2.clearRect(0, 0, 600, 400);
-            let h_m = (s2.startY - s2.bY) / 30; // 1 метр = 30 пикселей
-            let Ep = 4 * 10 * h_m; // m=4, g=10
+            let h_m = (s2.startY - s2.bY) / 30; 
+            let Ep = 4 * 10 * h_m; 
 
-            // Направляющая рама копра
             ctx2.strokeStyle = '#1e293b'; ctx2.lineWidth = 4; ctx2.strokeRect(280, 50, 40, 250);
-            
-            // Цель (зеленая черта для сваи)
             ctx2.strokeStyle = '#22c55e'; ctx2.lineWidth = 3; ctx2.beginPath(); ctx2.moveTo(250, 340); ctx2.lineTo(350, 340); ctx2.stroke();
-            ctx2.fillStyle = '#22c55e'; ctx2.font = '10px sans-serif'; ctx2.fillText("ЦЕЛЬ ЗАБИВКИ", 360, 343);
+            ctx2.fillStyle = '#22c55e'; ctx2.font = '10px sans-serif'; ctx2.textAlign = 'left'; ctx2.fillText("ЦЕЛЬ ЗАБИВКИ", 360, 343);
 
-            // Свая (забиваемый столб)
             ctx2.fillStyle = '#64748b'; ctx2.fillRect(292, 300 + s2.pileDepth, 16, 60);
 
-            // Падение бойка (симуляция отпускания мыши)
             if(!s2.isDragging && s2.bY < s2.startY) {
-                s2.bY += 12; // Скорость падения
+                s2.bY += 12; 
                 if(s2.bY >= s2.startY) {
                     s2.bY = s2.startY;
                     if(Ep >= 160) { s2.pileDepth = s2.targetDepth; s2.success = true; }
@@ -306,10 +281,8 @@
                 }
             }
 
-            // Боёк груза
             ctx2.fillStyle = '#fb923c'; ctx2.fillRect(285, s2.bY - 20, 30, 20);
 
-            // Динамические стрелки и формулы на холсте
             ctx2.fillStyle = '#fb923c'; ctx2.font = 'bold 16px monospace'; ctx2.textAlign = 'center';
             ctx2.fillText(`Еп = m·g·h = ${Ep.toFixed(0)} Дж`, 300, 35);
             if(h_m > 0) {
@@ -321,48 +294,44 @@
             if (s2.success) { st.innerHTML = "✅ Свая успешно забита до отметки!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
             else { st.innerHTML = `Накопленная энергия бойка Еп: ${Ep.toFixed(0)} Дж`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
 
-            animationFrameId = requestAnimationFrame(draw);
-        }
-        draw();
+            animationFrameId = requestAnimationFrame(draw2);
+        };
+        draw2();
     }
+    
     canvas2.addEventListener('mousedown', (e) => {
         if(currentSlide !== 2) return;
         let p = getMousePos(canvas2, e);
         if(Math.abs(p.x - s2.bX) < 30 && p.y <= s2.bY && p.y >= s2.bY - 25) { s2.isDragging = true; s2.success = false; }
     });
     canvas2.addEventListener('mousemove', (e) => {
-        if(s2.isDragging) { let p = getMousePos(canvas2, e); s2.bY = Math.max(50, Math.min(s2.startY, p.y)); }
+        if(currentSlide === 2 && s2.isDragging) { let p = getMousePos(canvas2, e); s2.bY = Math.max(50, Math.min(s2.startY, p.y)); }
     });
     window.addEventListener('mouseup', () => { s2.isDragging = false; });
     function checkSlide2() { if(document.getElementById('code2').value.trim() === "4") changeSlide(1); else alert("Подумайте! Еп = mgh => 160 = 4 * 10 * h. Откуда h = 4."); }
 </script>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 9: JAVASCRIPT: ДВИЖОК ЭКСПЕРИМЕНТА 3 (ПОТЕНЦИАЛЬНАЯ ЭНЕРГИЯ ПРУЖИНЫ)-->
-<!-- ========================================================================= -->
 <script>
     // ЛОГИКА СЛАЙДА 3 (Энергия упругости пружины)
     const canvas3 = document.getElementById('springCanvas'); const ctx3 = canvas3.getContext('2d');
     let s3 = { sX: 130, sY: 200, freeX: 130, isDragging: false, ballX: 130, isFlying: false, vX: 0, hit: false };
-    function updateSpringSim() {
+    
+    const updateSpringSim = () => {
+        if (currentSlide !== 3) return;
         ctx3.clearRect(0, 0, 600, 400);
-        let x_m = Math.max(0, (s3.freeX - s3.ballX) / 30); // 1 метр = 30 пикселей сжатия
-        let Ep = (100 * x_m * x_m) / 2; // k = 100
+        let x_m = Math.max(0, (s3.freeX - s3.ballX) / 30); 
+        let Ep = (100 * x_m * x_m) / 2; 
 
-        // Мишень
         ctx3.fillStyle = '#38bdf8'; ctx3.beginPath(); ctx3.arc(500, 200, 20, 0, Math.PI*2); ctx3.fill();
         ctx3.fillStyle = '#05070f'; ctx3.beginPath(); ctx3.arc(500, 200, 8, 0, Math.PI*2); ctx3.fill();
 
-        // Стенка упора пружины
         ctx3.fillStyle = '#1e293b'; ctx3.fillRect(20, 140, 15, 120);
 
-        // Полет снаряда
         if(s3.isFlying) {
             s3.ballX += s3.vX;
             if(Math.abs(s3.ballX - 500) < 15) { s3.isFlying = false; s3.hit = true; s3.ballX = 500; }
             if(s3.ballX > 580) { s3.isFlying = false; s3.ballX = s3.freeX; }
         }
 
-        // Отрисовка витков пружины
         ctx3.strokeStyle = '#64748b'; ctx3.lineWidth = 3; ctx3.beginPath(); ctx3.moveTo(35, 200);
         let currentLength = s3.isFlying ? s3.freeX - 35 : s3.ballX - 35;
         let turns = 12;
@@ -374,11 +343,9 @@
         }
         ctx3.stroke();
 
-        // Снаряд (зеленый шар)
         ctx3.fillStyle = '#0f172a'; ctx3.strokeStyle = '#22c55e'; ctx3.lineWidth = 3;
         ctx3.beginPath(); ctx3.arc(s3.ballX, s3.sY, 12, 0, Math.PI*2); ctx3.fill(); ctx3.stroke();
 
-        // Формулы
         ctx3.fillStyle = '#4ade80'; ctx3.font = 'bold 16px monospace'; ctx3.textAlign = 'center';
         ctx3.fillText(`Еп = (k·x²) / 2 = ${Ep.toFixed(1)} Дж`, 300, 45);
         if(x_m > 0 && !s3.isFlying) {
@@ -389,21 +356,27 @@
         let st = document.getElementById('status3'), inp = document.getElementById('inputGroup3');
         if (s3.hit) { st.innerHTML = "🎯 Прямое попадание! Мишень поражена!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
         else { st.innerHTML = `Запас упругой энергии пружины Еп: ${Ep.toFixed(1)} Дж`; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
-    }
+    };
+    
     function initSlide3() {
-        function loop() { updateSpringSim(); animationFrameId = requestAnimationFrame(loop); }
-        loop();
+        const loop3 = () => {
+            if (currentSlide !== 3) return;
+            updateSpringSim();
+            animationFrameId = requestAnimationFrame(loop3);
+        };
+        loop3();
     }
+    
     canvas3.addEventListener('mousedown', (e) => {
         if(currentSlide !== 3 || s3.isFlying) return;
         let p = getMousePos(canvas3, e);
         if(Math.abs(p.x - s3.ballX) < 20 && Math.abs(p.y - s3.sY) < 20) { s3.isDragging = true; s3.hit = false; }
     });
     canvas3.addEventListener('mousemove', (e) => {
-        if(s3.isDragging) { let p = getMousePos(canvas3, e); s3.ballX = Math.max(50, Math.min(s3.freeX, p.x)); }
+        if(currentSlide === 3 && s3.isDragging) { let p = getMousePos(canvas3, e); s3.ballX = Math.max(50, Math.min(s3.freeX, p.x)); }
     });
     window.addEventListener('mouseup', () => {
-        if(s3.isDragging) {
+        if(currentSlide === 3 && s3.isDragging) {
             s3.isDragging = false;
             let comp = (s3.freeX - s3.ballX) / 30;
             if(comp > 0.2) { s3.isFlying = true; s3.vX = comp * 7; } 
@@ -412,19 +385,19 @@
     });
     function checkSlide3() { if(document.getElementById('code3').value.trim() === "200") changeSlide(1); else alert("Ошибка! Формула: (100 * 2²) / 2 = 200 Дж."); }
 </script>
-<!-- ========================================================================= -->
-<!-- ЧАСТЬ 10: JAVASCRIPT: ДВИЖОК ЭКСПЕРИМЕНТА 4 (ЗСЭ, МАЯТНИК + СОСУДЫ) И КВИЗ -->
-<!-- ========================================================================= -->
 <script>
     // ЛОГИКА СЛАЙДА 4 (Закон сохранения энергии и перелив жидкостей)
     const canvas4 = document.getElementById('conservationCanvas'); const ctx4 = canvas4.getContext('2d');
     let s4 = { cx: 300, pivotY: 30, length: 110, angle: Math.PI/4, time: 0, active: false, caught: false, factor: 0 };
+    
     function togglePendulum() {
         s4.active = !s4.active; s4.caught = false;
         document.getElementById('pendulumBtn').innerText = s4.active ? "⏸ Остановить маятник" : "▶ Запустить маятник";
     }
+    
     function initSlide4() {
-        function draw() {
+        const draw4 = () => {
+            if (currentSlide !== 4) return;
             ctx4.clearRect(0, 0, 600, 400);
             
             ctx4.strokeStyle = '#1e293b'; ctx4.lineWidth = 3; ctx4.beginPath(); ctx4.moveTo(s4.cx-40, s4.pivotY); ctx4.lineTo(s4.cx+40, s4.pivotY); ctx4.stroke();
@@ -435,38 +408,33 @@
             let ballY = s4.pivotY + s4.length * Math.cos(s4.angle);
             let lowestY = s4.pivotY + s4.length;
 
-            // Измеритель высоты h
             let maxH = s4.length * (1 - Math.cos(Math.PI / 3.5));
             let curH = lowestY - ballY;
-            s4.factor = Math.min(1, Math.max(0, curH / maxH)); // Доля потенциальной энергии
+            s4.factor = Math.min(1, Math.max(0, curH / maxH)); 
 
-            // Высота h стрелка
             if(lowestY - ballY > 2) {
                 ctx4.strokeStyle = '#fb923c'; ctx4.lineWidth = 1.5; ctx4.beginPath(); ctx4.moveTo(ballX, lowestY); ctx4.lineTo(ballX, ballY); ctx4.stroke();
-                ctx4.fillStyle = '#fb923c'; ctx4.font = '9px sans-serif'; ctx4.fillText("высота h", ballX + 15, (lowestY+ballY)/2);
+                ctx4.fillStyle = '#fb923c'; ctx4.font = '9px sans-serif'; ctx4.textAlign = 'left'; ctx4.fillText("высота h", ballX + 15, (lowestY+ballY)/2);
             }
 
-            // Маятник
             ctx4.strokeStyle = '#475569'; ctx4.lineWidth = 1.5; ctx4.beginPath(); ctx4.moveTo(s4.cx, s4.pivotY); ctx4.lineTo(ballX, ballY); ctx4.stroke();
             ctx4.fillStyle = '#0f172a'; ctx4.strokeStyle = '#22c55e'; ctx4.lineWidth = 3; ctx4.beginPath(); ctx4.arc(ballX, ballY, 11, 0, Math.PI*2); ctx4.fill(); ctx4.stroke();
 
-            // Текстовые индикаторы энергий
             ctx4.fillStyle = '#4ade80'; ctx4.font = 'bold 12px monospace'; ctx4.fillText("Еполная = Ек + Еп = 40 Дж (const)", 20, 20);
             let textY = lowestY + 30;
             ctx4.fillStyle = '#fb923c'; ctx4.fillText(`Еп (Запас высоты): ${(s4.factor * 100).toFixed(0)}%`, 20, textY);
             ctx4.fillStyle = '#38bdf8'; ctx4.fillText(`Ек (Скорость хода): ${((1 - s4.factor) * 100).toFixed(0)}%`, 20, textY + 16);
 
-            // ГИДРО-АНАЛОГИЯ (СТАКАНЫ СНИЗУ)
             let liquidTopY = textY + 45, vesselHeight = 55, vesselWidth = 40, v1X = s4.cx - 60, v2X = s4.cx + 20;
-            ctx4.fillStyle = '#94a3b8'; ctx4.font = '10px sans-serif'; ctx4.fillText("Аналогия: сообщающиеся сосуды энергии", s4.cx, liquidTopY - 12);
-            // Соединительная трубка
+            ctx4.fillStyle = '#94a3b8'; ctx4.font = '10px sans-serif'; ctx4.textAlign = 'center'; ctx4.fillText("Аналогия: сообщающиеся сосуды энергии", s4.cx, liquidTopY - 12);
+            
             ctx4.fillStyle = '#1e293b'; ctx4.fillRect(v1X + vesselWidth, liquidTopY + vesselHeight - 10, v2X - (v1X + vesselWidth), 8);
-            // Сосуд Еп
+            
             ctx4.strokeStyle = '#1e293b'; ctx4.lineWidth = 2; ctx4.strokeRect(v1X, liquidTopY, vesselWidth, vesselHeight);
             let fillH1 = s4.factor * (vesselHeight - 4);
-            ctx4.fillStyle = 'rgba(251, 146, 60, 0.25)'; ctx.fillRect ? ctx4.fillRect(v1X + 2, liquidTopY + vesselHeight - fillH1, vesselWidth - 4, fillH1) : null;
+            ctx4.fillStyle = 'rgba(251, 146, 60, 0.25)'; ctx4.fillRect(v1X + 2, liquidTopY + vesselHeight - fillH1, vesselWidth - 4, fillH1);
             ctx4.fillStyle = '#fb923c'; ctx4.font = '10px monospace'; ctx4.fillText("Еп", v1X + vesselWidth/2, liquidTopY + vesselHeight + 12);
-            // Сосуд Ек
+            
             ctx4.strokeStyle = '#1e293b'; ctx4.strokeRect(v2X, liquidTopY, vesselWidth, vesselHeight);
             let fillH2 = (1 - s4.factor) * (vesselHeight - 4);
             ctx4.fillStyle = 'rgba(56, 189, 248, 0.25)'; ctx4.fillRect(v2X + 2, liquidTopY + vesselHeight - fillH2, vesselWidth - 4, fillH2);
@@ -476,22 +444,24 @@
             if(s4.caught) { st.innerHTML = `🎯 Поймали! Еп = ${(s4.factor*100).toFixed(0)}%. Отличный ориентир баланса!`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
             else { st.innerHTML = "⚠️ Поймайте кликом по летящему шару фазу 50% энергии."; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
 
-            animationFrameId = requestAnimationFrame(draw);
-        }
-        canvas4.addEventListener('mousedown', (e) => {
-            if(currentSlide !== 4 || !s4.active) return;
-            let p = getMousePos(canvas4, e);
-            let ballX = s4.cx + s4.length * Math.sin(s4.angle), ballY = s4.pivotY + s4.length * Math.cos(s4.angle);
-            if(Math.abs(p.x - ballX) < 25 && Math.abs(p.y - ballY) < 25) {
-                if(Math.abs(s4.factor - 0.5) < 0.12) { s4.caught = true; s4.active = false; }
-                else { alert(`Мимо! Здесь Еп = ${(s4.factor*100).toFixed(0)}%. Ловите строго посредине спуска/подъема!`); }
-            }
-        });
-        draw();
+            animationFrameId = requestAnimationFrame(draw4);
+        };
+        draw4();
     }
+    
+    canvas4.addEventListener('mousedown', (e) => {
+        if(currentSlide !== 4 || !s4.active) return;
+        let p = getMousePos(canvas4, e);
+        let ballX = s4.cx + s4.length * Math.sin(s4.angle), ballY = s4.pivotY + s4.length * Math.cos(s4.angle);
+        if(Math.abs(p.x - ballX) < 25 && Math.abs(p.y - ballY) < 25) {
+            if(Math.abs(s4.factor - 0.5) < 0.12) { s4.caught = true; s4.active = false; document.getElementById('pendulumBtn').innerText = "▶ Запустить маятник"; }
+            else { alert(`Мимо! Здесь Еп = ${(s4.factor*100).toFixed(0)}%. Ловите строго посредине спуска/подъема!`); }
+        }
+    });
+    
     function checkSlide4() { if(document.getElementById('code4').value.trim() === "25") changeSlide(1); else alert("ЗСЭ! Общая энергия неизменна: Еполн = Ек + Еп => 40 = 15 + Еп => Еп = 25 Дж."); }
 
-    // СЛАЙД 5: Финальный зачёт КПД
+    // СЛАЙД 5: Итоговый контроль
     function checkFinalQuiz(card, val) {
         let cards = document.querySelectorAll('.quiz-card'); cards.forEach(c => c.classList.remove('correct', 'wrong'));
         if (val === '44') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Браво! Начальная Еп = mgh = 2·10·4 = 80 Дж. Конечная Ек = mv²/2 = 2·36/2 = 36 Дж. В тепло улетело: 80 - 36 = 44 Дж! Практикум успешно сдан!"; document.getElementById('finalVerdict').style.color = "#22c55e"; }
