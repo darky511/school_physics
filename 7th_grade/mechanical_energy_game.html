@@ -46,9 +46,6 @@
         .quiz-card:hover { border-color: #38bdf8; background: #0e1726; }
         .quiz-card.correct { background: #14532d !important; border-color: #22c55e !important; color: #4ade80; }
         .quiz-card.wrong { background: #7f1d1d !important; border-color: #ef4444 !important; color: #f87171; }
-        
-        /* Фикс дерганья строк: жестко задаем ширину числового блока */
-        .energy-value-span { display: inline-block; width: 45px; text-align: right; }
     </style>
 </head>
 <body>
@@ -94,13 +91,14 @@
                 <div class="info-panel">
                     <div>
                         <span class="badge badge-lab">Эксперимент 2</span>
-                        <h2>Энергия высоты: Работа копра</h2>
-                        <p class="instruction">Один удар не забьет сваю! Для полной забивки нужно накопить в сумме <b>180 Дж</b> энергии. Но кран короткий: максимальный подъем бойка массой <b>4 кг</b> дает всего <b>40 Дж</b> (ровно в 4.5 раза меньше нужного!). Тащите боёк мышкой на самый верх и сбрасывайте его ровно <b>4.5 раза</b> (потребуется 5 точных максимальных сбросов).</p>
+                        <h2>Энергия высоты: Накопительный копёр</h2>
+                        <p class="instruction">Потенциальная энергия поднятого бойка при падении полностью передаётся свае и запасается в ней. Поднимайте боёк массой <b>m = 4 кг</b> на любую высоту и отпускайте. Ваша задача — вогнать в сваю <b>строго 180 Дж</b> энергии. Ни больше, ни меньше! Перелёт сбросит счётчик.</p>
+                        <button style="margin-top: 10px; width: 100%; background: #ef4444; color: white;" onclick="resetPileSim()">🔄 Сбросить прогресс забивки</button>
                     </div>
                     <div class="validation-zone">
-                        <div class="status-msg" id="status2">Зажмите боёк и поднимите до упора вверх для сброса.</div>
+                        <div class="status-msg" id="status2">Зажмите боёк мышкой и потяните вверх.</div>
                         <div class="input-group hidden" id="inputGroup2">
-                            <div class="question-text">Вопрос: Какую максимальную потенциальную энергию (в Дж) выдает боёк массой 4 кг при одном подъеме на предельную высоту h = 1 метр? Примите g = 10 м/с².</div>
+                            <div class="question-text">Вопрос: Какую потенциальную энергию (в Дж) накопит боёк массой 4 кг, если поднять его ровно на высоту h = 0.5 метра? Примите g = 10 м/с².</div>
                             <div class="flex-row">
                                 <input type="text" id="code2" placeholder="Энергия Еп (в Дж)">
                                 <button onclick="checkSlide2()">Проверить</button>
@@ -118,12 +116,13 @@
                     <div>
                         <span class="badge badge-lab">Эксперимент 3</span>
                         <h2>Энергия деформации: Трение стола</h2>
-                        <p class="instruction">Здесь шар скользит с трением. Работа сил трения до мишени «съедает» ровно <b>72 Дж</b>. Рассчитайте сжатие пружины жесткостью <b>k = 100 Н/м</b> так, чтобы её упругая энергия была в точности равна работе трения. При недолете или перелете снаряд промажет мимо центра!</p>
+                        <p class="instruction">Работа сил трения до мишени съедает ровно <b>72 Дж</b>. Рассчитайте и настройте сжатие пружины жесткостью <b>k = 100 Н/м</b> так, чтобы её упругая энергия была в точности равна работе трения. При недолете или перелете шар промажет.</p>
+                        <button style="margin-top: 10px; width: 100%; background: #fb923c; color: #04060a;" onclick="resetSpringBall()">🔄 Сбросить снаряд</button>
                     </div>
                     <div class="validation-zone">
-                        <div class="status-msg" id="status3">Зажмите снаряд и сожмите пружину на расчетную величину.</div>
+                        <div class="status-msg" id="status3">Зажмите шар мышкой и вдавите влево.</div>
                         <div class="input-group hidden" id="inputGroup3">
-                            <div class="question-text">Вопрос: На сколько метров (x) нужно сжать пружину жесткостью 100 Н/м, чтобы запасти ровно 72 Дж энергии? Запишите десятичной дробью (например, 1.5).</div>
+                            <div class="question-text">Вопрос: На сколько метров (x) нужно сожать пружину жесткостью 100 Н/м, чтобы запасти ровно 72 Дж энергии?</div>
                             <div class="flex-row">
                                 <input type="text" id="code3" placeholder="Сжатие x (в метрах)">
                                 <button onclick="checkSlide3()">Проверить</button>
@@ -140,12 +139,12 @@
                 <div class="info-panel">
                     <div>
                         <span class="badge badge-adv">Эксперимент 4</span>
-                        <h2>Баланс ЗСЭ: Живой перелив</h2>
-                        <p class="instruction">Запустите маятник. Движение замедлено, чтобы вы успели поймать фазу. <b>Поймайте маятник кликом мыши</b> строго в тот момент, когда потенциальная энергия Еп составляет ровно <b>50%</b> (половина высоты подъема).</p>
+                        <h2>Баланс ЗСЭ: Кнопка паузы</h2>
+                        <p class="instruction">Запустите маятник. Энергия непрерывно циркулирует между Ек и Еп. Ваша задача — нажать кнопку <b>«⏸ Поставить на паузу»</b> в тот момент, когда потенциальная энергия Еп составляет ровно <b>50%</b>.</p>
                         <button style="margin-top: 8px; width: 100%;" id="pendulumBtn" onclick="togglePendulum()">▶ Запустить маятник</button>
                     </div>
                     <div class="validation-zone">
-                        <div class="status-msg" id="status4">Запустите и кликните по шару на полпути.</div>
+                        <div class="status-msg" id="status4">Нажмите старт, а затем поймайте паузой середину пути.</div>
                         <div class="input-group hidden" id="inputGroup4">
                             <div class="question-text">Вопрос: Если в верхней точке Еп = 40 Дж, а в какой-то момент Ек стала равна 15 Дж, чему равна Еп в этот же миг (в Дж)?</div>
                             <div class="flex-row">
@@ -167,7 +166,7 @@
                 <p style="margin: 12px 0; color: #94a3b8; font-size: 0.9rem; line-height: 1.45;">Металлический шар массой <b>2 кг</b> соскользнул по наклонному пандусу с высоты <b>h = 4 метра</b> и у основания разогнался до скорости <b>v = 6 м/с</b>. Из-за трения часть механической энергии превратилась в тепло. Сколько Джоулей энергии улетело в воздух? Примите g = 10 м/с².</p>
                 <div class="quiz-options">
                     <div class="quiz-card" onclick="checkFinalQuiz(this, '4')">4 Дж (потери минимальны)</div>
-                    <div class="quiz-card" onclick="checkFinalQuiz(this, '36')">36 Дж (энергия скорости)</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '36')">36 Дж (energy скорости)</div>
                     <div class="quiz-card" onclick="checkFinalQuiz(this, '44')">44 Дж (разность потенциальной и кинетической)</div>
                     <div class="quiz-card" onclick="checkFinalQuiz(this, '80')">80 Дж (вся начальная энергия)</div>
                 </div>
@@ -257,28 +256,32 @@
     function checkSlide1() { if(document.getElementById('code1').value.trim() === "100") changeSlide(1); else alert("Неверно. (2 кг * 10²) / 2 = 100 Дж."); }
 </script>
 <script>
-    // ЛОГИКА СЛАЙДА 2 (Потенциальная энергия mgh с накоплением)
+    // ЛОГИКА СЛАЙДА 2 (Потенциальная энергия mgh с произвольным накоплением)
     const canvas2 = document.getElementById('potentialCanvas'); const ctx2 = canvas2.getContext('2d');
-    let s2 = { bX: 300, bY: 250, startY: 250, isDragging: false, totalEnergyAccumulated: 0, pileDepth: 0, targetDepth: 45, success: false, maxLiftY: 130 };
+    let s2 = { bX: 300, bY: 250, startY: 250, isDragging: false, totalEnergyAccumulated: 0, pileDepth: 0, targetDepth: 45, success: false, maxLiftY: 110, lastDroppedEp: 0, overfilled: false };
     
+    function resetPileSim() {
+        s2.totalEnergyAccumulated = 0; s2.pileDepth = 0; s2.success = false; s2.overfilled = false; s2.bY = s2.startY; s2.isDragging = false;
+    }
+
     function initSlide2() {
         const draw2 = () => {
             if (currentSlide !== 2) return;
             ctx2.clearRect(0, 0, 600, 400);
             
-            // Расчет энергии текущего подъема: h=1 метр при лифте на 120 пикселей (250 - 130)
-            let currentH = Math.max(0, (s2.startY - s2.bY) / 120);
+            // h = 1 метр соответствует перемещению на 140 пикселей (250 - 110)
+            let currentH = Math.max(0, (s2.startY - s2.bY) / 140);
             let currentEp = 4 * 10 * currentH; // m=4, g=10
 
-            // Направляющая рама копра (ограничена высотой h=1м)
-            ctx2.strokeStyle = '#1e293b'; ctx2.lineWidth = 4; ctx2.strokeRect(280, s2.maxLiftY - 10, 40, 140);
+            // Направляющая рама копра
+            ctx2.strokeStyle = '#1e293b'; ctx2.lineWidth = 4; ctx2.strokeRect(280, s2.maxLiftY - 10, 40, 160);
             
             // Отметка цели забивки
             ctx2.strokeStyle = '#22c55e'; ctx2.lineWidth = 3; ctx2.beginPath(); ctx2.moveTo(250, 345); ctx2.lineTo(350, 345); ctx2.stroke();
             ctx2.fillStyle = '#22c55e'; ctx2.font = '10px sans-serif'; ctx2.textAlign = 'left'; ctx2.fillText("ЦЕЛЬ ЗАБИВКИ (180 Дж)", 360, 348);
 
-            // Свая плавно уходит вниз по мере накопления энергии ударов
-            s2.pileDepth = (s2.totalEnergyAccumulated / 180) * s2.targetDepth;
+            // Отрисовка забиваемой сваи
+            s2.pileDepth = (Math.min(180, s2.totalEnergyAccumulated) / 180) * s2.targetDepth;
             ctx2.fillStyle = '#64748b'; ctx2.fillRect(292, 270 + s2.pileDepth, 16, 60);
 
             // Падение бойка при отпускании мыши
@@ -286,9 +289,11 @@
                 s2.bY += 15; 
                 if(s2.bY >= s2.startY) {
                     s2.bY = s2.startY;
-                    // Суммируем только чистые максимальные удары в 40 Дж (или близкие к ним)
-                    s2.totalEnergyAccumulated += currentEp;
-                    if(s2.totalEnergyAccumulated >= 178) { s2.success = true; }
+                    s2.totalEnergyAccumulated += s2.lastDroppedEp;
+                    s2.lastDroppedEp = 0;
+                    
+                    if(Math.abs(s2.totalEnergyAccumulated - 180) < 1) { s2.totalEnergyAccumulated = 180; s2.success = true; s2.overfilled = false; }
+                    else if(s2.totalEnergyAccumulated > 180) { s2.overfilled = true; }
                 }
             }
 
@@ -297,18 +302,15 @@
 
             // Индикаторы на холсте
             ctx2.fillStyle = '#fb923c'; ctx2.font = 'bold 15px monospace'; ctx2.textAlign = 'center';
-            ctx2.fillText(`Текущий подъем Еп: ${currentEp.toFixed(0)} Дж`, 300, 35);
+            let displayEp = s2.isDragging ? currentEp : 0;
+            ctx2.fillText(`Текущий заряд Еп: ${displayEp.toFixed(0)} Дж`, 300, 35);
             ctx2.fillStyle = '#4ade80';
-            ctx2.fillText(`Всего вбито энергии: ${s2.totalEnergyAccumulated.toFixed(0)} / 180 Дж`, 300, 60);
-
-            if(currentH > 0 && s2.isDragging) {
-                ctx2.fillStyle = '#cbd5e1'; ctx2.font = '11px sans-serif';
-                ctx2.fillText(`h = ${currentH.toFixed(2)} м`, 240, (s2.startY + s2.bY)/2);
-            }
+            ctx2.fillText(`Запасено в свае: ${s2.totalEnergyAccumulated.toFixed(0)} / 180 Дж`, 300, 60);
 
             let st = document.getElementById('status2'), inp = document.getElementById('inputGroup2');
-            if (s2.success) { st.innerHTML = "✅ Свая полностью забита! Сила ударов сделала свое дело."; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-            else { st.innerHTML = `Ударов сделано: ${Math.floor(s2.totalEnergyAccumulated/40)} из 5 необходимых сбросов.`; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            if (s2.success) { st.innerHTML = "✅ Идеально! Накоплено ровно 180 Дж, цель достигнута."; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else if (s2.overfilled) { st.innerHTML = `❌ Перелёт! Собрано ${s2.totalEnergyAccumulated.toFixed(0)} Дж. Энергия избыточна, свая искривилась. Нажмите сброс!`; st.style.color = "#ef4444"; inp.classList.add('hidden'); }
+            else { st.innerHTML = `Свая принимает энергию ударов. Баланс: ${s2.totalEnergyAccumulated.toFixed(0)} Дж.`; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
 
             animationFrameId = requestAnimationFrame(draw2);
         };
@@ -316,43 +318,49 @@
     }
     
     canvas2.addEventListener('mousedown', (e) => {
-        if(currentSlide !== 2 || s2.success) return;
+        if(currentSlide !== 2 || s2.success || s2.overfilled) return;
         let p = getMousePos(canvas2, e);
         if(Math.abs(p.x - s2.bX) < 30 && p.y <= s2.bY && p.y >= s2.bY - 25) { s2.isDragging = true; }
     });
     canvas2.addEventListener('mousemove', (e) => {
         if(currentSlide === 2 && s2.isDragging) { let p = getMousePos(canvas2, e); s2.bY = Math.max(s2.maxLiftY, Math.min(s2.startY, p.y)); }
     });
-    window.addEventListener('mouseup', () => { s2.isDragging = false; });
-    function checkSlide2() { if(document.getElementById('code2').value.trim() === "40") changeSlide(1); else alert("Неверно. Еп = mgh = 4 кг * 10 * 1 м = 40 Дж."); }
+    window.addEventListener('mouseup', () => { 
+        if(s2.isDragging) {
+            let currentH = Math.max(0, (s2.startY - s2.bY) / 140);
+            s2.lastDroppedEp = Math.round(4 * 10 * currentH);
+            s2.isDragging = false; 
+        }
+    });
+    function checkSlide2() { if(document.getElementById('code2').value.trim() === "20") changeSlide(1); else alert("Неверно. Еп = mgh = 4 кг * 10 * 0.5 м = 20 Дж."); }
 </script>
 <script>
-    // ЛОГИКА СЛАЙДА 3 (Энергия упругости пружины с честным расчетом трения стола)
+    // ЛОГИКА СЛАЙДА 3 (Энергия упругости пружины со сбросом)
     const canvas3 = document.getElementById('springCanvas'); const ctx3 = canvas3.getContext('2d');
-    let s3 = { sX: 130, sY: 200, freeX: 130, isDragging: false, ballX: 130, isFlying: false, stopX: 130, maxTravelX: 130, hit: false, targetX: 470 };
+    let s3 = { sX: 130, sY: 200, freeX: 130, isDragging: false, ballX: 130, isFlying: false, stopX: 130, hit: false, targetX: 470 };
     
+    function resetSpringBall() {
+        s3.ballX = s3.freeX; s3.isFlying = false; s3.hit = false; s3.stopX = s3.freeX; s3.isDragging = false;
+    }
+
     const updateSpringSim = () => {
         if (currentSlide !== 3) return;
         ctx3.clearRect(0, 0, 600, 400);
         
-        let x_m = Math.max(0, (s3.freeX - s3.ballX) / 35); // Масштаб сжатия (макс 2.0 м)
-        let Ep = (100 * x_m * x_m) / 2; // k = 100 Н/м
+        let x_m = Math.max(0, (s3.freeX - s3.ballX) / 35); 
+        let Ep = (100 * x_m * x_m) / 2; 
 
-        // Зона синей мишени (центр на 470 пикселях)
         ctx3.fillStyle = '#38bdf8'; ctx3.beginPath(); ctx3.arc(s3.targetX, 200, 18, 0, Math.PI*2); ctx3.fill();
         ctx3.fillStyle = '#05070f'; ctx3.beginPath(); ctx3.arc(s3.targetX, 200, 6, 0, Math.PI*2); ctx3.fill();
 
-        // Упор стены пружины
         ctx3.fillStyle = '#1e293b'; ctx3.fillRect(20, 140, 15, 120);
         ctx3.strokeStyle = '#334155'; ctx3.lineWidth = 3; ctx3.beginPath(); ctx3.moveTo(35, 212); ctx3.lineTo(570, 212); ctx3.stroke();
 
-        // Движение снаряда по закону затухания скорости из-за сил трения
         if(s3.isFlying) {
-            s3.ballX += 4.5; // Скорость кадра
+            s3.ballX += 5.5; 
             if(s3.ballX >= s3.stopX) { s3.isFlying = false; s3.ballX = s3.stopX; if(Math.abs(s3.stopX - s3.targetX) < 12) { s3.hit = true; } }
         }
 
-        // Пружина
         ctx3.strokeStyle = '#64748b'; ctx3.lineWidth = 3; ctx3.beginPath(); ctx3.moveTo(35, 200);
         let currentLength = s3.isFlying ? s3.freeX - 35 : s3.ballX - 35;
         let turns = 12;
@@ -364,11 +372,9 @@
         }
         ctx3.stroke();
 
-        // Снаряд
         ctx3.fillStyle = '#0f172a'; ctx3.strokeStyle = '#22c55e'; ctx3.lineWidth = 3;
         ctx3.beginPath(); ctx3.arc(s3.ballX, s3.sY, 12, 0, Math.PI*2); ctx3.fill(); ctx3.stroke();
 
-        // Формулы на холсте
         ctx3.fillStyle = '#4ade80'; ctx3.font = 'bold 16px monospace'; ctx3.textAlign = 'center';
         ctx3.fillText(`Еп = (k·x²) / 2 = ${Ep.toFixed(1)} Дж`, 300, 45);
         if(x_m > 0 && !s3.isFlying) {
@@ -377,9 +383,9 @@
         }
 
         let st = document.getElementById('status3'), inp = document.getElementById('inputGroup3');
-        if (s3.hit) { st.innerHTML = "🎯 Идеальный расчет! Шар затормозил прямо в центре мишени!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-        else if (!s3.isFlying && s3.ballX > s3.freeX) { st.innerHTML = s3.ballX < s3.targetX ? "❌ Недолет. Мало энергии, трение остановило шар раньше." : "❌ Перелет! Слишком сильно сжали пружину."; st.style.color = "#ef4444"; }
-        else { st.innerHTML = "Настройте сжатие пружины для точной остановки."; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
+        if (s3.hit) { st.innerHTML = "🎯 Прямое попадание! Мишень поражена."; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+        else if (!s3.isFlying && s3.ballX > s3.freeX) { st.innerHTML = s3.ballX < s3.targetX ? "❌ Недолет. Силы трения остановили шар раньше." : "❌ Перелет за мишень! Сбросьте снаряд."; st.style.color = "#ef4444"; }
+        else { st.innerHTML = "Настройте сжатие пружины для точной баллистики."; st.style.color = "#38bdf8"; inp.classList.add('hidden'); }
     };
     
     function initSlide3() {
@@ -399,9 +405,8 @@
         if(currentSlide === 3 && s3.isDragging) {
             s3.isDragging = false;
             let comp = (s3.freeX - s3.ballX) / 35;
-            if(comp > 0.1) {
+            if(comp > 0.05) {
                 s3.isFlying = true;
-                // Истинная физическая точка остановки шара зависит от накопленной энергии упругости пружины
                 let energy = (100 * comp * comp) / 2;
                 s3.stopX = s3.freeX + (energy / 72) * (s3.targetX - s3.freeX);
             } else { s3.ballX = s3.freeX; }
@@ -410,13 +415,18 @@
     function checkSlide3() { let ans = document.getElementById('code3').value.trim().replace(',', '.'); if(ans === "1.2" || ans === "1.20") changeSlide(1); else alert("Ошибка! 72 Дж = (100 * x²) / 2 => x² = 1.44 => x = 1.2 метра."); }
 </script>
 <script>
-    // ЛОГИКА СЛАЙДА 4 (Закон сохранения энергии, замедленный маятник и стаканы жидкости)
+    // ЛОГИКА СЛАЙДА 4 (Закон сохранения энергии, маятник фиксируется кнопкой Пауза)
     const canvas4 = document.getElementById('conservationCanvas'); const ctx4 = canvas4.getContext('2d');
     let s4 = { cx: 300, pivotY: 30, length: 110, angle: Math.PI/4, time: 0, active: false, caught: false, factor: 0 };
     
+    // Переосмыслено: маятник останавливается кнопкой Пауза, ловить кликом по летящему телу больше не нужно!
     function togglePendulum() {
-        s4.active = !s4.active; s4.caught = false;
-        document.getElementById('pendulumBtn').innerText = s4.active ? "⏸ Остановить маятник" : "▶ Запустить маятник";
+        s4.active = !s4.active;
+        document.getElementById('pendulumBtn').innerText = s4.active ? "⏸ Поставить на паузу" : "▶ Запустить маятник";
+        if(!s4.active) {
+            if(Math.abs(s4.factor - 0.5) < 0.12) { s4.caught = true; }
+            else { alert(`Пауза сработала. Но в этой точке Еп = ${(s4.factor*100).toFixed(0)}%. Запустите заново и поймайте ровно 50%!`); }
+        } else { s4.caught = false; }
     }
     
     function initSlide4() {
@@ -426,8 +436,7 @@
             
             ctx4.strokeStyle = '#1e293b'; ctx4.lineWidth = 3; ctx4.beginPath(); ctx4.moveTo(s4.cx-40, s4.pivotY); ctx4.lineTo(s4.cx+40, s4.pivotY); ctx4.stroke();
 
-            // Правка 3: Колебания замедлены ровно в 3 раза (шаг 0.013 вместо 0.04) для легкого улавливания фазы
-            if (s4.active) { s4.time += 0.013; s4.angle = (Math.PI / 3.5) * Math.cos(s4.time); }
+            if (s4.active) { s4.time += 0.025; s4.angle = (Math.PI / 3.5) * Math.cos(s4.time); }
             
             let ballX = s4.cx + s4.length * Math.sin(s4.angle);
             let ballY = s4.pivotY + s4.length * Math.cos(s4.angle);
@@ -448,7 +457,7 @@
             ctx4.fillStyle = '#4ade80'; ctx4.font = 'bold 12px monospace'; ctx4.fillText("Еполная = Ек + Еп = 40 Дж (const)", 20, 20);
             let textY = lowestY + 30;
             
-            // Правка 3: Применение класса .energy-value-span убирает микро-дерганье строк при изменении длины процентов
+            // Стабильные колонки вывода текста процентов (без дерганья)
             ctx4.fillStyle = '#fb923c'; ctx4.font = '12px monospace';
             ctx4.fillText(`Еп (Запас высоты): `, 20, textY);
             ctx4.fillText(`${(s4.factor * 100).toFixed(0)}%`, 160, textY);
@@ -474,30 +483,20 @@
             ctx4.fillStyle = '#38bdf8'; ctx4.fillText("Ек", v2X + vesselWidth/2, liquidTopY + vesselHeight + 12);
 
             let st = document.getElementById('status4'), inp = document.getElementById('inputGroup4');
-            if(s4.caught) { st.innerHTML = `🎯 Поймали! Еп = ${(s4.factor*100).toFixed(0)}%. Отличный ориентир баланса!`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-            else { st.innerHTML = "⚠️ Поймайте кликом по летящему шару фазу 50% энергии."; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
+            if(s4.caught) { st.innerHTML = `🎯 Баланс зафиксирован! Еп = ${(s4.factor*100).toFixed(0)}%. Отличный ориентир!`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
+            else { st.innerHTML = "⚠️ Остановите маятник кнопкой Пауза на отметке ровно 50%."; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
 
             animationFrameId = requestAnimationFrame(draw4);
         };
         draw4();
     }
     
-    canvas4.addEventListener('mousedown', (e) => {
-        if(currentSlide !== 4 || !s4.active) return;
-        let p = getMousePos(canvas4, e);
-        let ballX = s4.cx + s4.length * Math.sin(s4.angle), ballY = s4.pivotY + s4.length * Math.cos(s4.angle);
-        if(Math.abs(p.x - ballX) < 25 && Math.abs(p.y - ballY) < 25) {
-            if(Math.abs(s4.factor - 0.5) < 0.12) { s4.caught = true; s4.active = false; document.getElementById('pendulumBtn').innerText = "▶ Запустить маятник"; }
-            else { alert(`Мимо! Здесь Еп = ${(s4.factor*100).toFixed(0)}%. Ловите строго посредине спуска/подъема!`); }
-        }
-    });
-    
     function checkSlide4() { if(document.getElementById('code4').value.trim() === "25") changeSlide(1); else alert("ЗСЭ! Общая энергия неизменна: Еполн = Ек + Еп => 40 = 15 + Еп => Еп = 25 Дж."); }
 
     function checkFinalQuiz(card, val) {
         let cards = document.querySelectorAll('.quiz-card'); cards.forEach(c => c.classList.remove('correct', 'wrong'));
-        if (val === '44') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Браво! Начальная Еп = mgh = 2·10·4 = 80 Дж. Конечная Ек = mv²/2 = 2·36/2 = 36 Дж. В тепло улетело: 80 - 36 = 44 Дж! Практикум успешно сдан!"; document.getElementById('finalVerdict').style.color = "#22c55e"; }
-        else { card.classList.add('wrong'); document.getElementById('finalVerdict').innerHTML = "❌ Ошибка. Посчитайте разницу между энергией на вершине и у подножия."; document.getElementById('finalVerdict').style.color = "#ef4444"; }
+        if (val === '44') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Браво! Начальная Еп = mgh = 2·10·4 = 80 Дж. Конечная Ек = mv²/2 = 2·36/2 = 36 Дж. В тепло улетело: 80 - 36 = 44 Дж! Лабораторный практикум успешно сдан!"; document.getElementById('finalVerdict').style.color = "#22c55e"; }
+        else { card.classList.add('wrong'); document.getElementById('finalVerdict').innerHTML = "❌ Ошибка. Рассчитайте разницу между полной энергией на вершине и кинетической у подножия пандуса."; document.getElementById('finalVerdict').style.color = "#ef4444"; }
     }
     window.onload = () => { initSlide1(); };
 </script>
