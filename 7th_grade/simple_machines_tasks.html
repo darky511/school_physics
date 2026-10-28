@@ -17,30 +17,27 @@
         .workspace { flex-grow: 1; position: relative; overflow: hidden; }
         .slide { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: none; padding: 20px; }
         .slide.active { display: block; }
-        .slide-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; height: 100%; }
-        .info-panel { background: #0f172a; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #1e293b; }
+        .slide-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 20px; height: 100%; }
+        .info-panel { background: #0f172a; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #1e293b; }
         .simulation-panel { background: #05070f; border-radius: 12px; border: 1px solid #1e293b; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; height: 100%; }
         canvas { width: 100%; height: 100%; background: #04060a; display: block; }
-        h2 { font-size: 1.15rem; font-weight: 700; color: #f8fafc; margin-bottom: 6px; }
-        .instruction { font-size: 0.85rem; color: #cbd5e1; line-height: 1.45; margin-bottom: 8px; }
-        .badge { align-self: flex-start; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        h2 { font-size: 1.3rem; font-weight: 700; color: #f8fafc; margin-bottom: 8px; }
+        .instruction { font-size: 0.95rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px; }
+        .badge { align-self: flex-start; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
         .badge-step1 { background: #0d606622; color: #38bdf8; border: 1px solid #0d606644; }
         .badge-step2 { background: #fb923c22; color: #fb923c; border: 1px solid #fb923c44; }
-        .validation-zone { background: #05070f; border-radius: 8px; padding: 10px; border: 1px solid #1e293b; margin-top: 5px; }
-        .flex-row { display: flex; gap: 10px; margin-top: 6px; }
-        .slider-box { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; font-size: 0.8rem; color: #cbd5e1; }
-        .slider-box input[type="range"] { -webkit-appearance: none; width: 100%; background: #1e293b; height: 6px; border-radius: 3px; outline: none; }
-        .slider-box input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #38bdf8; cursor: pointer; }
-        input[type="text"], button { background: #0f172a; border: 1px solid #3e527a; color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; outline: none; width: 100%; }
+        .validation-zone { background: #05070f; border-radius: 8px; padding: 12px; border: 1px solid #1e293b; margin-top: 5px; }
+        .flex-row { display: flex; gap: 12px; margin-top: 6px; }
+        .slider-box { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; font-size: 0.9rem; color: #cbd5e1; }
+        .slider-box input[type="range"] { -webkit-appearance: none; width: 100%; background: #1e293b; height: 8px; border-radius: 4px; outline: none; }
+        .slider-box input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 14px; border-radius: 4px; background: #38bdf8; cursor: pointer; }
+        input[type="text"], button { background: #0f172a; border: 1px solid #3e527a; color: white; padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; outline: none; width: 100%; }
         input[type="text"]:focus { border-color: #38bdf8; }
-        
-        /* Цветовая индикация правильности ввода */
-        input[type="text"].correct-input { border-color: #22c55e !important; background: rgba(34, 197, 94, 0.05) !important; color: #4ade80 !important; }
-        input[type="text"].wrong-input { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.05) !important; color: #f87171 !important; }
-        
+        input[type="text"].correct-input { border-color: #22c55e !important; background: rgba(34, 197, 94, 0.05) !important; color: #4ade80 !important; font-weight: bold; }
+        input[type="text"].wrong-input { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.05) !important; color: #f87171 !important; font-weight: bold; }
         button { background: #38bdf8; color: #04060a; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; width: auto; flex-shrink: 0; }
         button:hover { background: #0ea5e9; }
-        .nav-btn { background: #1e293b; color: white; }
+        .nav-btn { background: #1e293b; color: white; padding: 10px 20px; border-radius: 8px; font-weight: 600; }
         .nav-btn:hover:not(:disabled) { background: #334155; }
     </style>
 </head>
@@ -62,7 +59,7 @@
                         <h2>Задача 1 (Расчет момента силы)</h2>
                         <p class="instruction">Рабочий нажимает на конец лома с вертикальной силой 150 Н. Каков момент этой силы, если кратчайшее расстояние от точки опоры лома до линии действия силы составляет 1,4 м?</p>
                         <div class="slider-box">
-                            <label>Интерактивный нажим силы F: <span id="val_f1">150</span> Н</label>
+                            <label style="font-size: 1rem;">Интерактивный нажим силы F: <b style="color: #38bdf8;"><span id="val_f1">150</span> Н</b></label>
                             <input type="range" id="slider_f1" min="0" max="250" value="150" step="10" oninput="updateSlide1Sim()">
                         </div>
                     </div>
@@ -73,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas1" width="550" height="400"></canvas></div>
+                <div class="simulation-panel"><canvas id="canvas1"></canvas></div>
             </div>
         </section>
         <!-- СЛАЙД 2 -->
@@ -85,7 +82,7 @@
                         <h2>Задача 2 (Классическое правило равновесия рычага)</h2>
                         <p class="instruction">К левому концу горизонтального рычага подвешен груз массой 6 кг, а его плечо равно 40 см. С какой силой необходимо потянуть вертикально вниз за правый конец рычага, чтобы удерживать его в равновесии, если правое плечо составляет 1,2 м? Весом самого рычага пренебречь, принять g = 10 м/с².</p>
                         <div class="slider-box">
-                            <label>Натяжение правой петли мышиной тягой F₂: <span id="val_f2">0</span> Н</label>
+                            <label style="font-size: 1rem;">Натяжение правой петли силы F₂: <b style="color: #38bdf8;"><span id="val_f2">0</span> Н</b></label>
                             <input type="range" id="slider_f2" min="0" max="50" value="0" step="1" oninput="updateSlide2Sim()">
                         </div>
                     </div>
@@ -96,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas2" width="550" height="400"></canvas></div>
+                <div class="simulation-panel"><canvas id="canvas2"></canvas></div>
             </div>
         </section>
         <!-- СЛАЙД 3 -->
@@ -110,12 +107,12 @@
                     </div>
                     <div class="validation-zone">
                         <div class="flex-row">
-                            <input type="text" id="code3" placeholder="Введите массу стержня (округлите до сотых)" oninput="this.className=''">
+                            <input type="text" id="code3" placeholder="Введите массу стержня (в кг, напр. 2.67)" oninput="this.className=''">
                             <button onclick="checkSlide3()">Проверить</button>
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas3" width="550" height="400"></canvas></div>
+                <div class="simulation-panel"><canvas id="canvas3"></canvas></div>
             </div>
         </section>
         <!-- СЛАЙД 4 -->
@@ -127,18 +124,18 @@
                         <h2>Задача 4 (Конструктор моментов и выталкивание среды)</h2>
                         <p class="instruction">Легкий горизонтальный рычаг удерживается в равновесии. К его правому плечу на расстоянии 30 см от оси подвешен груз силой 10 Н. К левому плечу на расстоянии 20 см подвешен медный брусок объемом 500 см³, который полностью погружен в бак с водой. На каком расстоянии от оси вращения (слева или справа) нужно подвесить дополнительный груз массой 0,5 кг, чтобы система осталась в равновесии? Плотность меди — 8900 кг/м³, плотность воды — 1000 кг/м³, g = 10 м/с².</p>
                         <div class="slider-box">
-                            <label>Положение доп. груза d_доп: <span id="val_d4">0</span> см</label>
+                            <label style="font-size: 1rem;">Положение доп. груза d_доп: <b style="color: #a855f7;"><span id="val_d4">0</span> см</b></label>
                             <input type="range" id="slider_d4" min="-120" max="120" value="0" step="2" oninput="updateSlide4Sim()">
                         </div>
                     </div>
                     <div class="validation-zone">
                         <div class="flex-row">
-                            <input type="text" id="code4" placeholder="Введите расстояние (в см)" oninput="this.className=''">
+                            <input type="text" id="code4" placeholder="Введите расстояние (в см, напр. 98)" oninput="this.className=''">
                             <button onclick="checkSlide4()">Проверить</button>
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas4" width="550" height="400"></canvas></div>
+                <div class="simulation-panel"><canvas id="canvas4"></canvas></div>
             </div>
         </section>
     </main>
@@ -170,16 +167,19 @@
         if (currentSlide === 4) initSlide4();
     }
 
-    // Вспомогательный прорисовщик стрелок сил с наконечником
+    // КРУПНЫЙ ВЕКТОР СИЛЫ: Толщина 5px, наконечник увеличен
     function drawVector(ctx, fx, fy, tx, ty, color, txt = "") {
-        ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3;
+        ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 5;
         ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(tx, ty); ctx.stroke();
         let a = Math.atan2(ty - fy, tx - fx); ctx.beginPath();
         ctx.moveTo(tx, ty);
-        ctx.lineTo(tx - 10 * Math.cos(a - Math.PI/6), ty - 10 * Math.sin(a - Math.PI/6));
-        ctx.lineTo(tx - 10 * Math.cos(a + Math.PI/6), ty - 10 * Math.sin(a + Math.PI/6));
+        ctx.lineTo(tx - 15 * Math.cos(a - Math.PI/6), ty - 15 * Math.sin(a - Math.PI/6));
+        ctx.lineTo(tx - 15 * Math.cos(a + Math.PI/6), ty - 15 * Math.sin(a + Math.PI/6));
         ctx.closePath(); ctx.fill();
-        if(txt) { ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 11px sans-serif'; ctx.fillText(txt, tx - 12, ty + 15); }
+        if(txt) { 
+            ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 16px sans-serif'; 
+            ctx.textAlign = 'center'; ctx.fillText(txt, tx, ty + (ty > fy ? 22 : -12)); 
+        }
     }
 
     // СЛАЙД 1: Лом рабочего
@@ -188,25 +188,22 @@
     function initSlide1() {
         const draw1 = () => {
             if (currentSlide !== 1) return;
-            ctx1.clearRect(0, 0, 550, 400);
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
             let f = parseFloat(document.getElementById('slider_f1').value);
             
-            // Опора земли (Камень)
-            ctx1.fillStyle = '#334155'; ctx1.beginPath(); ctx1.moveTo(200, 280); ctx1.lineTo(175, 320); ctx1.lineTo(225, 320); ctx1.closePath(); ctx1.fill();
-            ctx1.strokeStyle = '#475569'; ctx1.stroke();
+            // Камень
+            ctx1.fillStyle = '#334155'; ctx1.beginPath(); ctx1.moveTo(200, 280); ctx1.lineTo(170, 330); ctx1.lineTo(230, 330); ctx1.closePath(); ctx1.fill();
 
-            // Балка лома (Под углом)
-            ctx1.strokeStyle = '#94a3b8'; ctx1.lineWidth = 7; ctx1.beginPath(); ctx1.moveTo(150, 290); ctx1.lineTo(420, 140); ctx1.stroke();
+            // Крупный лом
+            ctx1.strokeStyle = '#94a3b8'; ctx1.lineWidth = 9; ctx1.beginPath(); ctx1.moveTo(150, 290); ctx1.lineTo(420, 140); ctx1.stroke();
 
-            // Линия действия плеча d = 1.4 м
-            ctx1.strokeStyle = '#fb923c'; ctx1.lineWidth = 1.5; ctx1.setLineDash([4,4]);
+            // Крупная размерная линия d
+            ctx1.strokeStyle = '#fb923c'; ctx1.lineWidth = 2.5; ctx1.setLineDash([5, 5]);
             ctx1.beginPath(); ctx1.moveTo(200, 280); ctx1.lineTo(420, 280); ctx1.stroke();
             ctx1.setLineDash([]);
-            ctx1.fillStyle = '#fb923c'; ctx1.font = '11px sans-serif'; ctx1.fillText("d = 1.4 м", 290, 275);
+            ctx1.fillStyle = '#fb923c'; ctx1.font = 'bold 18px sans-serif'; ctx1.fillText("d = 1.4 м", 280, 265);
 
-            // Вектор прикладываемой силы F
             if (f > 0) { drawVector(ctx1, 420, 140, 420, 140 + f * 0.5, '#38bdf8', `F = ${f} Н`); }
-
             animationFrameId = requestAnimationFrame(draw1);
         };
         draw1();
@@ -218,38 +215,38 @@
     }
 </script>
 <script>
-    // СЛАЙД 2: Двуплечий рычаг в равновесии
+    // СЛАЙД 2: Двуплечий рычаг (Физика перекоса и масштабы исправлены!)
     const canvas2 = document.getElementById('canvas2'); const ctx2 = canvas2.getContext('2d');
-    let s2 = { cx: 200, cy: 220, angle: -0.15, tAngle: -0.15 };
+    let s2 = { cx: 200, cy: 220, angle: 0.15, tAngle: 0.15 };
     function updateSlide2Sim() { document.getElementById('val_f2').innerText = document.getElementById('slider_f2').value; }
     function initSlide2() {
         const draw2 = () => {
             if (currentSlide !== 2) return;
-            ctx2.clearRect(0, 0, 550, 400);
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
             let f2 = parseFloat(document.getElementById('slider_f2').value);
             
-            // Физический расчет наклона рычага на лету (Баланс моментов)
-            let m1 = 60 * 0.4; // 60 Н * 0.4 м = 24 Нм
-            let m2 = f2 * 1.2;
-            s2.tAngle = Math.max(-0.2, Math.min(0.2, (m1 - m2) * 0.015));
+            let m1 = 60 * 0.4; // Левый момент = 24 Нм
+            let m2 = f2 * 1.2; // Правый момент
+            
+            // ИСПРАВЛЕНО: Теперь при f2 = 0 левый груз честно ПЕРЕВЕШИВАЕТ и тянет балку вниз влево!
+            s2.tAngle = Math.max(-0.2, Math.min(0.2, (m1 - m2) * 0.02));
             s2.angle += (s2.tAngle - s2.angle) * 0.1;
 
-            // Центральная опора
-            ctx2.fillStyle = '#1e293b'; ctx2.beginPath(); ctx2.moveTo(s2.cx, s2.cy); ctx2.lineTo(s2.cx-12, s2.cy+25); ctx2.lineTo(s2.cx+12, s2.cy+25); ctx2.closePath(); ctx2.fill();
+            ctx2.fillStyle = '#1e293b'; ctx2.beginPath(); ctx2.moveTo(s2.cx, s2.cy); ctx2.lineTo(s2.cx-15, s2.cy+30); ctx2.lineTo(s2.cx+15, s2.cy+30); ctx2.closePath(); ctx2.fill();
 
             ctx2.save(); ctx2.translate(s2.cx, s2.cy); ctx2.rotate(s2.angle);
             
-            // Балка балочной линейки
-            ctx2.strokeStyle = '#cbd5e1'; ctx2.lineWidth = 6; ctx2.beginPath(); ctx2.moveTo(-100, 0); ctx2.lineTo(300, 0); ctx2.stroke();
+            // Балка рычага
+            ctx2.strokeStyle = '#cbd5e1'; ctx2.lineWidth = 8; ctx2.beginPath(); ctx2.moveTo(-110, 0); ctx2.lineTo(310, 0); ctx2.stroke();
 
-            // Левый полезный груз 6 кг
-            ctx2.fillStyle = '#ef4444'; ctx2.fillRect(-115, 0, 30, 20);
-            drawVector(ctx2, -100, 10, -100, 55, '#ef4444', "m = 6 кг");
-            ctx2.fillStyle = '#cbd5e1'; ctx2.font = '10px sans-serif'; ctx2.fillText("d₁ = 40 см", -110, -10);
+            // Левый груз 6 кг
+            ctx2.fillStyle = '#ef4444'; ctx2.fillRect(-125, 0, 30, 24);
+            drawVector(ctx2, -110, 12, -110, 75, '#ef4444', "m = 6 кг");
+            ctx2.fillStyle = '#cbd5e1'; ctx2.font = 'bold 16px sans-serif'; ctx2.fillText("d₁ = 40 см", -120, -15);
 
-            // Правая сила F2
-            if(f2 > 0) { drawVector(ctx2, 300, 0, 300, f2 * 2, '#38bdf8', `F₂`); }
-            ctx2.fillStyle = '#cbd5e1'; ctx2.fillText("d₂ = 1.2 м", 270, -10);
+            // Правая тяга
+            if(f2 > 0) { drawVector(ctx2, 290, 0, 390, f2 * 2.2, '#38bdf8', `F₂`); }
+            ctx2.fillStyle = '#cbd5e1'; ctx2.font = 'bold 16px sans-serif'; ctx2.fillText("d₂ = 1.2 м", 240, -15);
 
             ctx2.restore();
             animationFrameId = requestAnimationFrame(draw2);
@@ -263,30 +260,32 @@
     }
 </script>
 <script>
-    // СЛАЙД 3: Однородный тяжелый стержень с центром тяжести
+    // СЛАЙД 3: Однородный тяжелый стержень с крупными обозначениями
     const canvas3 = document.getElementById('canvas3'); const ctx3 = canvas3.getContext('2d');
     function initSlide3() {
         const draw3 = () => {
             if (currentSlide !== 3) return;
-            ctx3.clearRect(0, 0, 550, 400);
+            ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
 
-            // Опора расположена в 20 см от левого края (Всего балка 1 м = 350 пикселей, опора на 120 пикс)
-            let pivotX = 150, pivotY = 220;
-            ctx3.fillStyle = '#334155'; ctx3.beginPath(); ctx3.moveTo(pivotX, pivotY); ctx3.lineTo(pivotX-12, pivotY+25); ctx3.lineTo(pivotX+12, pivotY+25); ctx3.closePath(); ctx3.fill();
+            let pivotX = 160, pivotY = 220;
+            ctx3.fillStyle = '#334155'; ctx3.beginPath(); ctx3.moveTo(pivotX, pivotY); ctx3.lineTo(pivotX-15, pivotY+30); ctx3.lineTo(pivotX+15, pivotY+30); ctx3.closePath(); ctx3.fill();
 
-            // Балка стержня (Длина 1 м)
-            ctx3.strokeStyle = '#94a3b8'; ctx3.lineWidth = 6; ctx3.beginPath(); ctx3.moveTo(80, pivotY); ctx3.lineTo(430, pivotY); ctx3.stroke();
+            // Крупный стержень
+            ctx3.strokeStyle = '#94a3b8'; ctx3.lineWidth = 8; ctx3.beginPath(); ctx3.moveTo(80, pivotY); ctx3.lineTo(430, pivotY); ctx3.stroke();
 
-            // Левый груз (Шар 4 кг на краю в 20 см от опоры)
-            ctx3.fillStyle = '#ef4444'; ctx3.beginPath(); ctx3.arc(80, pivotY+10, 12, 0, Math.PI*2); ctx3.fill();
-            drawVector(ctx3, 80, pivotY, 80, pivotY + 50, '#ef4444', "4 кг");
-            ctx3.fillStyle = '#cbd5e1'; ctx3.font = '10px sans-serif'; ctx3.fillText("20 см", 100, pivotY - 12);
+            // Левый шар 4 кг
+            ctx3.fillStyle = '#ef4444'; ctx3.beginPath(); ctx3.arc(80, pivotY+12, 16, 0, Math.PI*2); ctx3.fill();
+            drawVector(ctx3, 80, pivotY, 80, pivotY + 70, '#ef4444', "Шар 4 кг");
+            
+            ctx3.fillStyle = '#cbd5e1'; ctx3.font = 'bold 16px sans-serif'; ctx3.textAlign = 'center';
+            ctx3.fillText("20 см", 120, pivotY - 15);
 
-            // Центр тяжести стержня приложен СТРОГО посередине (50 см от края = 80 + 175 = 255 пикселей)
+            // Крупный вектор центра масс строго посередине
             let cgX = 255;
-            ctx3.fillStyle = '#fb923c'; ctx3.beginPath(); ctx3.arc(cgX, pivotY, 4, 0, Math.PI*2); ctx3.fill();
-            drawVector(ctx3, cgX, pivotY, cgX, pivotY + 45, '#fb923c', "Fст");
-            ctx3.fillStyle = '#fb923c'; ctx3.fillText("Центр масс (50 см)", cgX - 45, pivotY - 12);
+            ctx3.fillStyle = '#fb923c'; ctx3.beginPath(); ctx3.arc(cgX, pivotY, 6, 0, Math.PI*2); ctx3.fill();
+            drawVector(ctx3, cgX, pivotY, cgX, pivotY + 65, '#fb923c', "Fст (Вес)");
+            ctx3.fillStyle = '#fb923c'; ctx3.font = 'bold 16px sans-serif';
+            ctx3.fillText("Центр масс стержня (50 см)", cgX + 40, pivotY - 15);
 
             animationFrameId = requestAnimationFrame(draw3);
         };
@@ -299,38 +298,42 @@
     }
 </script>
 <script>
-    // СЛАЙД 4: Рычаг со средой (Бак с водой + Медный брусок)
+    // СЛАЙД 4: Аквариум с водой, куб меди и крупный доп. груз
     const canvas4 = document.getElementById('canvas4'); const ctx4 = canvas4.getContext('2d');
     function updateSlide4Sim() { document.getElementById('val_d4').innerText = document.getElementById('slider_d4').value; }
     function initSlide4() {
         const draw4 = () => {
             if (currentSlide !== 4) return;
-            ctx4.clearRect(0, 0, 550, 400);
-            let d4 = parseFloat(document.getElementById('slider_d4').value); // В сантиметрах (-120 до 120)
+            ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+            let d4 = parseFloat(document.getElementById('slider_d4').value);
 
             let cx = 250, cy = 180;
-            ctx4.fillStyle = '#1e293b'; ctx4.beginPath(); ctx4.moveTo(cx, cy); ctx4.lineTo(cx-10, cy+20); ctx4.lineTo(cx+10, cy+20); ctx4.closePath(); ctx4.fill();
-            ctx4.strokeStyle = '#cbd5e1'; ctx4.lineWidth = 5; ctx4.beginPath(); ctx4.moveTo(cx - 130, cy); ctx4.lineTo(cx + 130, cy); ctx4.stroke();
+            ctx4.fillStyle = '#1e293b'; ctx4.beginPath(); ctx4.moveTo(cx, cy); ctx4.lineTo(cx-12, cy+25); ctx4.lineTo(cx+12, cy+25); ctx4.closePath(); ctx4.fill();
+            ctx4.strokeStyle = '#cbd5e1'; ctx4.lineWidth = 7; ctx4.beginPath(); ctx4.moveTo(cx - 140, cy); ctx4.lineTo(cx + 140, cy); ctx4.stroke();
 
-            // Левое плечо: Бак с водой на отметке d = 20 см (60 пикселей влево)
-            let bx = cx - 60;
-            ctx4.fillStyle = 'rgba(56, 189, 248, 0.15)'; ctx4.fillRect(bx - 20, cy + 30, 40, 60);
-            ctx4.strokeStyle = '#38bdf8'; ctx4.strokeRect(bx - 20, cy + 30, 40, 60);
-            ctx4.fillStyle = '#64748b'; ctx4.fillRect(bx - 10, cy + 45, 20, 30); // Медный куб
-            ctx4.strokeStyle = '#475569'; ctx4.beginPath(); ctx4.moveTo(bx, cy); ctx4.lineTo(bx, cy + 45); ctx4.stroke();
-            ctx4.fillStyle = '#cbd5e1'; ctx4.font = '10px sans-serif'; ctx4.fillText("20 см", bx - 15, cy - 10);
+            // Крупный аквариум с водой
+            let bx = cx - 70;
+            ctx4.fillStyle = 'rgba(56, 189, 248, 0.2)'; ctx4.fillRect(bx - 30, cy + 35, 60, 80);
+            ctx4.strokeStyle = '#38bdf8'; ctx4.lineWidth = 2; ctx4.strokeRect(bx - 30, cy + 35, 60, 80);
+            
+            // Медный брусок внутри
+            ctx4.fillStyle = '#fb923c'; ctx4.fillRect(bx - 15, cy + 55, 30, 40); 
+            ctx4.strokeStyle = '#cbd5e1'; ctx4.lineWidth = 2.5; ctx4.beginPath(); ctx4.moveTo(bx, cy); ctx4.lineTo(bx, cy + 55); ctx4.stroke();
+            ctx4.fillStyle = '#cbd5e1'; ctx4.font = 'bold 16px sans-serif'; ctx4.textAlign = 'center';
+            ctx4.fillText("20 см", bx, cy - 15);
 
-            // Правое плечо: Груз 10 Н на отметке d = 30 см (90 пикселей вправо)
-            let rx = cx + 90;
-            ctx4.fillStyle = '#ef4444'; ctx4.fillRect(rx - 10, cy, 20, 20);
-            drawVector(ctx4, rx, cy + 20, rx, cy + 50, '#ef4444', "10 Н");
-            ctx4.fillStyle = '#cbd5e1'; ctx4.fillText("30 см", rx - 12, cy - 10);
+            // Правое плечо: Груз 10 Н
+            let rx = cx + 100;
+            ctx4.fillStyle = '#ef4444'; ctx4.fillRect(rx - 15, cy, 30, 25);
+            drawVector(ctx4, rx, cy + 25, rx, cy + 85, '#ef4444', "10 Н");
+            ctx4.fillStyle = '#cbd5e1'; ctx4.font = 'bold 16px sans-serif';
+            ctx4.fillText("30 см", rx, cy - 15);
 
-            // Интерактивный дополнительный груз 0.5 кг (Перемещается слайдером)
+            // Крупный доп груз фиолетового цвета
             if (d4 !== 0) {
-                let dx = cx + (d4 * 3); // Масштаб пикселей
-                ctx4.fillStyle = '#a855f7'; ctx4.fillRect(dx - 8, cy, 16, 16);
-                drawVector(ctx4, dx, cy + 16, dx, cy + 45, '#a855f7', "5 Н");
+                let dx = cx + (d4 * 1.1); 
+                ctx4.fillStyle = '#a855f7'; ctx4.fillRect(dx - 12, cy, 24, 20);
+                drawVector(ctx4, dx, cy + 20, dx, cy + 70, '#a855f7', "5 Н");
             }
 
             animationFrameId = requestAnimationFrame(draw4);
@@ -343,7 +346,7 @@
         if (val === "98" || val === "98 см") { inp.className = "correct-input"; } else { inp.className = "wrong-input"; }
     }
 
-    // Инициализация при первой загрузке страницы
+    // Автоматический запуск симуляций при старте страницы
     window.onload = () => { initSlideSimulation(); };
 </script>
 </body>
