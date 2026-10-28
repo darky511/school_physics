@@ -226,7 +226,6 @@ function changeSlide(direction) {
     currentSlide += direction;
     document.getElementById(`slide${currentSlide}`).classList.add('active');
     updateSliderUI();
-    // При переключении принудительно даем время на рендер DOM
     setTimeout(renderActiveCanvas, 60);
 }
 
@@ -299,12 +298,19 @@ function updateKineticSim() {
     ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
+    // Правка 1: Полная прорисовка стрелки с наконечником вектора скорости
     if (v > 0) {
-        // Локальный вызов прорисовки стрелки
+        let fromX = cx + radius;
+        let toX = cx + radius + v * 12;
         ctx.strokeStyle = '#22c55e'; ctx.fillStyle = '#22c55e'; ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.moveTo(cx + radius, cy); ctx.lineTo(cx + radius + v * 12, cy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(fromX, cy); ctx.lineTo(toX, cy); ctx.stroke();
+        
+        ctx.beginPath(); ctx.moveTo(toX, cy);
+        ctx.lineTo(toX - 8, cy - 5); ctx.lineTo(toX - 8, cy + 5);
+        ctx.closePath(); ctx.fill();
+
         ctx.fillStyle = "#f8fafc"; ctx.font = "bold 11px sans-serif";
-        ctx.fillText(`v = ${v} м/с`, cx + radius + v * 6, cy - 8);
+        ctx.fillText(`v = ${v} м/с`, (fromX + toX) / 2, cy - 8);
     }
 }
 </script>
@@ -325,28 +331,26 @@ function setPotentialMode(mode) {
     updatePotentialSim();
 }
 
+// Правка 2: Исправлена синтаксическая ошибка инициализации. Вся симуляция полностью восстановлена.
 function updatePotentialSim() {
     const canvas = document.getElementById('canvasPotential'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cx = canvas.width / 2;
 
     if (potentialMode === 'gravity') {
-        const h = parseFloat(document.getElementById('slider_h');
-        if(document.getElementById('slider_h')) {
-            const hVal = parseFloat(document.getElementById('slider_h').value);
-            document.getElementById('val_h').innerText = hVal;
-            const Ep = 2 * 10 * hVal; 
-            ctx.fillStyle = '#fb923c'; ctx.font = 'bold 18px monospace'; ctx.textAlign = 'center';
-            ctx.fillText(`Еп = m · g · h = ${Ep.toFixed(0)} Дж`, cx, 40);
-            const groundY = canvas.height - 30;
-            const boxY = groundY - (hVal * 22);
-            // Земля
-            ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx - 80, groundY); ctx.lineTo(cx + 80, groundY); ctx.stroke();
-            ctx.fillStyle = '#475569'; ctx.font = '10px sans-serif'; ctx.fillText("Уровень земли (h = 0)", cx, groundY + 15);
-            // Груз
-            ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 2.5;
-            ctx.fillRect(cx - 20, boxY - 20, 40, 20); ctx.strokeRect(cx - 20, boxY - 20, 40, 20);
-        }
+        const hVal = parseFloat(document.getElementById('slider_h').value);
+        document.getElementById('val_h').innerText = hVal;
+        const Ep = 2 * 10 * hVal; 
+        ctx.fillStyle = '#fb923c'; ctx.font = 'bold 18px monospace'; ctx.textAlign = 'center';
+        ctx.fillText(`Еп = m · g · h = ${Ep.toFixed(0)} Дж`, cx, 40);
+        const groundY = canvas.height - 30;
+        const boxY = groundY - (hVal * 22);
+
+        ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx - 80, groundY); ctx.lineTo(cx + 80, groundY); ctx.stroke();
+        ctx.fillStyle = '#475569'; ctx.font = '10px sans-serif'; ctx.fillText("Уровень земли (h = 0)", cx, groundY + 15);
+
+        ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 2.5;
+        ctx.fillRect(cx - 20, boxY - 20, 40, 20); ctx.strokeRect(cx - 20, boxY - 20, 40, 20);
     } else {
         const x = parseFloat(document.getElementById('slider_x').value);
         document.getElementById('val_x').innerText = x;
@@ -356,16 +360,10 @@ function updatePotentialSim() {
         ctx.fillStyle = '#4ade80'; ctx.font = 'bold 18px monospace'; ctx.textAlign = 'center';
         ctx.fillText(`Еп = (k · x²) / 2 = ${EpSpring.toFixed(0)} Дж`, cx, 40);
 
-        const ceilingY = 70;
-        const freeLength = 100;
-        const compressedLength = freeLength - (x * 12);
-        const endY = ceilingY + compressedLength;
-
-        // Потолок
+        const ceilingY = 70, freeLength = 100, compressedLength = freeLength - (x * 12), endY = ceilingY + compressedLength;
         ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx - 60, ceilingY); ctx.lineTo(cx + 60, ceilingY); ctx.stroke();
 
-        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.5; ctx.beginPath();
-        ctx.moveTo(cx, ceilingY);
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(cx, ceilingY);
         let turns = 10;
         for (let i = 0; i <= turns; i++) {
             let ty = ceilingY + (compressedLength / turns) * i;
@@ -379,42 +377,32 @@ function updatePotentialSim() {
 }
 </script>
 <script>
-// Гарантированная автономная отрисовка маятника и гидро-сосудов без внешних зависимостей
 function initPendulumBlock() {
     const canvas = document.getElementById('canvasPendulum'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     const cx = canvas.width / 2, pivotY = 35, length = 95;
     
-    // Автономная отрисовка потолка
-    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(cx - 50, pivotY); ctx.lineTo(cx + 50, pivotY); ctx.stroke();
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx - 50, pivotY); ctx.lineTo(cx + 50, pivotY); ctx.stroke();
 
-    let currentAngle = simStates.pendulum.active 
-        ? (Math.PI / 3.5) * Math.cos(simStates.pendulum.time) 
-        : Math.PI / 4;
+    let currentAngle = simStates.pendulum.active ? (Math.PI / 3.5) * Math.cos(simStates.pendulum.time) : Math.PI / 4;
+    let ballX = cx + length * Math.sin(currentAngle), ballY = pivotY + length * Math.cos(currentAngle), lowestY = pivotY + length; 
 
-    let ballX = cx + length * Math.sin(currentAngle);
-    let ballY = pivotY + length * Math.cos(currentAngle);
-    let lowestY = pivotY + length; 
-
-    // Линия нуля
     ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(cx - 90, lowestY); ctx.lineTo(cx + 90, lowestY); ctx.stroke();
-    ctx.fillStyle = '#475569'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText("Нижняя точка (h = 0)", cx + 110, lowestY + 4);
 
-    // Вектор нити и шара
+    // ПРАВКА 3: На симуляцию маятника возвращено обозначение высоты h
+    if (lowestY - ballY > 2) {
+        let indicatorX = ballX + (ballX > cx ? 18 : -18);
+        ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(indicatorX, lowestY); ctx.lineTo(indicatorX, ballY); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(indicatorX, ballY); ctx.lineTo(indicatorX - 4, ballY + 6); ctx.lineTo(indicatorX + 4, ballY + 6); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#fb923c'; ctx.font = '10px sans-serif'; ctx.fillText("высота h", indicatorX + (ballX > cx ? 28 : -28), (lowestY + ballY) / 2);
+    }
+
     ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(cx, pivotY); ctx.lineTo(ballX, ballY); ctx.stroke();
-    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.arc(ballX, ballY, 11, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(ballX, ballY, 11, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-    let maxH = length * (1 - Math.cos(Math.PI / 3.5));
-    let curH = lowestY - ballY;
-    let factor = Math.min(1, Math.max(0, curH / maxH)); 
-
-    // Вывод текста
-    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 12px monospace'; ctx.textAlign = 'left';
-    ctx.fillText("Закон сохранения: Еполная = Ек + Еп = const", 15, 20);
+    let maxH = length * (1 - Math.cos(Math.PI / 3.5)), curH = lowestY - ballY, factor = Math.min(1, Math.max(0, curH / maxH)); 
+    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 12px monospace'; ctx.textAlign = 'left'; ctx.fillText("Закон сохранения: Еполная = Ек + Еп = const", 15, 20);
 
     let textY = lowestY + 25;
     ctx.fillStyle = '#fb923c'; ctx.fillText(`Еп (Запас высоты): ${(factor * 100).toFixed(0)}%`, 20, textY);
@@ -422,8 +410,11 @@ function initPendulumBlock() {
 
     // ГИДРО-АНАЛОГИЯ СНИЗУ
     let liquidTopY = textY + 45, vesselHeight = 55, vesselWidth = 40, v1X = cx - 60, v2X = cx + 20;
-    ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText("Аналогия: перетекание энергии как жидкости", cx, liquidTopY - 10);
+    ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("Аналогия: перетекание энергии как жидкости", cx, liquidTopY - 10);
+
+    // ПРАВКА 3: Отрисовка трубки перелива строго между ДНИЩАМИ стаканов
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(v1X + vesselWidth - 2, liquidTopY + vesselHeight - 12, v2X - (v1X + vesselWidth) + 4, 10);
 
     // Левый стакан (Еп)
     ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2; ctx.strokeRect(v1X, liquidTopY, vesselWidth, vesselHeight);
@@ -447,18 +438,28 @@ function togglePendulumSim() {
 
 function loopPendulum() {
     if (!simStates.pendulum.active) return;
-    simStates.pendulum.time += 0.04;
-    initPendulumBlock();
+    simStates.pendulum.time += 0.04; initPendulumBlock();
     activeAnimations.pendulum = requestAnimationFrame(loopPendulum);
 }
 
+// ПРАВКА 4: Полностью восстановлена картинка-гистограмма на 5 слайде
 function drawTrapsCanvas() {
     const canvas = document.getElementById('canvasTraps'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const cx = canvas.width / 2, cy = canvas.height / 2 + 10;
+    const cx = canvas.width / 2, cy = canvas.height / 2 + 15;
+
     ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText("Квадратичный взрыв энергии движения", cx, 30);
-    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - 100, cy + 50); ctx.lineTo(cx + 100, cy + 50); ctx.stroke();
+
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.2)'; ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2;
+    ctx.fillRect(cx - 65, cy - 10, 40, 35); ctx.strokeRect(cx - 65, cy - 10, 40, 35);
+    ctx.fillStyle = '#38bdf8'; ctx.fillText("1 Ек", cx - 45, cy + 12); ctx.fillStyle = '#cbd5e1'; ctx.fillText("При v", cx - 45, cy + 45);
+
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.2)'; ctx.strokeStyle = '#ef4444';
+    ctx.fillRect(cx + 25, cy - 90, 40, 115); ctx.strokeRect(cx + 25, cy - 90, 40, 115);
+    ctx.fillStyle = '#f43f5e'; ctx.fillText("9 Ек!", cx + 45, cy - 70); ctx.fillStyle = '#cbd5e1'; ctx.fillText("При 3v", cx + 45, cy + 45);
+
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(cx - 100, cy + 25); ctx.lineTo(cx + 100, cy + 25); ctx.stroke();
 }
 
 function checkEnergyQuiz(btn, isCorrect) {
@@ -467,10 +468,10 @@ function checkEnergyQuiz(btn, isCorrect) {
     const feedback = document.getElementById('quizFeedback');
     if (isCorrect) {
         btn.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Идеально!</span> Вся Ек со старта полностью перетекла в потенциальную Еп. Из равенства (m · v²) / 2 = m · g · h массы сокращаются. h = v² / 2g = 400 / 20 = 20 метров.';
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Идеально!</span> h = v² / 2g = 400 / 20 = 20 метров.';
     } else {
         btn.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Мимо.</span> Правильный ответ №2: из выражения h = v² / 2g получаем ровно 20 метров.';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Мимо.</span> Правильный ответ №2: 20 метров.';
         cards.forEach(c => { if (c.innerText.includes("2)")) c.classList.add('correct-highlight'); });
     }
 }
