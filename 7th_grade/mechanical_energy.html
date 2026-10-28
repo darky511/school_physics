@@ -20,19 +20,23 @@
     <div class="slide active" id="slide1">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Этап 1. Теоретический базис</span>
-                <h2>Энергия как физическая величина</h2>
-                <p class="text-concentrate" style="margin-bottom: 12px; font-size: 12.5px;">
-                    Энергия — это скалярная физическая величина, характеризующая способность тела или системы тел совершить механическую работу. Чем большую работу может совершить тело, тем большей энергией оно обладает.
+                <span class="slide-type">Этап 1. Базовое понимание</span>
+                <h2>Что такое энергия на самом деле?</h2>
+                <p class="text-concentrate" style="margin-bottom: 12px; font-size: 13px;">
+                    Забудь про сложные определения. <strong>Энергия — это просто «запас работы»</strong>, который есть у тела. Если тело может во что-то врезаться, сдвинуть, поднять или сломать — у него есть энергия.
                 </p>
-                <div class="methodology-card">
-                    <ul style="padding-left: 18px; line-height: 1.5; color: #e2e8f0; font-size: 12px;">
-                        <li><strong style="color: #38bdf8;">Единица измерения:</strong> В системе СИ энергия, как и работа, измеряется в <strong>Джоулях [Дж]</strong>.</li>
-                        <li><strong style="color: #fb923c;">Разделение видов:</strong> Механическая энергия делится на два принципиально разных типа: <strong>кинетическую</strong> (энергию движения) и <strong>потенциальную</strong> (энергию взаимодействия).</li>
-                    </ul>
+                <div class="methodology-card" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div>
+                        <strong style="color: #38bdf8; font-size: 13px;">1. Кинетическая (Ек):</strong><br>
+                        <span style="font-size: 11.5px; color: #cbd5e1;">Энергия движения. Ей обладает всё, что имеет массу и куда-то летит или катится.</span>
+                    </div>
+                    <div style="margin-top: 4px;">
+                        <strong style="color: #fb923c; font-size: 13px;">2. Потенциальная (Еп):</strong><br>
+                        <span style="font-size: 11.5px; color: #cbd5e1;">Энергия засады. Тело пока отдыхает, но готово совершить действие (кирпич на полке или сжатая пружина).</span>
+                    </div>
                 </div>
                 <p class="text-concentrate" style="margin-top: auto; font-size: 12px; color: #94a3b8;">
-                    Нажмите «Вперед», чтобы детально изучить формулу и симуляцию кинетической энергии движения.
+                    Нажми «Вперед», чтобы увидеть энергию движения в действии.
                 </p>
             </div>
             <div class="visual-side"><canvas id="canvasIntroEnergy"></canvas></div>
@@ -43,12 +47,12 @@
         <div class="slide-grid">
             <div class="content-side">
                 <span class="slide-type">Этап 2. Энергия движения</span>
-                <h2>Кинетическая энергия (Eк)</h2>
-                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 8px;">
-                    Энергия, которой обладает тело вследствие своего движения. Она зависит от массы тела $m$ и модуля его скорости $v$.
+                <h2>Кинетическая энергия (Ек)</h2>
+                <p class="text-concentrate" style="font-size: 13px; margin-bottom: 8px;">
+                    Чем тело <strong>тяжелее</strong> и чем <strong>быстрее</strong> оно движется, тем труднее его остановить. Вся эта мощь заложена в скорость, причём скорость влияет на энергию в квадрате!
                 </p>
-                <div class="methodology-card" style="padding: 8px; font-size: 12px; line-height: 1.4; margin-bottom: 10px;">
-                    <strong style="color: #38bdf8;">Свойства величины:</strong> Кинетическая энергия всегда неотрицательна ($E_к \ge 0$) и равна нулю только у полностью покоящегося тела.
+                <div class="methodology-card" style="padding: 10px; font-size: 12px; line-height: 1.4; margin-bottom: 10px;">
+                    <strong style="color: #38bdf8;">Жизненный факт:</strong> Если разогнать машину в 2 раза быстрее, её энергия (и тормозной путь!) вырастет аж в 4 раза. Скорость решает.
                 </div>
                 <div class="control-box-group" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
                     <div class="slider-row">
@@ -64,25 +68,34 @@
             <div class="visual-side"><canvas id="canvasKinetic"></canvas></div>
         </div>
     </div>
-
     <!-- СЛАЙД 3: Потенциальная энергия -->
     <div class="slide" id="slide3">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Этап 3. Энергия взаимодействия</span>
-                <h2>Потенциальная энергия (Eп)</h2>
-                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 10px;">
-                    Энергия, которая определяется взаимным расположением взаимодействующих тел или частей одного и того же тела.
+                <span class="slide-type">Этап 3. Энергия в засаде</span>
+                <h2>Потенциальная энергия (Еп)</h2>
+                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 8px;">
+                    Это энергия взаимного расположения. Тело само по себе ничего не делает, но за счёт позиции или деформации готово сработать.
                 </p>
-                <div class="methodology-card" style="padding: 10px; font-size: 12px; line-height: 1.5; margin-bottom: 10px; border-color: #fb923c;">
-                    <strong style="color: #fb923c;">Два классических случая:</strong><br>
-                    1. <strong style="color: #38bdf8;">В поле тяжести Земли:</strong> зависит от массы и высоты над выбранным нулевым уровнем: $E_п = mgh$.<br>
-                    2. <strong style="color: #22c55e;">При упругой деформации:</strong> зависит от жесткости пружины $k$ и её деформации $x$: $E_п = \frac{kx^2}{2}$.
+                
+                <!-- Переключатель режимов симуляции -->
+                <div style="display: flex; gap: 4px; margin-bottom: 8px;">
+                    <button id="btnModeGravity" class="btn btn-accent" style="font-size:10.5px; padding: 4px;" onclick="setPotentialMode('gravity')">Высота (mgh)</button>
+                    <button id="btnModeSpring" class="btn" style="font-size:10.5px; padding: 4px;" onclick="setPotentialMode('spring')">Пружина (kx²/2)</button>
                 </div>
+
+                <div class="methodology-card" style="padding: 8px; font-size: 11.5px; line-height: 1.4; margin-bottom: 10px; border-color: #fb923c;">
+                    <span id="potentialText">Подними кирпич выше — при падении он ударит сильнее, потому что сила тяжести совершит больше работы.</span>
+                </div>
+                
                 <div class="control-box-group" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
-                    <div class="slider-row">
+                    <div class="slider-row" id="row_gravity_slider">
                         <label>Высота подъема h: <span id="val_h">3</span> м</label>
                         <input type="range" id="slider_h" min="0" max="6" value="3" oninput="updatePotentialSim()">
+                    </div>
+                    <div class="slider-row" id="row_spring_slider" style="display: none;">
+                        <label>Сжатие пружины x: <span id="val_x">2</span> м</label>
+                        <input type="range" id="slider_x" min="0" max="5" value="2" oninput="updatePotentialSim()">
                     </div>
                 </div>
             </div>
@@ -93,13 +106,13 @@
     <div class="slide" id="slide4">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Этап 4. Фундаментальный закон</span>
-                <h2>Закон сохранения энергии</h2>
-                <p class="text-concentrate" style="font-size: 12.5px; margin-bottom: 10px;">
-                    В замкнутой системе тел, где действуют только силы тяжести и упругости (и нет трения), полная механическая энергия остается постоянной во времени: $E = E_к + E_п = \text{const}$.
+                <span class="slide-type">Этап 4. Переливание энергии</span>
+                <h2>Закон сохранения энергии (ЗСЭ)</h2>
+                <p class="text-concentrate" style="font-size: 13px; margin-bottom: 8px;">
+                    Энергию невозможно уничтожить или создать из воздуха. Она умеет только **перетекать из одного кармана в другой**.
                 </p>
-                <div class="methodology-card" style="padding: 10px; font-size: 12.5px; border-color: #22c55e; margin-bottom: 10px;">
-                    <strong style="color: #22c55e;">Суть превращений:</strong> Энергия не исчезает и не возникает из ниоткуда, она переходит из кинетической в потенциальную и обратно: $\frac{mv_1^2}{2} + mgh_1 = \frac{mv_2^2}{2} + mgh_2$.
+                <div class="methodology-card" style="padding: 10px; font-size: 12px; border-color: #22c55e; margin-bottom: 10px;">
+                    <strong style="color: #4ade80;">Как это работает:</strong> Поднимаем маятник вверх — даём ему максимум Еп. Отпускаем — высота h падает, Еп уменьшается, но растёт скорость и Ек! В нижней точке вся Еп превратилась в Ек.
                 </div>
                 <div class="sim-controls" style="margin-top: auto;">
                     <button class="btn btn-accent" style="width: 100%;" onclick="togglePendulumSim()">Запустить маятник (Анимация)</button>
@@ -108,37 +121,37 @@
             <div class="visual-side"><canvas id="canvasPendulum"></canvas></div>
         </div>
     </div>
-
     <!-- СЛАЙД 5: Методические ловушки -->
     <div class="slide" id="slide5">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Этап 5. Расчетные ловушки</span>
-                <h2>Типичные ошибки в задачах</h2>
-                <p class="text-concentrate" style="font-size: 13px; line-height: 1.45; margin-bottom: 10px;">
-                    Будьте внимательны при чтении условий текстовых задач экзаменационных вариантов:
+                <span class="slide-type">Этап 5. Главные капканы</span>
+                <h2>Где все теряют баллы?</h2>
+                <p class="text-concentrate" style="font-size: 13px; line-height: 1.4; margin-bottom: 10px;">
+                    Три ловушки, на которых ловят невнимательных учеников:
                 </p>
-                <div class="methodology-card" style="padding: 10px; font-size: 11.5px; line-height: 1.45; margin-bottom: 10px; border-color: #ef4444;">
-                    <strong style="color: #ef4444;">1. Силы трения:</strong> Если есть сопротивление воздуха, энергия не сохраняется! Изменение энергии равно работе сил трения: $E_2 - E_1 = A_{тр}$.<br>
-                    <strong style="color: #fb923c;">2. Квадрат скорости:</strong> $E_к$ пропорциональна $v^2$. Увеличили скорость в 3 раза — энергия и тормозной путь выросли в <strong>9 раз</strong>!<br>
-                    <strong style="color: #38bdf8;">3. Нулевой уровень:</strong> Высота $h$ относительна. Зафиксируйте точку отсчета ($h=0$) в начале решения и не меняйте её.
+                <div class="methodology-card" style="padding: 10px; font-size: 11.5px; line-height: 1.5; margin-bottom: 10px; border-color: #ef4444;">
+                    <strong style="color: #ef4444;">1. Трение и воздух:</strong> Если в задаче есть фраза «сопротивление воздуха», полная энергия НЕ сохраняется. Часть её улетает в тепло (нагрев).<br><br>
+                    <strong style="color: #fb923c;">2. Обман со скоростью:</strong> Если скорость выросла в 3 раза, энергия взлетает в 9 раз (потому что скорость в квадрате!). Запомни это.<br><br>
+                    <strong style="color: #38bdf8;">3. Высота — штука относительная:</strong> Отсчитывай h откуда удобно (от пола, от стола), но выбери этот уровень один раз и держись его до конца задачи.
                 </div>
             </div>
             <div class="visual-side"><canvas id="canvasTraps"></canvas></div>
         </div>
     </div>
-    <!-- СЛАЙД 6: Блиц-квиз для закрепления -->
+
+    <!-- СЛАЙД 6: Блиц-квиз -->
     <div class="slide" id="slide6">
         <div class="slide-inner">
-            <span class="slide-type">Этап 6. Закрепление</span>
-            <h2>Контрольный блиц-тест</h2>
+            <span class="slide-type">Этап 6. Проверка сил</span>
+            <h2>Разбор реальной задачи</h2>
             <p class="text-concentrate" style="margin-bottom: 15px; font-size: 13.5px;">
-                <strong>Задача:</strong> Камень бросили вертикально вверх со скоростью $v = 20 \text{ м/с}$. Используя закон сохранения энергии и пренебрегая сопротивлением воздуха, определите максимальную высоту $h_{max}$, на которую поднимется камень? Примите $g = 10 \text{ м/с}^2$.
+                <strong>Задачка:</strong> Камень швырнули вертикально вверх со скоростью v = 20 м/с. На какую максимальную высоту h он взлетит, если сопротивления воздуха нет? Прими g = 10 м/с².
             </p>
             <div style="display: flex; flex-direction: column; gap: 8px;">
-                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">1) h = 10 метров (по линейной зависимости движения)</button>
-                <button class="btn btn-card" onclick="checkEnergyQuiz(this, true)">2) h = 20 метров (кинетическая энергия полностью перешла в потенциальную)</button>
-                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">3) h = 40 метров (без учета деления на 2 в формуле энергии)</button>
+                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">1) h = 10 метров (если забыть про физику и просто поделить числа)</button>
+                <button class="btn btn-card" onclick="checkEnergyQuiz(this, true)">2) h = 20 метров (вся кинетическая энергия на старте перешла в потенциальную на пике)</button>
+                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">3) h = 40 метров (если потерять двойку в знаменателе формулы)</button>
             </div>
             <div id="quizFeedback" class="text-concentrate" style="margin-top: 15px; font-weight: 600; min-height: 20px;"></div>
         </div>
@@ -180,10 +193,9 @@ body {
 .visual-side canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .slide-type { font-size: 10px; text-transform: uppercase; color: #fb923c; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
 .methodology-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 8px; padding: 12px; }
-.sim-controls { display: flex; gap: 6px; margin-top: 6px; }
 .btn { background-color: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 6px 12px; font-size: 11.5px; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; width: 100%; }
-.btn-accent { border-color: #38bdf8; color: #38bdf8; }
-.btn-accent:hover { background: rgba(56, 189, 248, 0.08); }
+.btn-accent { border-color: #38bdf8; color: #38bdf8; background: rgba(56, 189, 248, 0.05); }
+.btn-accent:hover { background: rgba(56, 189, 248, 0.12); }
 .btn-card { background: #05070f; border: 1px solid #1e293b; border-radius: 8px; color: #cbd5e1; text-align: left; padding: 10px; font-size: 12px; width: 100%; }
 .btn-card:hover { border-color: #334155; background: #090d16; }
 .correct-highlight { background-color: rgba(34, 197, 94, 0.1) !important; border-color: #22c55e !important; color: #4ade80 !important; }
@@ -196,6 +208,7 @@ body {
 <script>
 let currentSlide = 1;
 const totalSlides = 6;
+let potentialMode = 'gravity'; // Режимы слайда 3: 'gravity' или 'spring'
 
 let simStates = {
     pendulum: { active: false, angle: Math.PI / 4, time: 0 }
@@ -248,7 +261,7 @@ function drawArrow(ctx, fromX, fromY, toX, toY, color, txt = "") {
     ctx.lineTo(toX - 10 * Math.cos(angle + Math.PI / 6), toY - 10 * Math.sin(angle + Math.PI / 6));
     ctx.closePath(); ctx.fill();
     if (txt) {
-        ctx.fillStyle = "#f8fafc"; ctx.font = "bold 12px sans-serif";
+        ctx.fillStyle = "#f8fafc"; ctx.font = "bold 11px sans-serif";
         ctx.textAlign = "center"; ctx.textBaseline = "top";
         ctx.fillText(txt, toX, toY + 8);
     }
@@ -272,23 +285,25 @@ function renderActiveCanvas() {
     if (currentSlide === 5) drawTrapsCanvas();
 }
 
-// Слайд 1: Графическая презентация разделения механической энергии
 function drawIntroEnergy() {
     const canvas = document.getElementById('canvasIntroEnergy'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cx = canvas.width / 2, cy = canvas.height / 2;
 
-    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 22px monospace'; ctx.textAlign = 'center';
-    ctx.fillText("E = Eк + Eп", cx, cy - 20);
+    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 24px monospace'; ctx.textAlign = 'center';
+    ctx.fillText("E = Ек + Еп", cx, cy - 35);
 
     ctx.fillStyle = '#94a3b8'; ctx.font = '12px sans-serif';
-    ctx.fillText("Полная механическая энергия", cx, cy - 50);
+    ctx.fillText("Полная механическая энергия", cx, cy - 65);
 
-    ctx.fillStyle = '#38bdf8'; ctx.font = '13px sans-serif'; ctx.fillText("Eк — движение (mv²/2)", cx - 70, cy + 30);
-    ctx.fillStyle = '#fb923c'; ctx.font = '13px sans-serif'; ctx.fillText("Eп — взаимодействие (mgh)", cx + 70, cy + 30);
+    // Правка 1: Разместили строго друг под другом
+    ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 13px sans-serif'; 
+    ctx.fillText("• Ек — энергия движения (разгон, полет)", cx, cy + 15);
+    
+    ctx.fillStyle = '#fb923c'; ctx.font = 'bold 13px sans-serif'; 
+    ctx.fillText("• Еп — энергия положения (высота, сжатие)", cx, cy + 45);
 }
 
-// Слайд 2: Демонстрация зависимости кинетической энергии от массы и скорости
 function updateKineticSim() {
     const canvas = document.getElementById('canvasKinetic'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -299,107 +314,163 @@ function updateKineticSim() {
     document.getElementById('val_v').innerText = v;
 
     const Ek = (m * v * v) / 2;
-    const cx = canvas.width / 2, cy = canvas.height / 2 + 10;
+    const cx = canvas.width / 2 - 40, cy = canvas.height / 2 + 20;
 
-    // Отрисовка движущегося тела (шара)
-    let radius = 10 + m * 2;
+    // Правка 3: Крупная формула кинетической энергии прямо на холсте над телом
+    ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 20px monospace'; ctx.textAlign = 'center';
+    ctx.fillText(`Ек = (m · v²) / 2 = ${Ek.toFixed(1)} Дж`, canvas.width / 2, 45);
+
+    // Рисуем движущийся шар
+    let radius = 12 + m * 2;
     ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.arc(cx - 50, cy, radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-    // Вектор скорости тела
+    // Стрелка скорости
     if (v > 0) {
-        drawArrow(ctx, cx - 50 + radius, cy, cx - 50 + radius + v * 12, cy, '#22c55e', `v = ${v} м/с`);
+        drawArrow(ctx, cx + radius, cy, cx + radius + v * 12, cy, '#22c55e', `v = ${v} м/с`);
     }
-
-    // Вывод рассчитанного значения энергии на холст
-    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 16px monospace'; ctx.textAlign = 'center';
-    ctx.fillText(`Eк = ${Ek.toFixed(1)} Дж`, cx, cy - 60);
 }
 </script>
 <script>
-// Слайд 3: Высота подъема и изменение величины потенциальной энергии
+function setPotentialMode(mode) {
+    potentialMode = mode;
+    document.getElementById('btnModeGravity').classList.toggle('btn-accent', mode === 'gravity');
+    document.getElementById('btnModeSpring').classList.toggle('btn-accent', mode === 'spring');
+    document.getElementById('row_gravity_slider').style.display = (mode === 'gravity') ? 'flex' : 'none';
+    document.getElementById('row_spring_slider').style.display = (mode === 'spring') ? 'flex' : 'none';
+    
+    const textNode = document.getElementById('potentialText');
+    if (mode === 'gravity') {
+        textNode.innerHTML = "Подними кирпич выше — при падении он ударит сильнее, потому что сила тяжести совершит больше работы.";
+    } else {
+        textNode.innerHTML = "Сожми или растяни пружину — молекулы внутри изменят позиции и накопят мощь, готовую выпрямиться.";
+    }
+    updatePotentialSim();
+}
+
 function updatePotentialSim() {
     const canvas = document.getElementById('canvasPotential'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const h = parseFloat(document.getElementById('slider_h').value);
-    document.getElementById('val_h').innerText = h;
-
-    const m = 2; // Фиксированная масса для наглядности
-    const g = 10;
-    const Ep = m * g * h;
-
     const cx = canvas.width / 2;
-    const groundY = canvas.height - 30;
-    const boxY = groundY - (h * 25); // Перевод высоты в пиксели
 
-    // Земля (Опора)
-    drawHatchedCeiling(ctx, cx - 100, cx + 100, groundY);
-    ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText("Нулевой уровень (h = 0)", cx, groundY + 15);
+    if (potentialMode === 'gravity') {
+        // Режим 1: Сила тяжести (mgh)
+        const h = parseFloat(document.getElementById('slider_h').value);
+        document.getElementById('val_h').innerText = h;
+        const Ep = 2 * 10 * h; // m=2, g=10
 
-    // Поднятый ящик груза
-    ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 2;
-    ctx.fillRect(cx - 20, boxY - 20, 40, 20); ctx.strokeRect(cx - 20, boxY - 20, 40, 20);
+        ctx.fillStyle = '#fb923c'; ctx.font = 'bold 18px monospace'; ctx.textAlign = 'center';
+        ctx.fillText(`Еп = m · g · h = ${Ep.toFixed(0)} Дж`, cx, 40);
 
-    // Размерная стрелка высоты
-    if (h > 0) {
-        ctx.strokeStyle = '#475569'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(cx - 40, groundY); ctx.lineTo(cx - 40, boxY); ctx.stroke();
-        drawArrow(ctx, cx - 40, groundY, cx - 40, boxY, '#475569');
-        ctx.fillStyle = '#cbd5e1'; ctx.font = '11px sans-serif';
-        ctx.fillText(`h = ${h}м`, cx - 65, (groundY + boxY) / 2);
+        const groundY = canvas.height - 30;
+        const boxY = groundY - (h * 22);
+
+        drawHatchedCeiling(ctx, cx - 80, cx + 80, groundY);
+        ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif';
+        ctx.fillText("Уровень земли (h = 0)", cx, groundY + 15);
+
+        ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 2.5;
+        ctx.fillRect(cx - 20, boxY - 20, 40, 20); ctx.strokeRect(cx - 20, boxY - 20, 40, 20);
+
+        if (h > 0) {
+            ctx.strokeStyle = '#475569'; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(cx - 45, groundY); ctx.lineTo(cx - 45, boxY); ctx.stroke();
+            drawArrow(ctx, cx - 45, groundY, cx - 45, boxY, '#475569');
+            ctx.fillStyle = '#cbd5e1'; ctx.font = '11px sans-serif'; ctx.fillText(`h = ${h} м`, cx - 70, (groundY + boxY) / 2);
+        }
+    } else {
+        // Режим 2: Упруго деформированная пружина (kx²/2)
+        const x = parseFloat(document.getElementById('slider_x').value);
+        document.getElementById('val_x').innerText = x;
+        const k = 40; // Жесткость
+        const EpSpring = (k * x * x) / 2;
+
+        ctx.fillStyle = '#4ade80'; ctx.font = 'bold 18px monospace'; ctx.textAlign = 'center';
+        ctx.fillText(`Еп = (k · x²) / 2 = ${EpSpring.toFixed(0)} Дж`, cx, 40);
+
+        const ceilingY = 70;
+        const freeLength = 100;
+        const compressedLength = freeLength - (x * 12);
+        const endY = ceilingY + compressedLength;
+
+        drawHatchedCeiling(ctx, cx - 60, cx + 60, ceilingY);
+
+        // Рисуем витки пружины в Canvas
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.5; ctx.beginPath();
+        ctx.moveTo(cx, ceilingY);
+        let turns = 10;
+        for (let i = 0; i <= turns; i++) {
+            let ty = ceilingY + (compressedLength / turns) * i;
+            let tx = cx + (i % 2 === 0 ? 15 : -15);
+            if (i === 0 || i === turns) tx = cx;
+            ctx.lineTo(tx, ty);
+        }
+        ctx.stroke();
+
+        // Опорная платформа под пружиной
+        ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#4ade80'; ctx.fillRect(cx - 25, endY, 50, 12); ctx.strokeRect(cx - 25, endY, 50, 12);
+
+        // Индикатор сжатия x
+        if (x > 0) {
+            ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(cx + 40, ceilingY + freeLength); ctx.lineTo(cx + 40, endY); ctx.stroke();
+            drawArrow(ctx, cx + 40, ceilingY + freeLength, cx + 40, endY, '#ef4444');
+            ctx.fillStyle = '#cbd5e1'; ctx.font = '11px sans-serif'; ctx.fillText(`сжатие x = ${x} м`, cx + 85, endY + 5);
+        }
     }
-
-    // Вывод формулы Ep
-    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 16px monospace';
-    ctx.fillText(`Eп = mgh = ${Ep.toFixed(0)} Дж`, cx, 40);
 }
 </script>
 <script>
-// Слайд 4: Физический аниматор цикличного нитяного маятника (Математический маятник)
+// Слайд 4: Перетекание энергий нитяного маятника с индикатором высоты h
 function initPendulumBlock() {
     const canvas = document.getElementById('canvasPendulum'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const cx = canvas.width / 2, pivotY = 30, length = 100;
+    const cx = canvas.width / 2, pivotY = 40, length = 110;
     drawHatchedCeiling(ctx, cx - 50, cx + 50, pivotY);
 
-    // Расчет текущего угла отклонения по гармоническому закону
     let currentAngle = simStates.pendulum.angle;
     if (simStates.pendulum.active) {
-        currentAngle = (Math.PI / 4) * Math.cos(simStates.pendulum.time);
+        currentAngle = (Math.PI / 3.5) * Math.cos(simStates.pendulum.time);
     }
 
     let ballX = cx + length * Math.sin(currentAngle);
     let ballY = pivotY + length * Math.cos(currentAngle);
+    let lowestY = pivotY + length; // Самая нижняя точка (h = 0)
 
-    // Траектория движения (пунктирная дуга)
-    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.arc(cx, pivotY, length, Math.PI/4, Math.PI*3/4); ctx.stroke();
+    // Линия нулевого уровня высоты маятника
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(cx - 90, lowestY); ctx.lineTo(cx + 90, lowestY); ctx.stroke();
     ctx.setLineDash([]);
+    ctx.fillStyle = '#475569'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText("Нижняя точка (высота h = 0)", cx + 110, lowestY + 4);
 
-    // Нить подвеса маятника
-    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
+    // Правка 5: Стрелка текущей высоты h
+    if (lowestY - ballY > 2) {
+        ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(ballX + (ballX > cx ? 20 : -20), lowestY); ctx.lineTo(ballX + (ballX > cx ? 20 : -20), ballY); ctx.stroke();
+        ctx.fillStyle = '#fb923c'; ctx.font = '10px sans-serif';
+        ctx.fillText("высота h", ballX + (ballX > cx ? 50 : -50), (lowestY + ballY) / 2);
+    }
+
+    // Нить подвеса
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(cx, pivotY); ctx.lineTo(ballX, ballY); ctx.stroke();
 
-    // Тело маятника
+    // Шар
     ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.arc(ballX, ballY, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-    // Мгновенные значения физических энергий (Индикация превращения)
-    let maxH = length * (1 - Math.cos(Math.PI / 4));
-    let curH = length * (Math.cos(currentAngle) - Math.cos(Math.PI / 4));
-    let energyPercent = curH / maxH; // Доля потенциальной энергии
+    // Правка 5: Живой круговорот энергий на холсте
+    let maxH = length * (1 - Math.cos(Math.PI / 3.5));
+    let curH = lowestY - ballY;
+    let factor = Math.min(1, Math.max(0, curH / maxH)); // Доля Еп
 
-    ctx.fillStyle = '#fb923c'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText(`Потенциальная Eп: ${(energyPercent * 100).toFixed(0)}%`, 20, canvas.height - 40);
+    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 13px monospace'; ctx.textAlign = 'left';
+    ctx.fillText("Закон сохранения: Еполная = Ек + Еп = const", 20, 25);
 
-    ctx.fillStyle = '#38bdf8'; ctx.font = '11px sans-serif';
-    ctx.fillText(`Кинетическая Eк: ${((1 - energyPercent) * 100).toFixed(0)}%`, 20, canvas.height - 20);
-    
-    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 12px monospace';
-    ctx.fillText("Eполная = Eк + Eп = const", 20, 30);
+    ctx.fillStyle = '#fb923c'; ctx.fillText(`Еп (Запас высоты): ${(factor * 100).toFixed(0)}%`, 20, canvas.height - 45);
+    ctx.fillStyle = '#38bdf8'; ctx.fillText(`Ек (Скорость хода): ${((1 - factor) * 100).toFixed(0)}%`, 20, canvas.height - 25);
 }
 
 function togglePendulumSim() {
@@ -415,37 +486,34 @@ function togglePendulumSim() {
 
 function loopPendulum() {
     if (!simStates.pendulum.active) return;
-    simStates.pendulum.time += 0.04; // Инкремент шага фазы времени
+    simStates.pendulum.time += 0.04;
     initPendulumBlock();
     activeAnimations.pendulum = requestAnimationFrame(loopPendulum);
 }
-</script>
-<script>
-// Слайд 5: Гистограмма квадратичной потери/приращения кинетической энергии
+
+// Слайд 5: Столбчатая диаграмма влияния квадрата скорости
 function drawTrapsCanvas() {
     const canvas = document.getElementById('canvasTraps'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cx = canvas.width / 2, cy = canvas.height / 2 + 10;
 
-    ctx.fillStyle = '#94a3b8'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText("Зависимость энергии от скорости (v)", cx, 30);
+    ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText("Квадратичный взрыв энергии движения", cx, 30);
 
-    // Столбец 1: Скорость v (100% энергии)
-    ctx.fillStyle = 'rgba(56, 189, 248, 0.2)'; ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2;
-    ctx.fillRect(cx - 65, cy + 20, 40, 30); ctx.strokeRect(cx - 65, cy + 20, 40, 30);
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.15)'; ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2;
+    ctx.fillRect(cx - 70, cy + 20, 45, 30); ctx.strokeRect(cx - 70, cy + 20, 45, 30);
     ctx.fillStyle = '#38bdf8'; ctx.font = '11px sans-serif';
-    ctx.fillText("При v", cx - 45, cy + 65); ctx.fillText("1x", cx - 45, cy + 12);
+    ctx.fillText("Скорость 1x", cx - 47, cy + 65); ctx.fillText("1 Ек", cx - 47, cy + 12);
 
-    // Столбец 2: Скорость 3v (В 9 раз больше энергии!)
-    ctx.fillStyle = 'rgba(239, 68, 68, 0.2)'; ctx.strokeStyle = '#ef4444';
-    ctx.fillRect(cx + 25, cy - 70, 40, 120); ctx.strokeRect(cx + 25, cy - 70, 40, 120);
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.15)'; ctx.strokeStyle = '#ef4444';
+    ctx.fillRect(cx + 25, cy - 70, 45, 120); ctx.strokeRect(cx + 25, cy - 70, 45, 120);
     ctx.fillStyle = '#f43f5e';
-    ctx.fillText("При 3v", cx + 45, cy + 65); ctx.fillText("9x (!)", cx + 45, cy - 80);
+    ctx.fillText("Скорость 3x", cx + 47, cy + 65); ctx.fillText("9 Ек!", cx + 47, cy - 80);
 
-    ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - 90, cy + 50); ctx.lineTo(cx + 90, cy + 50); ctx.stroke();
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - 100, cy + 50); ctx.lineTo(cx + 100, cy + 50); ctx.stroke();
 }
 
-// Слайд 6: Интерактивный валидатор ответа на качественную физическую задачу
+// Слайд 6: Логика проверки теста
 function checkEnergyQuiz(btn, isCorrect) {
     const cards = document.getElementById('slide6').querySelectorAll('.btn-card');
     cards.forEach(c => c.disabled = true);
@@ -453,10 +521,10 @@ function checkEnergyQuiz(btn, isCorrect) {
 
     if (isCorrect) {
         btn.classList.add('correct-highlight');
-        feedback.innerHTML = '<span style="color:#4ade80;">✓ Абсолютно верно!</span> По закону сохранения механической энергии: $E_{к0} = E_{пmax} \implies \frac{mv^2}{2} = mgh_{max}$. Масса сокращается, следовательно: $h_{max} = \frac{v^2}{2g} = \frac{20^2}{2 \cdot 10} = \frac{400}{20} = 20 \text{ метров}$.';
+        feedback.innerHTML = '<span style="color:#4ade80;">✓ Идеально!</span> Логика проста: в самом низу у камня была только кинетическая энергия движения. На максимальной высоте скорость упала до нуля, а значит вся Ек без остатка превратилась в потенциальную Еп. Из равенства (m·v²)/2 = m·g·h массы сокращаются. Высота h = v² / 2g = 400 / 20 = 20 метров.';
     } else {
         btn.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Неверно.</span> Вы допустили ошибку в математических преобразованиях формулы закона сохранения. Правильный ответ №2: $h = \frac{v^2}{2g} = \frac{400}{20} = 20 \text{ метров}$.';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Мимо.</span> Вы забыли связать начальную энергию с конечной. Правильный ответ №2: из формулы h = v² / 2g получаем ровно 20 метров.';
         cards.forEach(c => { if (c.innerText.includes("2)")) c.classList.add('correct-highlight'); });
     }
 }
