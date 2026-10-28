@@ -23,7 +23,7 @@
                 <span class="slide-type">Этап 1. Базовое понимание</span>
                 <h2>Что такое энергия на самом деле?</h2>
                 <p class="text-concentrate" style="margin-bottom: 12px; font-size: 13px;">
-                    Забудь про скучные книжные формулировки. <strong>Энергия — это просто «запас работы»</strong>, который накопило тело. Если тело способно во что-то врезаться, сдвинуть, поднять, запустить или сломать — значит, у него есть энергия.
+                    <strong>Энергия — это просто «запас работы»</strong>, который накопило тело. Если тело способно во что-то врезаться, сдвинуть, поднять, запустить или сломать — значит, у него есть энергия.
                 </p>
                 <div class="methodology-card" style="display: flex; flex-direction: column; gap: 8px;">
                     <div>
@@ -35,9 +35,6 @@
                         <span style="font-size: 11.5px; color: #cbd5e1;">Энергия «в засаде». Тело пока неподвижно отдыхает, но из-за своей позиции или состояния готово сработать в любой момент.</span>
                     </div>
                 </div>
-                <p class="text-concentrate" style="margin-top: auto; font-size: 12px; color: #94a3b8;">
-                    Нажми «Вперед», чтобы увидеть, как скорость управляет энергией движения.
-                </p>
             </div>
             <div class="visual-side"><canvas id="canvasIntroEnergy"></canvas></div>
         </div>
@@ -85,7 +82,7 @@
                 </div>
 
                 <div class="methodology-card" style="padding: 8px; font-size: 11.5px; line-height: 1.4; margin-bottom: 10px; border-color: #fb923c;">
-                    <span id="potentialText">Подними тяжелый кирпич повыше на полку — при случайном падении он совершит много работы, ведь сила тяжести ускорит его вниз.</span>
+                    <span id="potentialText">Если поднять тяжелый кирпич повыше на полку — при случайном падении он совершит много работы, ведь сила тяжести ускорит его вниз.</span>
                 </div>
                 
                 <div class="control-box-group" style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
@@ -125,15 +122,15 @@
     <div class="slide" id="slide5">
         <div class="slide-grid">
             <div class="content-side">
-                <span class="slide-type">Этап 5. Главные капканы</span>
-                <h2>Где срезаются на экзаменах?</h2>
+                <span class="slide-type">Этап 5. Особенности при решении задач</span>
+                <h2>На что обращать внимание в задачах</h2>
                 <p class="text-concentrate" style="font-size: 13px; line-height: 1.4; margin-bottom: 10px;">
-                    Три ловушки в условиях задач, на которых ловят невнимательных ребят:
+                    Три ловушки в условиях задач:
                 </p>
                 <div class="methodology-card" style="padding: 10px; font-size: 11.5px; line-height: 1.5; margin-bottom: 10px; border-color: #ef4444;">
                     <strong style="color: #ef4444;">1. Сопротивление и трение:</strong> Если в тексте задачи есть воздух или трение, полная энергия НЕ сохраняется. Часть её улетает во внутреннее тепло (нагрев). Тогда изменение энергии равно работе силы трения.<br><br>
                     <strong style="color: #fb923c;">2. Коварный квадрат:</strong> Если скорость объекта выросла в 3 раза, его кинетическая энергия взлетает сразу в 9 раз. Всегда помни про квадрат скорости в формуле.<br><br>
-                    <strong style="color: #38bdf8;">3. Нулевой уровень высоты:</strong> Высота h отсчитывается оттуда, откуда тебе удобно (пол, земля). Главное — зафиксировать этот уровень в начале решения и не сдвигать его до конца задачи.
+                    <strong style="color: #38bdf8;">3. Нулевой уровень высоты:</strong> Высота h отсчитывается оттуда, откуда удобно (пол, земля). Главное — зафиксировать этот уровень в начале решения и не сдвигать его до конца задачи.
                 </div>
             </div>
             <div class="visual-side"><canvas id="canvasTraps"></canvas></div>
@@ -144,14 +141,14 @@
     <div class="slide" id="slide6">
         <div class="slide-inner">
             <span class="slide-type">Этап 6. Закрепление</span>
-            <h2>Разбор реальной экзаменационной задачи</h2>
+            <h2>Разбор реальной задачи</h2>
             <p class="text-concentrate" style="margin-bottom: 15px; font-size: 13.5px;">
-                <strong>Задачка:</strong> Камень подбросили строго вертикально вверх с начальной скоростью v = 20 м/с. На какую максимальную высоту h он сможет взлететь, если сопротивлением воздуха можно пренебречь? Прими ускорение g = 10 м/с².
+                <strong>Задача:</strong> Камень подбросили строго вертикально вверх с начальной скоростью v = 20 м/с. На какую максимальную высоту h он сможет взлететь, если сопротивлением воздуха можно пренебречь? Прими ускорение g = 10 м/с².
             </p>
             <div style="display: flex; flex-direction: column; gap: 8px;">
-                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">1) h = 10 метров (если просто поделить скорость на g)</button>
-                <button class="btn btn-card" onclick="checkEnergyQuiz(this, true)">2) h = 20 метров (вся кинетическая энергия со старта полностью ушла в высоту)</button>
-                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">3) h = 40 метров (если забыть поделить на двойку в формуле энергии движения)</button>
+                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">1) h = 10 метров</button>
+                <button class="btn btn-card" onclick="checkEnergyQuiz(this, true)">2) h = 20 метров</button>
+                <button class="btn btn-card" onclick="checkEnergyQuiz(this, false)">3) h = 40 метров</button>
             </div>
             <div id="quizFeedback" class="text-concentrate" style="margin-top: 15px; font-weight: 600; min-height: 20px;"></div>
         </div>
@@ -324,9 +321,9 @@ function setPotentialMode(mode) {
     
     const textNode = document.getElementById('potentialText');
     if (mode === 'gravity') {
-        textNode.innerHTML = "Подними кирпич выше — при падении он ударит сильнее, потому что сила тяжести совершит больше работы.";
+        textNode.innerHTML = "Если поднять кирпич выше — при падении он ударит сильнее, потому что сила тяжести совершит больше работы.";
     } else {
-        textNode.innerHTML = "Сожми или растяни упругую пружину — молекулы внутри изменят позиции и накопят мощь, готовую выпрямиться.";
+        textNode.innerHTML = "Если сжать или растянуть упругую пружину — молекулы внутри изменят позиции и накопят мощь, готовую выпрямиться.";
     }
     updatePotentialSim();
 }
