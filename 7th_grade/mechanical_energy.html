@@ -419,14 +419,14 @@ function updatePotentialSim() {
         }
     }
 }
-</script>
+
 <script>
-// Слайд 4: Перетекание энергий нитяного маятника с индикатором высоты h
+// Слайд 4: Перетекание энергий маятника + синхронная гидро-аналогия снизу
 function initPendulumBlock() {
     const canvas = document.getElementById('canvasPendulum'); if (!forceSetupCanvas(canvas)) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const cx = canvas.width / 2, pivotY = 40, length = 110;
+    const cx = canvas.width / 2, pivotY = 35, length = 95;
     drawHatchedCeiling(ctx, cx - 50, cx + 50, pivotY);
 
     let currentAngle = simStates.pendulum.angle;
@@ -436,7 +436,7 @@ function initPendulumBlock() {
 
     let ballX = cx + length * Math.sin(currentAngle);
     let ballY = pivotY + length * Math.cos(currentAngle);
-    let lowestY = pivotY + length; // Самая нижняя точка (h = 0)
+    let lowestY = pivotY + length; 
 
     // Линия нулевого уровня высоты маятника
     ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
@@ -445,32 +445,86 @@ function initPendulumBlock() {
     ctx.fillStyle = '#475569'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText("Нижняя точка (высота h = 0)", cx + 110, lowestY + 4);
 
-    // Правка 5: Стрелка текущей высоты h
+    // Стрелка текущей высоты h
     if (lowestY - ballY > 2) {
         ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(ballX + (ballX > cx ? 20 : -20), lowestY); ctx.lineTo(ballX + (ballX > cx ? 20 : -20), ballY); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ballX + (ballX > cx ? 18 : -18), lowestY); ctx.lineTo(ballX + (ballX > cx ? 18 : -18), ballY); ctx.stroke();
         ctx.fillStyle = '#fb923c'; ctx.font = '10px sans-serif';
-        ctx.fillText("высота h", ballX + (ballX > cx ? 50 : -50), (lowestY + ballY) / 2);
+        ctx.fillText("высота h", ballX + (ballX > cx ? 45 : -45), (lowestY + ballY) / 2);
     }
 
     // Нить подвеса
     ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(cx, pivotY); ctx.lineTo(ballX, ballY); ctx.stroke();
 
-    // Шар
+    // Шар маятника
     ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.arc(ballX, ballY, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(ballX, ballY, 11, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-    // Правка 5: Живой круговорот энергий на холсте
+    // Математика долей энергий
     let maxH = length * (1 - Math.cos(Math.PI / 3.5));
     let curH = lowestY - ballY;
-    let factor = Math.min(1, Math.max(0, curH / maxH)); // Доля Еп
+    let factor = Math.min(1, Math.max(0, curH / maxH)); // Доля Еп (от 0 до 1)
 
-    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 13px monospace'; ctx.textAlign = 'left';
-    ctx.fillText("Закон сохранения: Еполная = Ек + Еп = const", 20, 25);
+    // ТЕКСТ ПОДНЯТ ВЫШЕ (Прямо под симуляцию маятника)
+    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 12px monospace'; ctx.textAlign = 'left';
+    ctx.fillText("Закон сохранения: Еполная = Ек + Еп = const", 15, 20);
 
-    ctx.fillStyle = '#fb923c'; ctx.fillText(`Еп (Запас высоты): ${(factor * 100).toFixed(0)}%`, 20, canvas.height - 45);
-    ctx.fillStyle = '#38bdf8'; ctx.fillText(`Ек (Скорость хода): ${((1 - factor) * 100).toFixed(0)}%`, 20, canvas.height - 25);
+    let textY = lowestY + 25;
+    ctx.fillStyle = '#fb923c'; ctx.font = 'bold 12px monospace';
+    ctx.fillText(`Еп (Запас высоты): ${(factor * 100).toFixed(0)}%`, 20, textY);
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillText(`Ек (Скорость хода): ${((1 - factor) * 100).toFixed(0)}%`, 20, textY + 18);
+
+    // ==========================================
+    // ВТОРАЯ СИМУЛЯЦИЯ: ГИДРО-АНАЛОГИЯ (СНИЗУ)
+    // ==========================================
+    let liquidTopY = textY + 45; 
+    let vesselHeight = 55;
+    let vesselWidth = 40;
+    let v1X = cx - 60; // Левый сосуд (Еп)
+    let v2X = cx + 20; // Правый сосуд (Ек)
+
+    ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText("Аналогия: перетекание энергии как жидкости", cx, liquidTopY - 10);
+
+    // Стенки левого сосуда (Еп)
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(v1X, liquidTopY); ctx.lineTo(v1X, liquidTopY + vesselHeight);
+    ctx.lineTo(v1X + vesselWidth, liquidTopY + vesselHeight); ctx.lineTo(v1X + vesselWidth, liquidTopY);
+    ctx.stroke();
+    
+    // Жидкость в левом сосуде (Еп) - оранжевая
+    let fillH1 = factor * (vesselHeight - 4);
+    ctx.fillStyle = 'rgba(251, 146, 60, 0.25)';
+    ctx.fillRect(v1X + 2, liquidTopY + vesselHeight - fillH1, vesselWidth - 4, fillH1);
+    ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 1.5;
+    if (fillH1 > 0) {
+        ctx.beginPath(); ctx.moveTo(v1X + 2, liquidTopY + vesselHeight - fillH1); ctx.lineTo(v1X + vesselWidth - 2, liquidTopY + vesselHeight - fillH1); ctx.stroke();
+    }
+    ctx.fillStyle = '#fb923c'; ctx.font = '10px monospace'; ctx.fillText("Еп", v1X + vesselWidth/2, liquidTopY + vesselHeight + 12);
+
+    // Стенки правого сосуда (Ек)
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(v2X, liquidTopY); ctx.lineTo(v2X, liquidTopY + vesselHeight);
+    ctx.lineTo(v2X + vesselWidth, liquidTopY + vesselHeight); ctx.lineTo(v2X + vesselWidth, liquidTopY);
+    ctx.stroke();
+
+    // Жидкость в правом сосуде (Ек) - синяя
+    let fillH2 = (1 - factor) * (vesselHeight - 4);
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+    ctx.fillRect(v2X + 2, liquidTopY + vesselHeight - fillH2, vesselWidth - 4, fillH2);
+    ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.5;
+    if (fillH2 > 0) {
+        ctx.beginPath(); ctx.moveTo(v2X + 2, liquidTopY + vesselHeight - fillH2); ctx.lineTo(v2X + vesselWidth - 2, liquidTopY + vesselHeight - fillH2); ctx.stroke();
+    }
+    ctx.fillStyle = '#38bdf8'; ctx.font = '10px monospace'; ctx.fillText("Ек", v2X + vesselWidth/2, liquidTopY + vesselHeight + 12);
+
+    // Соединительная трубка (Перелив)
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(v1X + vesselWidth, liquidTopY + vesselHeight - 8); ctx.lineTo(v2X, liquidTopY + vesselHeight - 8); ctx.stroke();
 }
 
 function togglePendulumSim() {
