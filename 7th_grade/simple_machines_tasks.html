@@ -20,7 +20,7 @@
         .slide-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 20px; height: 100%; }
         .info-panel { background: #0f172a; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #1e293b; }
         .simulation-panel { background: #05070f; border-radius: 12px; border: 1px solid #1e293b; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; height: 100%; }
-        canvas { width: 100%; height: 100%; background: #04060a; display: block; }
+        canvas { background: #04060a; display: block; }
         h2 { font-size: 1.3rem; font-weight: 700; color: #f8fafc; margin-bottom: 8px; }
         .instruction { font-size: 0.95rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px; }
         .badge { align-self: flex-start; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
@@ -70,7 +70,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas1"></canvas></div>
+                <!-- Фикс: Добавлены явные атрибуты разрешения для исключения пустоты экрана -->
+                <div class="simulation-panel"><canvas id="canvas1" width="550" height="400"></canvas></div>
             </div>
         </section>
         <!-- СЛАЙД 2 -->
@@ -93,7 +94,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas2"></canvas></div>
+                <!-- Фикс: Добавлены явные атрибуты разрешения для исключения пустоты экрана -->
+                <div class="simulation-panel"><canvas id="canvas2" width="550" height="400"></canvas></div>
             </div>
         </section>
         <!-- СЛАЙД 3 -->
@@ -112,7 +114,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas3"></canvas></div>
+                <!-- Фикс: Добавлены явные атрибуты разрешения для исключения пустоты экрана -->
+                <div class="simulation-panel"><canvas id="canvas3" width="550" height="400"></canvas></div>
             </div>
         </section>
         <!-- СЛАЙД 4 -->
@@ -135,7 +138,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="simulation-panel"><canvas id="canvas4"></canvas></div>
+                <!-- Фикс: Добавлены явные атрибуты разрешения для исключения пустоты экрана -->
+                <div class="simulation-panel"><canvas id="canvas4" width="550" height="400"></canvas></div>
             </div>
         </section>
     </main>
@@ -167,7 +171,7 @@
         if (currentSlide === 4) initSlide4();
     }
 
-    // КРУПНЫЙ ВЕКТОР СИЛЫ: Толщина 5px, наконечник увеличен
+    // МАКСИМАЛЬНО КРУПНЫЙ ВЕКТОР СИЛЫ: Линии 5px, шрифты 18px-20px
     function drawVector(ctx, fx, fy, tx, ty, color, txt = "") {
         ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 5;
         ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(tx, ty); ctx.stroke();
@@ -177,8 +181,8 @@
         ctx.lineTo(tx - 15 * Math.cos(a + Math.PI/6), ty - 15 * Math.sin(a + Math.PI/6));
         ctx.closePath(); ctx.fill();
         if(txt) { 
-            ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 16px sans-serif'; 
-            ctx.textAlign = 'center'; ctx.fillText(txt, tx, ty + (ty > fy ? 22 : -12)); 
+            ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 18px sans-serif'; 
+            ctx.textAlign = 'center'; ctx.fillText(txt, tx, ty + (ty > fy ? 24 : -15)); 
         }
     }
 
@@ -188,20 +192,20 @@
     function initSlide1() {
         const draw1 = () => {
             if (currentSlide !== 1) return;
-            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            ctx1.clearRect(0, 0, 550, 400);
             let f = parseFloat(document.getElementById('slider_f1').value);
             
-            // Камень
+            // Камень-опора лома
             ctx1.fillStyle = '#334155'; ctx1.beginPath(); ctx1.moveTo(200, 280); ctx1.lineTo(170, 330); ctx1.lineTo(230, 330); ctx1.closePath(); ctx1.fill();
 
-            // Крупный лом
+            // Крупная стальная балка лома
             ctx1.strokeStyle = '#94a3b8'; ctx1.lineWidth = 9; ctx1.beginPath(); ctx1.moveTo(150, 290); ctx1.lineTo(420, 140); ctx1.stroke();
 
-            // Крупная размерная линия d
-            ctx1.strokeStyle = '#fb923c'; ctx1.lineWidth = 2.5; ctx1.setLineDash([5, 5]);
+            // Крупная оранжевая линия плеча d
+            ctx1.strokeStyle = '#fb923c'; ctx1.lineWidth = 2.5; ctx2.setLineDash ? ctx1.setLineDash() : null;
             ctx1.beginPath(); ctx1.moveTo(200, 280); ctx1.lineTo(420, 280); ctx1.stroke();
-            ctx1.setLineDash([]);
-            ctx1.fillStyle = '#fb923c'; ctx1.font = 'bold 18px sans-serif'; ctx1.fillText("d = 1.4 м", 280, 265);
+            ctx1.setLineDash ? ctx1.setLineDash([]) : null;
+            ctx1.fillStyle = '#fb923c'; ctx1.font = 'bold 20px sans-serif'; ctx1.fillText("d = 1.4 м", 280, 260);
 
             if (f > 0) { drawVector(ctx1, 420, 140, 420, 140 + f * 0.5, '#38bdf8', `F = ${f} Н`); }
             animationFrameId = requestAnimationFrame(draw1);
@@ -215,20 +219,20 @@
     }
 </script>
 <script>
-    // СЛАЙД 2: Двуплечий рычаг (Физика перекоса и масштабы исправлены!)
+    // СЛАЙД 2: Двуплечий рычаг (Честный левый перекос при малом F2!)
     const canvas2 = document.getElementById('canvas2'); const ctx2 = canvas2.getContext('2d');
     let s2 = { cx: 200, cy: 220, angle: 0.15, tAngle: 0.15 };
     function updateSlide2Sim() { document.getElementById('val_f2').innerText = document.getElementById('slider_f2').value; }
     function initSlide2() {
         const draw2 = () => {
             if (currentSlide !== 2) return;
-            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            ctx2.clearRect(0, 0, 550, 400);
             let f2 = parseFloat(document.getElementById('slider_f2').value);
             
             let m1 = 60 * 0.4; // Левый момент = 24 Нм
             let m2 = f2 * 1.2; // Правый момент
             
-            // ИСПРАВЛЕНО: Теперь при f2 = 0 левый груз честно ПЕРЕВЕШИВАЕТ и тянет балку вниз влево!
+            // Если f2 мала, левый груз перевешивает и тянет балку вниз влево (положительный угол)
             s2.tAngle = Math.max(-0.2, Math.min(0.2, (m1 - m2) * 0.02));
             s2.angle += (s2.tAngle - s2.angle) * 0.1;
 
@@ -236,17 +240,17 @@
 
             ctx2.save(); ctx2.translate(s2.cx, s2.cy); ctx2.rotate(s2.angle);
             
-            // Балка рычага
+            // Крупная балка рычага
             ctx2.strokeStyle = '#cbd5e1'; ctx2.lineWidth = 8; ctx2.beginPath(); ctx2.moveTo(-110, 0); ctx2.lineTo(310, 0); ctx2.stroke();
 
             // Левый груз 6 кг
             ctx2.fillStyle = '#ef4444'; ctx2.fillRect(-125, 0, 30, 24);
             drawVector(ctx2, -110, 12, -110, 75, '#ef4444', "m = 6 кг");
-            ctx2.fillStyle = '#cbd5e1'; ctx2.font = 'bold 16px sans-serif'; ctx2.fillText("d₁ = 40 см", -120, -15);
+            ctx2.fillStyle = '#cbd5e1'; ctx2.font = 'bold 18px sans-serif'; ctx2.fillText("d₁ = 40 см", -120, -15);
 
-            // Правая тяга
-            if(f2 > 0) { drawVector(ctx2, 290, 0, 390, f2 * 2.2, '#38bdf8', `F₂`); }
-            ctx2.fillStyle = '#cbd5e1'; ctx2.font = 'bold 16px sans-serif'; ctx2.fillText("d₂ = 1.2 м", 240, -15);
+            // Правая тяга силы F2
+            if(f2 > 0) { drawVector(ctx2, 290, 0, 290, f2 * 2.5, '#38bdf8', `F₂`); }
+            ctx2.fillStyle = '#cbd5e1'; ctx2.font = 'bold 18px sans-serif'; ctx2.fillText("d₂ = 1.2 м", 240, -15);
 
             ctx2.restore();
             animationFrameId = requestAnimationFrame(draw2);
@@ -260,31 +264,31 @@
     }
 </script>
 <script>
-    // СЛАЙД 3: Однородный тяжелый стержень с крупными обозначениями
+    // СЛАЙД 3: Однородный тяжелый стержень (Крупная графика)
     const canvas3 = document.getElementById('canvas3'); const ctx3 = canvas3.getContext('2d');
     function initSlide3() {
         const draw3 = () => {
             if (currentSlide !== 3) return;
-            ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+            ctx3.clearRect(0, 0, 550, 400);
 
             let pivotX = 160, pivotY = 220;
             ctx3.fillStyle = '#334155'; ctx3.beginPath(); ctx3.moveTo(pivotX, pivotY); ctx3.lineTo(pivotX-15, pivotY+30); ctx3.lineTo(pivotX+15, pivotY+30); ctx3.closePath(); ctx3.fill();
 
-            // Крупный стержень
+            // Крупный тяжелый стержень
             ctx3.strokeStyle = '#94a3b8'; ctx3.lineWidth = 8; ctx3.beginPath(); ctx3.moveTo(80, pivotY); ctx3.lineTo(430, pivotY); ctx3.stroke();
 
-            // Левый шар 4 кг
+            // Левый тяжелый шар 4 кг
             ctx3.fillStyle = '#ef4444'; ctx3.beginPath(); ctx3.arc(80, pivotY+12, 16, 0, Math.PI*2); ctx3.fill();
-            drawVector(ctx3, 80, pivotY, 80, pivotY + 70, '#ef4444', "Шар 4 кг");
+            drawVector(ctx3, 80, pivotY, 80, pivotY + 75, '#ef4444', "Шар 4 кг");
             
-            ctx3.fillStyle = '#cbd5e1'; ctx3.font = 'bold 16px sans-serif'; ctx3.textAlign = 'center';
+            ctx3.fillStyle = '#cbd5e1'; ctx3.font = 'bold 18px sans-serif'; ctx3.textAlign = 'center';
             ctx3.fillText("20 см", 120, pivotY - 15);
 
-            // Крупный вектор центра масс строго посередине
+            // Сила тяжести стержня строго в центре (50 см)
             let cgX = 255;
             ctx3.fillStyle = '#fb923c'; ctx3.beginPath(); ctx3.arc(cgX, pivotY, 6, 0, Math.PI*2); ctx3.fill();
-            drawVector(ctx3, cgX, pivotY, cgX, pivotY + 65, '#fb923c', "Fст (Вес)");
-            ctx3.fillStyle = '#fb923c'; ctx3.font = 'bold 16px sans-serif';
+            drawVector(ctx3, cgX, pivotY, cgX, pivotY + 70, '#fb923c', "Fст (Вес)");
+            ctx3.fillStyle = '#fb923c'; ctx3.font = 'bold 18px sans-serif';
             ctx3.fillText("Центр масс стержня (50 см)", cgX + 40, pivotY - 15);
 
             animationFrameId = requestAnimationFrame(draw3);
@@ -298,20 +302,20 @@
     }
 </script>
 <script>
-    // СЛАЙД 4: Аквариум с водой, куб меди и крупный доп. груз
+    // СЛАЙД 4: Крупный аквариум с жидкостью, кубик меди и фиолетовый доп. вес
     const canvas4 = document.getElementById('canvas4'); const ctx4 = canvas4.getContext('2d');
     function updateSlide4Sim() { document.getElementById('val_d4').innerText = document.getElementById('slider_d4').value; }
     function initSlide4() {
         const draw4 = () => {
             if (currentSlide !== 4) return;
-            ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+            ctx4.clearRect(0, 0, 550, 400);
             let d4 = parseFloat(document.getElementById('slider_d4').value);
 
             let cx = 250, cy = 180;
             ctx4.fillStyle = '#1e293b'; ctx4.beginPath(); ctx4.moveTo(cx, cy); ctx4.lineTo(cx-12, cy+25); ctx4.lineTo(cx+12, cy+25); ctx4.closePath(); ctx4.fill();
             ctx4.strokeStyle = '#cbd5e1'; ctx4.lineWidth = 7; ctx4.beginPath(); ctx4.moveTo(cx - 140, cy); ctx4.lineTo(cx + 140, cy); ctx4.stroke();
 
-            // Крупный аквариум с водой
+            // Крупный прозрачный бак с водой
             let bx = cx - 70;
             ctx4.fillStyle = 'rgba(56, 189, 248, 0.2)'; ctx4.fillRect(bx - 30, cy + 35, 60, 80);
             ctx4.strokeStyle = '#38bdf8'; ctx4.lineWidth = 2; ctx4.strokeRect(bx - 30, cy + 35, 60, 80);
@@ -319,17 +323,17 @@
             // Медный брусок внутри
             ctx4.fillStyle = '#fb923c'; ctx4.fillRect(bx - 15, cy + 55, 30, 40); 
             ctx4.strokeStyle = '#cbd5e1'; ctx4.lineWidth = 2.5; ctx4.beginPath(); ctx4.moveTo(bx, cy); ctx4.lineTo(bx, cy + 55); ctx4.stroke();
-            ctx4.fillStyle = '#cbd5e1'; ctx4.font = 'bold 16px sans-serif'; ctx4.textAlign = 'center';
+            ctx4.fillStyle = '#cbd5e1'; ctx4.font = 'bold 18px sans-serif'; ctx4.textAlign = 'center';
             ctx4.fillText("20 см", bx, cy - 15);
 
-            // Правое плечо: Груз 10 Н
+            // Правое плечо: Сила 10 Н
             let rx = cx + 100;
             ctx4.fillStyle = '#ef4444'; ctx4.fillRect(rx - 15, cy, 30, 25);
             drawVector(ctx4, rx, cy + 25, rx, cy + 85, '#ef4444', "10 Н");
-            ctx4.fillStyle = '#cbd5e1'; ctx4.font = 'bold 16px sans-serif';
+            ctx4.fillStyle = '#cbd5e1'; ctx4.font = 'bold 18px sans-serif';
             ctx4.fillText("30 см", rx, cy - 15);
 
-            // Крупный доп груз фиолетового цвета
+            // Фиолетовый добавочный грузик
             if (d4 !== 0) {
                 let dx = cx + (d4 * 1.1); 
                 ctx4.fillStyle = '#a855f7'; ctx4.fillRect(dx - 12, cy, 24, 20);
@@ -346,7 +350,7 @@
         if (val === "98" || val === "98 см") { inp.className = "correct-input"; } else { inp.className = "wrong-input"; }
     }
 
-    // Автоматический запуск симуляций при старте страницы
+    // Инициализация при первой загрузке страницы
     window.onload = () => { initSlideSimulation(); };
 </script>
 </body>
