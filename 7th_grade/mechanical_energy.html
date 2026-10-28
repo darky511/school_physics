@@ -494,7 +494,7 @@ function checkEnergyQuiz(btn, isCorrect) {
         feedback.innerHTML = '<span style="color:#4ade80;">✓ Идеально!</span> h = v² / 2g = 400 / 20 = 20 метров.';
     } else {
         btn.classList.add('wrong-highlight');
-        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Мимо.</span> Правильный ответ №2: 20 метров.';
+        feedback.innerHTML = '<span style="color:#f43f5e;">✕ Неверно.</span> Попробуй ещё раз.';
         cards.forEach(c => { if (c.innerText.includes("2)")) c.classList.add('correct-highlight'); });
     }
 }
