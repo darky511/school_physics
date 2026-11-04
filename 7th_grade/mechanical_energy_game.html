@@ -15,7 +15,7 @@
         .progress-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #22c55e); transition: width 0.3s ease; }
         .slide-counter { font-size: 0.85rem; color: #94a3b8; }
         .workspace { flex-grow: 1; position: relative; overflow: hidden; }
-        .slide { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: none; padding: 20px; }
+        .slide { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: none; padding: 20px; overflow-y: auto; }
         .slide.active { display: block; }
         .slide-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; height: 100%; }
         .info-panel { background: #0f172a; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #1e293b; }
@@ -39,7 +39,7 @@
         button:hover { background: #0ea5e9; }
         .nav-btn { background: #1e293b; color: white; }
         .nav-btn:hover:not(:disabled) { background: #334155; }
-        .final-container { max-width: 600px; margin: 20px auto; text-align: center; background: #0f172a; padding: 24px; border-radius: 12px; border: 1px solid #1e293b; }
+        .final-container { max-width: 600px; margin: 5px auto; text-align: center; background: #0f172a; padding: 16px; border-radius: 12px; border: 1px solid #1e293b; }
         .hidden { display: none !important; }
         .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
         .quiz-card { background: #05070f; border: 1px solid #1e293b; padding: 16px; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s; font-size: 0.9rem; }
@@ -170,14 +170,14 @@
         <!-- СЛАЙД 5: Итоговый контроль -->
         <section class="slide" id="slide5">
             <div class="final-container">
-                <span class="badge badge-lab" style="margin: 0 auto 10px auto;">Финальный зачёт</span>
-                <h2>Экзаменационный капкан на теплопотери</h2>
+                <span class="badge badge-lab" style="margin: 0 auto 10px auto;">Нарушение ЗСЭ</span>
+                <h2>Теплопотери</h2>
                 <p style="margin: 12px 0; color: #94a3b8; font-size: 0.9rem; line-height: 1.45;">Металлический шар массой <b>2 кг</b> соскользнул по наклонному пандусу с высоты <b>h = 4 метра</b> и у основания разогнался до скорости <b>v = 6 м/с</b>. Из-за трения часть механической энергии превратилась в тепло. Сколько Джоулей энергии улетело в воздух? Примите g = 10 м/с².</p>
                 <div class="quiz-options">
-                    <div class="quiz-card" onclick="checkFinalQuiz(this, '4')">4 Дж (потери минимальны)</div>
-                    <div class="quiz-card" onclick="checkFinalQuiz(this, '36')">36 Дж (energy скорости)</div>
-                    <div class="quiz-card" onclick="checkFinalQuiz(this, '44')">44 Дж (разность потенциальной и кинетической)</div>
-                    <div class="quiz-card" onclick="checkFinalQuiz(this, '80')">80 Дж (вся начальная энергия)</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '4')">4 Дж</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '36')">36 Дж</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '44')">44 Дж</div>
+                    <div class="quiz-card" onclick="checkFinalQuiz(this, '80')">80 Дж</div>
                 </div>
                 <div id="finalVerdict" style="margin-top: 20px; font-weight: 700; min-height: 24px;"></div>
             </div>
