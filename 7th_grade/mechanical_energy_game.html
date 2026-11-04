@@ -133,25 +133,34 @@
                 <div class="simulation-panel"><canvas id="springCanvas" width="600" height="400"></canvas></div>
             </div>
         </section>
-        <!-- СЛАЙД 4: Закон сохранения энергии -->
+
+        <!-- СЛАЙД 4: Закон сохранения энергии (Новая концепция) -->
         <section class="slide" id="slide4">
             <div class="slide-grid">
                 <div class="info-panel">
                     <div>
                         <span class="badge badge-adv">Эксперимент 4</span>
-                        <h2>Баланс ЗСЭ: Кнопка паузы</h2>
-                        <p class="instruction">Запустите маятник. Энергия непрерывно циркулирует между Ек и Еп. Ваша задача — нажать кнопку <b>«⏸ Поставить на паузу»</b> в тот момент, когда потенциальная энергия Еп составляет ровно <b>50%</b>.</p>
-                        <button style="margin-top: 8px; width: 100%;" id="pendulumBtn" onclick="togglePendulum()">▶ Запустить маятник</button>
+                        <h2>Баланс ЗСЭ: Аналитический расчет</h2>
+                        <p class="instruction">Маятник массой <b>m = 0.5 кг</b> отклонен так, что его максимальная высота подъема составляет <b>h = 0.8 м</b>. Рассчитайте энергетические состояния системы. Примите g = 10 м/с².</p>
+                        
+                        <div class="validation-zone" style="background: transparent; border: none; padding: 0;">
+                            <div class="slider-box" style="margin-top: 5px;">
+                                <label style="font-size: 0.8rem; color: #94a3b8;">1. Макс. потенциальная энергия Еп_макс (в Дж):</label>
+                                <input type="text" id="code4_1" placeholder="Введите Еп (Дж)" style="width: 100%; margin-top: 2px;">
+                            </div>
+                            <div class="slider-box" style="margin-top: 5px;">
+                                <label style="font-size: 0.8rem; color: #94a3b8;">2. Скорость в нижней точке v_макс (в м/с):</label>
+                                <input type="text" id="code4_2" placeholder="Введите v (м/с)" style="width: 100%; margin-top: 2px;">
+                            </div>
+                            <div class="slider-box" style="margin-top: 5px;">
+                                <label style="font-size: 0.8rem; color: #94a3b8;">3. Высота h (в метрах), когда Ек = Еп:</label>
+                                <input type="text" id="code4_3" placeholder="Введите h (м)" style="width: 100%; margin-top: 2px;">
+                            </div>
+                            <button style="margin-top: 10px; width: 100%; background: #38bdf8; color: #04060a;" onclick="checkSlide4New()">Проверить все ответы</button>
+                        </div>
                     </div>
                     <div class="validation-zone">
-                        <div class="status-msg" id="status4">Нажмите старт, а затем поймайте паузой середину пути.</div>
-                        <div class="input-group hidden" id="inputGroup4">
-                            <div class="question-text">Вопрос: Если в верхней точке Еп = 40 Дж, а в какой-то момент Ек стала равна 15 Дж, чему равна Еп в этот же миг (в Дж)?</div>
-                            <div class="flex-row">
-                                <input type="text" id="code4" placeholder="Энергия Еп (в Дж)">
-                                <button onclick="checkSlide4()">Проверить</button>
-                            </div>
-                        </div>
+                        <div class="status-msg" id="status4">Введите расчетные данные во все три поля.</div>
                     </div>
                 </div>
                 <div class="simulation-panel"><canvas id="conservationCanvas" width="600" height="400"></canvas></div>
@@ -212,10 +221,18 @@
     let s1 = { bX: 60, bY: 250, v: 0, currentX: 60, isRunning: false, wallBroken: false };
     
     function updateSlide1Slider() {
-        s1.v = parseFloat(document.getElementById('slider_v1').value);
-        document.getElementById('val_v1').innerText = s1.v;
+        // Убрали автоматический расчет энергии при движении ползунка
+        document.getElementById('val_v1').innerText = document.getElementById('slider_v1').value;
     }
-    function launchBall1() { if(!s1.isRunning) { s1.isRunning = true; s1.currentX = s1.bX; s1.wallBroken = false; } }
+
+    function launchBall1() { 
+        if(!s1.isRunning) { 
+            s1.v = parseFloat(document.getElementById('slider_v1').value); // Считываем скорость только при пуске
+            s1.isRunning = true; 
+            s1.currentX = s1.bX; 
+            s1.wallBroken = false; 
+        } 
+    }
     
     function initSlide1() {
         const draw1 = () => {
@@ -241,13 +258,14 @@
             ctx1.fillStyle = '#0f172a'; ctx1.strokeStyle = '#38bdf8'; ctx1.lineWidth = 3;
             ctx1.beginPath(); ctx1.arc(s1.currentX, s1.bY, 15, 0, Math.PI*2); ctx1.fill(); ctx1.stroke();
 
+            // Выводим только формулу, без численного расчета
             ctx1.fillStyle = '#cbd5e1'; ctx1.font = 'bold 15px monospace'; ctx1.textAlign = 'left';
-            ctx1.fillText(`Ек = (m·v²)/2 = ${Ek.toFixed(0)} Дж`, 200, 70);
+            ctx1.fillText(`Ек = (m·v²)/2`, 200, 70);
 
             let st = document.getElementById('status1'), inp = document.getElementById('inputGroup1');
             if (s1.wallBroken) { st.innerHTML = "✅ Удар! Стена пробита насквозь!"; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-            else if (s1.currentX === 435) { st.innerHTML = "❌ Слабо! Скорости не хватило, шар отскочил."; st.style.color = "#ef4444"; inp.classList.add('hidden'); }
-            else { st.innerHTML = `Энергия разгона: ${Ek.toFixed(0)} Дж`; st.style.color = "#38bdf8"; }
+            else if (s1.currentX === 435 && !s1.isRunning) { st.innerHTML = "❌ Шар остановлен стеной. Не хватило пробивной силы."; st.style.color = "#ef4444"; inp.classList.add('hidden'); }
+            else { st.innerHTML = "Система готова к запуску."; st.style.color = "#38bdf8"; }
 
             animationFrameId = requestAnimationFrame(draw1);
         };
@@ -300,12 +318,16 @@
             // Боёк копра
             ctx2.fillStyle = '#fb923c'; ctx2.fillRect(285, s2.bY - 20, 30, 20);
 
-            // Индикаторы на холсте
+            // Статичная подсказка с формулой в углу
+            ctx2.fillStyle = '#64748b'; ctx2.font = '13px monospace'; ctx2.textAlign = 'right';
+            ctx2.fillText("Подсказка: Еп = m·g·h", 580, 30);
+
+            // Динамический вывод высоты подъема вместо энергии
             ctx2.fillStyle = '#fb923c'; ctx2.font = 'bold 15px monospace'; ctx2.textAlign = 'center';
-            let displayEp = s2.isDragging ? currentEp : 0;
-            ctx2.fillText(`Текущий заряд Еп: ${displayEp.toFixed(0)} Дж`, 300, 35);
+            ctx2.fillText(`Высота подъема h: ${currentH.toFixed(2)} м`, 300, 35);
+            
             ctx2.fillStyle = '#4ade80';
-            ctx2.fillText(`Запасено в свае: ${s2.totalEnergyAccumulated.toFixed(0)} / 180 Дж`, 300, 60);
+            ctx2.fillText(`Свая забита (Цель: 180 Дж)`, 300, 60);
 
             let st = document.getElementById('status2'), inp = document.getElementById('inputGroup2');
             if (s2.success) { st.innerHTML = "✅ Идеально! Накоплено ровно 180 Дж, цель достигнута."; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
@@ -376,10 +398,10 @@
         ctx3.beginPath(); ctx3.arc(s3.ballX, s3.sY, 12, 0, Math.PI*2); ctx3.fill(); ctx3.stroke();
 
         ctx3.fillStyle = '#4ade80'; ctx3.font = 'bold 16px monospace'; ctx3.textAlign = 'center';
-        ctx3.fillText(`Еп = (k·x²) / 2 = ${Ep.toFixed(1)} Дж`, 300, 45);
+        ctx3.fillText(`Еп = (k·x²) / 2`, 300, 45); // Оставили только формулу
         if(x_m > 0 && !s3.isFlying) {
             ctx3.fillStyle = '#cbd5e1'; ctx3.font = '11px sans-serif';
-            ctx3.fillText(`сжатие x = ${x_m.toFixed(2)} м`, 130, 245);
+            ctx3.fillText(`сжатие x = ${x_m.toFixed(1)} м`, 130, 245);
         }
 
         let st = document.getElementById('status3'), inp = document.getElementById('inputGroup3');
@@ -399,7 +421,13 @@
         if(Math.abs(p.x - s3.ballX) < 20 && Math.abs(p.y - s3.sY) < 20) { s3.isDragging = true; s3.hit = false; }
     });
     canvas3.addEventListener('mousemove', (e) => {
-        if(currentSlide === 3 && s3.isDragging) { let p = getMousePos(canvas3, e); s3.ballX = Math.max(60, Math.min(s3.freeX, p.x)); }
+        if(currentSlide === 3 && s3.isDragging) { 
+            let p = getMousePos(canvas3, e); 
+            let rawX = Math.max(60, Math.min(s3.freeX, p.x));
+            // Округляем до ближайших 0.1 м (шаг в 3.5 пикселя) для точного позиционирования
+            let compressionM = Math.round((s3.freeX - rawX) / 3.5) * 0.1;
+            s3.ballX = s3.freeX - (compressionM * 35);
+        }
     });
     window.addEventListener('mouseup', () => {
         if(currentSlide === 3 && s3.isDragging) {
@@ -430,6 +458,8 @@
     }
     
     function initSlide4() {
+        // Принудительно запускаем движение маятника для красоты демонстрации
+        s4.active = true;
         const draw4 = () => {
             if (currentSlide !== 4) return;
             ctx4.clearRect(0, 0, 600, 400);
@@ -454,20 +484,19 @@
             ctx4.strokeStyle = '#475569'; ctx4.lineWidth = 1.5; ctx4.beginPath(); ctx4.moveTo(s4.cx, s4.pivotY); ctx4.lineTo(ballX, ballY); ctx4.stroke();
             ctx4.fillStyle = '#0f172a'; ctx4.strokeStyle = '#22c55e'; ctx4.lineWidth = 3; ctx4.beginPath(); ctx4.arc(ballX, ballY, 11, 0, Math.PI*2); ctx4.fill(); ctx4.stroke();
 
-            ctx4.fillStyle = '#4ade80'; ctx4.font = 'bold 12px monospace'; ctx4.fillText("Еполная = Ек + Еп = 40 Дж (const)", 20, 20);
-            let textY = lowestY + 30;
+            // Скрыли ответ "40 Дж". Показываем только фундаментальный закон
+            ctx4.fillStyle = '#4ade80'; ctx4.font = 'bold 13px monospace'; ctx4.textAlign = 'left';
+            ctx4.fillText("Закон сохранения: Еполная = Ек + Еп = const", 20, 25);
             
-            // Стабильные колонки вывода текста процентов (без дерганья)
+            let textY = lowestY + 20;
             ctx4.fillStyle = '#fb923c'; ctx4.font = '12px monospace';
-            ctx4.fillText(`Еп (Запас высоты): `, 20, textY);
-            ctx4.fillText(`${(s4.factor * 100).toFixed(0)}%`, 160, textY);
+            ctx4.fillText(`Текущая Еп: (m·g·h)`, 20, textY);
             
             ctx4.fillStyle = '#38bdf8';
-            ctx4.fillText(`Ек (Скорость хода): `, 20, textY + 16);
-            ctx4.fillText(`${((1 - s4.factor) * 100).toFixed(0)}%`, 160, textY + 16);
+            ctx4.fillText(`Текущая Ек: (m·v²)/2`, 20, textY + 16);
 
-            // ГИДРО-АНАЛОГИЯ С СОЕДИНИТЕЛЬНОЙ ТРУБКОЙ
-            let liquidTopY = textY + 45, vesselHeight = 55, vesselWidth = 40, v1X = s4.cx - 60, v2X = s4.cx + 20;
+            // ГИДРО-АНАЛОГИЯ СМЕЩЕНА НИЖЕ (liquidTopY изменен со 185 на 245)
+            let liquidTopY = textY + 65, vesselHeight = 55, vesselWidth = 40, v1X = s4.cx - 60, v2X = s4.cx + 20;
             ctx4.fillStyle = '#94a3b8'; ctx4.font = '10px sans-serif'; ctx4.textAlign = 'center'; ctx4.fillText("Аналогия: сообщающиеся сосуды энергии", s4.cx, liquidTopY - 12);
             
             ctx4.fillStyle = '#1e293b'; ctx4.fillRect(v1X + vesselWidth, liquidTopY + vesselHeight - 10, v2X - (v1X + vesselWidth), 8);
@@ -482,16 +511,27 @@
             ctx4.fillStyle = 'rgba(56, 189, 248, 0.25)'; ctx4.fillRect(v2X + 2, liquidTopY + vesselHeight - fillH2, vesselWidth - 4, fillH2);
             ctx4.fillStyle = '#38bdf8'; ctx4.fillText("Ек", v2X + vesselWidth/2, liquidTopY + vesselHeight + 12);
 
-            let st = document.getElementById('status4'), inp = document.getElementById('inputGroup4');
-            if(s4.caught) { st.innerHTML = `🎯 Баланс зафиксирован! Еп = ${(s4.factor*100).toFixed(0)}%. Отличный ориентир!`; st.style.color = "#22c55e"; inp.classList.remove('hidden'); }
-            else { st.innerHTML = "⚠️ Остановите маятник кнопкой Пауза на отметке ровно 50%."; st.style.color = "#fb923c"; inp.classList.add('hidden'); }
-
             animationFrameId = requestAnimationFrame(draw4);
         };
         draw4();
     }
     
-    function checkSlide4() { if(document.getElementById('code4').value.trim() === "25") changeSlide(1); else alert("ЗСЭ! Общая энергия неизменна: Еполн = Ек + Еп => 40 = 15 + Еп => Еп = 25 Дж."); }
+    function checkSlide4New() {
+        let ans1 = document.getElementById('code4_1').value.trim().replace(',', '.'); // Еп = 0.5 * 10 * 0.8 = 4
+        let ans2 = document.getElementById('code4_2').value.trim().replace(',', '.'); // v = 4 м/с
+        let ans3 = document.getElementById('code4_3').value.trim().replace(',', '.'); // h = 0.4 м
+
+        let st = document.getElementById('status4');
+
+        if (ans1 === "4" && ans2 === "4" && ans3 === "0.4") {
+            st.innerHTML = "✅ Превосходно! Все три расчета верны. Переходим к зачету.";
+            st.style.color = "#22c55e";
+            setTimeout(() => { changeSlide(1); }, 1500);
+        } else {
+            st.innerHTML = "❌ Ошибка в расчетах! Проверьте формулы ЗСЭ и попробуйте снова.";
+            st.style.color = "#ef4444";
+        }
+    }
 
     function checkFinalQuiz(card, val) {
         let cards = document.querySelectorAll('.quiz-card'); cards.forEach(c => c.classList.remove('correct', 'wrong'));
