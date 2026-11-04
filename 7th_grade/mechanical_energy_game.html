@@ -535,8 +535,8 @@
 
     function checkFinalQuiz(card, val) {
         let cards = document.querySelectorAll('.quiz-card'); cards.forEach(c => c.classList.remove('correct', 'wrong'));
-        if (val === '44') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Браво! Начальная Еп = mgh = 2·10·4 = 80 Дж. Конечная Ек = mv²/2 = 2·36/2 = 36 Дж. В тепло улетело: 80 - 36 = 44 Дж! Лабораторный практикум успешно сдан!"; document.getElementById('finalVerdict').style.color = "#22c55e"; }
-        else { card.classList.add('wrong'); document.getElementById('finalVerdict').innerHTML = "❌ Ошибка. Рассчитайте разницу между полной энергией на вершине и кинетической у подножия пандуса."; document.getElementById('finalVerdict').style.color = "#ef4444"; }
+        if (val === '44') { card.classList.add('correct'); document.getElementById('finalVerdict').innerHTML = "🚀 Верно! Начальная Еп = mgh = 2·10·4 = 80 Дж. Конечная Ек = mv²/2 = 2·36/2 = 36 Дж. В тепло улетело: 80 - 36 = 44 Дж."; document.getElementById('finalVerdict').style.color = "#22c55e"; }
+        else { card.classList.add('wrong'); document.getElementById('finalVerdict').innerHTML = "❌ Ошибка."; document.getElementById('finalVerdict').style.color = "#ef4444"; }
     }
     window.onload = () => { initSlide1(); };
 </script>
